@@ -1,0 +1,7 @@
+C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\bin\Debug\TS.HRIS.Data.dll
+C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\bin\Debug\TS.HRIS.Data.pdb
+C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\obj\Debug\TechSharpy.Data.csprojAssemblyReference.cache
+C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\obj\Debug\TechSharpy.Data.csproj.CoreCompileInputs.cache
+C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\obj\Debug\TechSharpy.Data.csproj.CopyComplete
+C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\obj\Debug\TS.HRIS.Data.dll
+C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\obj\Debug\TS.HRIS.Data.pdb

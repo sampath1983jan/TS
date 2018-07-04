@@ -1,0 +1,12 @@
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\bin\Debug\TechSharpy.Entitifer.dll
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\bin\Debug\TechSharpy.Entitifer.pdb
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\bin\Debug\TS.HRIS.Data.dll
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\bin\Debug\MySql.Data.dll
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\bin\Debug\SMRHRT.Services.dll
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\bin\Debug\SMRHRT.Exception.dll
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\bin\Debug\TS.HRIS.Data.pdb
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifer.csprojAssemblyReference.cache
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifer.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifer.csproj.CopyComplete
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifer.dll
+D:\TS\TS Work location\TechSharpy.Entitifer\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifer.pdb
