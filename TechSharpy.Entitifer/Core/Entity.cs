@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using TechSharpy.Data;
 using System.Linq;
-
+using TechSharpy.Services;
 namespace TechSharpy.Entitifier
 {
     public enum EntityType
@@ -34,6 +34,7 @@ namespace TechSharpy.Entitifier
 
     public class EntitySchema
     {
+        private const string ModuleName = "Data Schema";
         public string Name;
         public TechSharpy.Entitifier.EntityType EntityType;
         public Int32 EntityKey;
@@ -43,6 +44,7 @@ namespace TechSharpy.Entitifier
         public bool IsShow;
         public List<EntityField> EntityInstances;
         private Data.EntitySchema dataEntity;
+        private Services.ErrorHandling.ErrorInfoCollection Errors;
         public EntitySchema() {
             dataEntity = new Data.EntitySchema();
         }
@@ -57,6 +59,7 @@ namespace TechSharpy.Entitifier
             IsShow = true;
             dataEntity = new Data.EntitySchema();
             EntityInstances = new List<EntityField>();
+            Errors = new Services.ErrorHandling.ErrorInfoCollection();
         }
 
         public EntitySchema(int entityKey)
@@ -65,6 +68,7 @@ namespace TechSharpy.Entitifier
             PrimaryKeys = new List<string>();
             dataEntity = new Data.EntitySchema();
             EntityInstances = new List<EntityField>();
+            Errors = new Services.ErrorHandling.ErrorInfoCollection();
             Init();
         }
 
@@ -75,17 +79,24 @@ namespace TechSharpy.Entitifier
             dataEntity = new Data.EntitySchema();
             EntityInstances = new List<EntityField>();
             PrimaryKeys = new List<string>();
+            Errors = new Services.ErrorHandling.ErrorInfoCollection();
         }
         /// <summary>
         /// Save Entity 
         /// </summary>
         /// <returns></returns>
-        public bool Save() {
+        public Services.ErrorHandling.ErrorInfoCollection  Save() {
     TQuery tq;
             if (this.EntityKey > 0)
             {
-                dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString() , this.EntityType);
-                //tq = new TS.HRIS.Data.TQuery(TQueryType._AlterTable);
+                if (dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString(), this.EntityType))
+                {
+                    Errors.Add(ModuleName + "updated successfully", Services.ErrorHandling.ErrorInfo.ErrorType._noerror);
+                }
+                else {
+                    Errors.Add("Unable to update " + ModuleName, Services.ErrorHandling.ErrorInfo.ErrorType._critical);
+                }                
+            //Write code here to update dataschema when updating Entity schema
             }
             else
             {
@@ -109,11 +120,10 @@ namespace TechSharpy.Entitifier
                 }
                 else
                 {
-                    throw new Exception("table already exist");
+                    Errors.Add("table already exist",Services.ErrorHandling.ErrorInfo.ErrorType._critical);
                 }
             }
-            return true;
-            
+            return Errors;            
         }
 
      
@@ -226,6 +236,7 @@ namespace TechSharpy.Entitifier
                 IsShow = g.IsNull("IsShow") ? false : g.Field<object>("IsShow").ToString() == "1" ? true : false,
             }).ToList();
         }
+
         private TechSharpy.Data.FieldType getDataType(EntityFieldType eft)
         {
             if (eft == EntityFieldType._Number)

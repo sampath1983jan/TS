@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Entitifer", "Tec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Data", "C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\TechSharpy.Data.csproj", "{E4AC00F9-50DB-4975-A567-3412E5F89926}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Services", "TechSharpy.Services\TechSharpy.Services.csproj", "{686710CE-5A21-409D-8879-7FFE6F98F8FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E4AC00F9-50DB-4975-A567-3412E5F89926}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4AC00F9-50DB-4975-A567-3412E5F89926}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4AC00F9-50DB-4975-A567-3412E5F89926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686710CE-5A21-409D-8879-7FFE6F98F8FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686710CE-5A21-409D-8879-7FFE6F98F8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686710CE-5A21-409D-8879-7FFE6F98F8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686710CE-5A21-409D-8879-7FFE6F98F8FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
