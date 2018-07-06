@@ -49,6 +49,7 @@
     <Compile Include="Core\EntityTransaction.cs" />
     <Compile Include="Core\Function.cs" />
     <Compile Include="Core\Job.cs" />
+    <Compile Include="Core\KeyWords.cs" />
     <Compile Include="Core\Procedure.cs" />
     <Compile Include="Core\Trigger.cs" />
     <Compile Include="Data\EntityModel.cs" />
