@@ -5,7 +5,7 @@ using System.Text;
 using TechSharpy.Entitifier;
 using System.Linq;
 
-namespace TechSharpy.Entitifier.Entity
+namespace TechSharpy.Entitifier.Core
 {
     public class EntityModel
     {
@@ -20,16 +20,18 @@ namespace TechSharpy.Entitifier.Entity
             ModelID = modelID;
             ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
             Entitynodes = entitynodes ?? throw new ArgumentNullException(nameof(entitynodes));
-            
+            dataEntityModel = new Data.EntityModel();
         }
         public EntityModel(int modelID, string modelName)
         {
             ModelID = modelID;
             ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
+            dataEntityModel = new Data.EntityModel();
         }
         public EntityModel(int modelID)
         {
             ModelID = modelID;
+            dataEntityModel = new Data.EntityModel();
             Entitynodes = new List<EntityNode>();
             EntityNodeFields = new List<EntityField>();
         }

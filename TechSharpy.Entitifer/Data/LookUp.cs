@@ -32,7 +32,7 @@ namespace TechSharpy.Entitifier.Data
             return dtResult;
         }
 
-        public int Save(int pClientID, string pName, bool pIsCore,bool haveChild, Entitifier.LookUpType lookupType)
+        public int Save(int pClientID, string pName, bool pIsCore,bool haveChild, TechSharpy.Entitifier.Core.LookUpType lookupType)
         {
             int NextID = this.getNextID("LookUp");
             Query iQuery = new Query(QueryType._Insert
@@ -54,7 +54,7 @@ namespace TechSharpy.Entitifier.Data
             }
         }
 
-        public bool Save(int pClientID, int pLookUpId, string pName, bool pIsCore, bool haveChild, Entitifier.LookUpType lookupType)
+        public bool Save(int pClientID, int pLookUpId, string pName, bool pIsCore, bool haveChild, TechSharpy.Entitifier.Core.LookUpType lookupType)
         {
             Query iQuery = new Query(QueryType._Update
          ).AddTable("s_entitylookup")

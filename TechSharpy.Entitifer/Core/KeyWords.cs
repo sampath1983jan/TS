@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSharpy.Entitifer.Core
+namespace TechSharpy.Entitifier.Core
 {
     public static class KeyWords
     {

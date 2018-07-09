@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using TechSharpy.Entitifier.Data;
-namespace TechSharpy.Entitifier
+using TechSharpy.Entitifier.Core;
+namespace TechSharpy.Entitifier.Core
 {
     public enum LookUpType {
         _None=0,
@@ -26,7 +27,7 @@ namespace TechSharpy.Entitifier
         public bool IsCore;
         public bool HaveChild;
         public List<LookUpItem> LookUpItems;
-        public LookUpType LookUpType;
+        public TechSharpy.Entitifier.Core.LookUpType lookupType;
         private Entitifier.Data.LookUp dataLookup; 
         public EnityInstanceLookUp(int lookUpID, string name, bool isCore, bool haveChild, List<LookUpItem> lookUpItems, LookUpType lookUpType)
         {
@@ -35,7 +36,7 @@ namespace TechSharpy.Entitifier
             IsCore = isCore;
             HaveChild = haveChild;
             LookUpItems = lookUpItems ?? throw new ArgumentNullException(nameof(lookUpItems));
-            LookUpType = lookUpType;
+            lookupType = lookUpType;
             dataLookup = new LookUp();
         }
 
@@ -46,7 +47,7 @@ namespace TechSharpy.Entitifier
             IsCore = false;
             HaveChild = false;
             LookUpItems = new List<LookUpItem>();
-            LookUpType = LookUpType._None;
+            lookupType = LookUpType._None;
             dataLookup = new LookUp();
         }
 
@@ -58,7 +59,7 @@ namespace TechSharpy.Entitifier
             {
                 Name = dr["LookUPName"] == DBNull.Value ? "" : dr["LookUPName"].ToString();
                 IsCore = dr["IsCore"] == DBNull.Value ? false : Convert.ToBoolean(dr["IsCore"]);
-                LookUpType = dr["LookUpType"] == DBNull.Value ?  LookUpType._None :  (LookUpType)dr["LookUpType"];
+                lookupType = dr["LookUpType"] == DBNull.Value ?  LookUpType._None :  (LookUpType)dr["LookUpType"];
                 HaveChild = dr["HaveChild"] == DBNull.Value ? false : Convert.ToBoolean(dr["HaveChild"]);
             }
             foreach (DataRow dr in dt.Rows)
@@ -104,14 +105,14 @@ namespace TechSharpy.Entitifier
             int inext;
             if (this.LookUpID > 0)
             {
-                dataLookup.Save(-1, this.LookUpID, this.Name, this.IsCore, this.HaveChild, this.LookUpType);
+                dataLookup.Save(-1, this.LookUpID, this.Name, this.IsCore, this.HaveChild, lookupType);
                 foreach (LookUpItem item in this.LookUpItems)
                 {
                     AddLookUpItem(this.LookUpID, item);
                 }
             }
             else {
-                inext = dataLookup.Save(-1, this.Name, this.IsCore, this.HaveChild, this.LookUpType);
+                inext = dataLookup.Save(-1, this.Name, this.IsCore, this.HaveChild, lookupType);
                 if (inext > 0)
                 {
                     foreach (LookUpItem item in this.LookUpItems)

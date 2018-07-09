@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TechSharpy.Entitifier.Entity
+namespace TechSharpy.Entitifier.Entity.Core
 {
     public class EntityTransaction
     {

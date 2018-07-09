@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Entitifer", "TechSharpy.Entitifer\TechSharpy.Entitifer.csproj", "{789C0DA4-36ED-4C9D-BA1E-2BB662E05869}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Entitifier", "TechSharpy.Entitifer\TechSharpy.Entitifier.csproj", "{789C0DA4-36ED-4C9D-BA1E-2BB662E05869}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Data", "C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\TechSharpy.Data.csproj", "{E4AC00F9-50DB-4975-A567-3412E5F89926}"
 EndProject

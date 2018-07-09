@@ -3,4 +3,3 @@ D:\TS\TS Work location\TS\TechSharpy.Services\bin\Debug\TechSharpy.Services.pdb
 D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.dll
 D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.pdb
-D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.csprojAssemblyReference.cache

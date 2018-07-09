@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TechSharpy.Entitifier
+namespace TechSharpy.Entitifier.Core
 {
     public class EntityField
     {

@@ -92,7 +92,7 @@ namespace TechSharpy.Entitifier.Data
             }
         }
 
-        public int Save(int pClientID, string pTableName, string Name, string pDescription, string keys, TechSharpy.Entitifier.EntityType pType)
+        public int Save(int pClientID, string pTableName, string Name, string pDescription, string keys, TechSharpy.Entitifier.Core.EntityType pType)
         {
             int NextID = this.getNextID("Entity");
             Query iQuery = new Query(QueryType._Insert
@@ -116,7 +116,7 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public bool Update(int pClientID, Int64 pEntityID, string pTableName, string Name, string pDescription, string keys,
-           TechSharpy.Entitifier.EntityType pType)
+           TechSharpy.Entitifier.Core.EntityType pType)
         {
             Query iQuery = new Query(QueryType._Update
                 ).AddTable("s_entity")
@@ -179,7 +179,7 @@ namespace TechSharpy.Entitifier.Data
             return dtResult;
         }
 
-        public int SaveField(string name, EntityFieldType fieldType, bool isKey, bool isRequired, bool isUnique,
+        public int SaveField(string name, TechSharpy.Entitifier.Core. EntityFieldType fieldType, bool isKey, bool isRequired, bool isUnique,
             int lookUpID, bool isCore, int entityKey, string value, bool isReadOnly, string defaultValue, int displayOrder,
             List<string> lookUpArray, string min, string max, int maxLength, string displayName, bool autoIncrement, long incrementfrom,
             long incrementby, string description, bool enableencription, bool enablelimit)
@@ -228,7 +228,7 @@ namespace TechSharpy.Entitifier.Data
             }
         }
 
-        public bool SaveField(string name,int FieldID, EntityFieldType fieldType, bool isKey, bool isRequired, bool isUnique,
+        public bool SaveField(string name,int FieldID, TechSharpy.Entitifier.Core.EntityFieldType fieldType, bool isKey, bool isRequired, bool isUnique,
             int lookUpID, bool isCore, int entityKey, string value, bool isReadOnly, string defaultValue, int displayOrder,
             List<string> lookUpArray, string min, string max, int maxLength, string displayName, bool autoIncrement, long incrementfrom,
             long incrementby, string description, bool enableencription, bool enablelimit)
