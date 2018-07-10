@@ -10,30 +10,35 @@ namespace TechSharpy.Entitifier.Core
     public class EntityModel
     {
         public int ModelID;
+        public string Sourcekey;
         public string ModelName;
-        public List<EntityNode> Entitynodes;
-         
+        public List<EntityNode> Entitynodes;        
         public List<EntityField> EntityNodeFields;
         private Data.EntityModel dataEntityModel;
-        public EntityModel(int modelID, string modelName, List<EntityNode> entitynodes)
+        public EntityModel() {
+
+        }
+        public EntityModel(int modelID,string sourcekey, string modelName, List<EntityNode> entitynodes)
         {
             ModelID = modelID;
             ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
             Entitynodes = entitynodes ?? throw new ArgumentNullException(nameof(entitynodes));
             dataEntityModel = new Data.EntityModel();
+            Sourcekey = sourcekey;
         }
-        public EntityModel(int modelID, string modelName)
+        public EntityModel(int modelID, string sourcekey,string modelName)
         {
             ModelID = modelID;
             ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
             dataEntityModel = new Data.EntityModel();
         }
-        public EntityModel(int modelID)
+        public EntityModel(int modelID,string sourcekey)
         {
             ModelID = modelID;
             dataEntityModel = new Data.EntityModel();
             Entitynodes = new List<EntityNode>();
             EntityNodeFields = new List<EntityField>();
+            Sourcekey = sourcekey;
         }
         private bool Validation() {
             // Existing Node validation
@@ -57,7 +62,7 @@ namespace TechSharpy.Entitifier.Core
         }
         public bool Save() {
             
-                int key = dataEntityModel.Save(this.ModelName);
+                int key = dataEntityModel.Save(this.ModelName, Sourcekey);
                 if (key > 0)
                 {
                     foreach (EntityNode en in Entitynodes)

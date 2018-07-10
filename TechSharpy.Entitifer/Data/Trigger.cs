@@ -10,18 +10,18 @@ namespace TechSharpy.Entitifier.Data
 {
    public class Trigger : DataAccess
     {
-        DataTable dtResult;
-        public Trigger()
-        {
-            try
+            DataTable dtResult;
+            public Trigger()
             {
-                this.Init();
+                try
+                {
+                    this.Init();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
         public int Save(string Name, int entityKey, TechSharpy.Entitifier.Core.ActionType type, TechSharpy.Entitifier.Core.EventType eventType,string steps) 
         {

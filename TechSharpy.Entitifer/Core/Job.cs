@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSharpy.Entitifiers.Core
+namespace TechSharpy.Entitifier.Core
 {
-    class Job
+   public  class Job
     {
 
     }

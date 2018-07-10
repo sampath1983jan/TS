@@ -32,8 +32,8 @@ namespace TechSharpy.Entitifer.Core
                 SPLIT = 16
             }
             public int ClientID { get; set; }
-            public int UserID { get; set; }
-            public int CubeID { get; set; }
+           // public int UserID { get; set; }
+            public int Entitykey { get; set; }
             public int ActionID { get; set; }
             public ActionType Type { get; set; }
             public string ActionName { get; set; }
@@ -50,22 +50,22 @@ namespace TechSharpy.Entitifer.Core
                 ActionCreatedOn = DateTime.Now;
                 IsInclude = true;
                 ActionID = -1;
-                CubeID = -1;
-                UserID = -1;
+                Entitykey = -1;
+                //UserID = -1;
                 ClientID = -1;
                 dAction = new TechSharpy.Entitifier.Data.Action();
             }
             public Action(int pClientID, int pCubeID, int pActionID)
             {
                 this.ActionID = pActionID;
-                this.CubeID = pCubeID;
+                this.Entitykey = pCubeID;
                 this.ClientID = pClientID;
                 dAction = new TechSharpy.Entitifier.Data.Action();
               //  LoadAction();
             }
             public Action(int pClientID, int pCubeID)
             {
-                this.CubeID = pCubeID;
+                this.Entitykey = pCubeID;
                 this.ClientID = pClientID;
                 this.ActionID = -1;
                 dAction = new TechSharpy.Entitifier.Data.Action();
@@ -73,7 +73,7 @@ namespace TechSharpy.Entitifer.Core
             public Action(int pClientID, int pCubeID, string pActionName,
                 string pActionSchema, int pActionOrder, Action.ActionType pActionType, bool pIsInclude)
             {
-                this.CubeID = pCubeID;
+                this.Entitykey = pCubeID;
                 this.ClientID = pClientID;
                 this.ActionID = -1;
                 this.ActionName = pActionName;
@@ -83,7 +83,69 @@ namespace TechSharpy.Entitifer.Core
                 this.IsInclude = pIsInclude;
                 dAction = new TechSharpy.Entitifier.Data.Action();
             }
-        
+
+        public bool SaveAction()
+        {
+     
+            dAction = new TechSharpy.Entitifier.Data.Action();
+           // SMRHRT.Services.Collections.ErrorCollection.ErrorInfo err = new SMRHRT.Services.Collections.ErrorCollection.ErrorInfo();
+            try
+            {
+                if (this.ActionID > 0)
+                {
+                    //if (dAction.UpdateAction(this.Entitykey, this.ActionID, this.ActionSchema, this.IsInclude))
+                    //{
+                    //    //err = new SMRHRT.Services.Collections.ErrorCollection.ErrorInfo("Action Saved", SMRHRT.Services.Collections.ErrorCollection.ErrorInfo.ErrorType.NO_ERROR);
+                    //    //audit = new Bix360.Global.Audit(this.ClientID, this.Entitykey, "Action Updated- " + this.ActionName, this.ActionSchema, Global.Audit.ActionCategory.CUBE, Global.Audit.ActionType.UPDATE, this.UserID);
+                    //    //audit.Save();
+                    //}
+                  //  else
+                       // err = new SMRHRT.Services.Collections.ErrorCollection.ErrorInfo("Unable to update action", SMRHRT.Services.Collections.ErrorCollection.ErrorInfo.ErrorType.ERR_CRITICAL);
+                }
+                else
+                {
+                    this.ActionID = dAction.SaveAction(this.Entitykey, (int)Type, this.IsInclude, this.ActionName, this.ActionSchema);
+                    if (this.ActionID > 0)
+                    {
+                        //err = new SMRHRT.Services.Collections.ErrorCollection.ErrorInfo("Action Saved", SMRHRT.Services.Collections.ErrorCollection.ErrorInfo.ErrorType.NO_ERROR);
+
+                        //audit = new Bix360.Global.Audit(this.ClientID, this.Entitykey, "Action Created-" + this.ActionName, this.ActionSchema, Global.Audit.ActionCategory.CUBE, Global.Audit.ActionType.INSERT, this.UserID);
+                        //audit.Save();
+                    }
+                   // else
+                       // err = new SMRHRT.Services.Collections.ErrorCollection.ErrorInfo("Unable to save action", SMRHRT.Services.Collections.ErrorCollection.ErrorInfo.ErrorType.ERR_CRITICAL);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return true;
+            //return err;
+        }
+
+        //public bool DeleteAction()
+        //{
+        //    dAction = new TechSharpy.Entitifier.Data.Action();
+        //    try
+        //    {
+        //        if (dAction.DeleteAction(this.ClientID, this.Entitykey, this.ActionID) == true)
+        //        {
+        //            //Bix360.Global.Audit audit;
+        //            //audit = new Bix360.Global.Audit(this.ClientID, this.Entitykey, "Action removed-" + this.ActionName, this.ActionSchema, Global.Audit.ActionCategory.CUBE, Global.Audit.ActionType.UPDATE, this.UserID);
+        //            //audit.Save();
+        //            return true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return false;
+        //}
+
+
+
     }
 
 

@@ -24,12 +24,15 @@ namespace TechSharpy.Entitifier.Data
             }
         }
 
-        public int Save(string ModelName) {           
+        public int Save(string ModelName,string Sourcekey) {           
             try
             {
                 int NextID = this.getNextID("EntityModel");
-                iQuery = new Query(QueryType._Insert).AddField("ModelID", "EntityModel", FieldType._Number, "", NextID.ToString())
-                .AddField("ModelName", "EntityModel", FieldType._String, "", ModelName).AddField("LastUPD", "EntityModel", FieldType._DateTime, "", DateTime.Now.ToString());
+                iQuery = new Query(QueryType._Insert)
+                    .AddField("ModelID", "EntityModel", FieldType._Number, "", NextID.ToString())
+                    .AddField("ModelName", "EntityModel", FieldType._String, "", ModelName)
+                .AddField("Sourcekey", "EntityModel", FieldType._String, "", Sourcekey)
+                .AddField("LastUPD", "EntityModel", FieldType._DateTime, "", DateTime.Now.ToString());
                 if (this.ExecuteQuery(iQuery) > 0)
                 {
                     return NextID;
@@ -45,8 +48,10 @@ namespace TechSharpy.Entitifier.Data
         }
         public bool Save(int modelID,string modelName)
         {
-            iQuery = new Query(QueryType._Delete).AddTable("EntityModelMode").AddField("modelName", "EntityModelMode", FieldType._String, "", modelName)
-                            .AddWhere(0, "EntityModelMode", "ModelID", FieldType._Number, Operator._Equal, modelID.ToString(), Condition._None);
+            iQuery = new Query(QueryType._Update).AddTable("EntityModelMode").
+                AddField("modelName", "EntityModelMode", FieldType._String, "", modelName)
+                            .AddWhere(0, "EntityModelMode", "ModelID", 
+                            FieldType._Number, Operator._Equal, modelID.ToString(), Condition._None);
 
             int iResult;
             iResult = this.ExecuteQuery(iQuery);

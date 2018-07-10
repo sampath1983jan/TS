@@ -15,6 +15,7 @@ namespace TechSharpy.Entitifier.Core
         _RelatedMaster=3,
         _Transaction=4,        
         _Sudo=5,
+        _System=6
     }
     public enum EntityFieldType {
         _Number=1,

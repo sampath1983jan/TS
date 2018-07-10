@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSharpy.Entitifier.Security
+namespace TechSharpy.Entitifier.Security.Privileges
 {
     class EntityPrivlege
     {
+         
     }
 }
