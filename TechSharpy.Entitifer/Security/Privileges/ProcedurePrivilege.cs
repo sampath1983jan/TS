@@ -9,8 +9,8 @@ namespace TechSharpy.Entitifier.Security.Privileges
     public class ProcedurePrivilege :Privilege
     {
 
-        public ProcedurePrivilege(int dskey, int userkey, int privilegekey, bool add, bool view,
-            bool remove, bool change) : base(dskey, userkey, privilegekey, add, view, remove, change)
+        public ProcedurePrivilege(string dskey, int userkey, bool add, bool view,
+            bool remove, bool change) : base(dskey, userkey,  add, view, remove, change)
         {
 
         }
@@ -22,7 +22,14 @@ namespace TechSharpy.Entitifier.Security.Privileges
 
         public override bool Save()
         {
-            throw new NotImplementedException();
+
+            if (privilege.SaveProcedurePrivilege(this.UserKey, this.Datasourcekey,
+                 this.View, this.Add, this.Remove, this.Change))
+            {
+                return true;
+            }
+            else return false;
+            //throw new NotImplementedException();
         }
     }
 }

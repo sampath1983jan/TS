@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TechSharpy.Entitifier;
 using TechSharpy.Entitifier.Core;
 
-namespace TechSharpy.Entitifer.Core
+namespace TechSharpy.Entitifier.Core
 {
     class Action
     {            

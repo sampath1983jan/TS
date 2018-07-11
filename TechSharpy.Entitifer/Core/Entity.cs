@@ -101,7 +101,7 @@ namespace TechSharpy.Entitifier.Core
         /// Save Entity 
         /// </summary>
         /// <returns></returns>
-        public Services.ErrorHandling.ErrorInfoCollection Save()
+        internal protected Services.ErrorHandling.ErrorInfoCollection Save()
         {
             TQuery tq;
             if (this.EntityKey > 0)

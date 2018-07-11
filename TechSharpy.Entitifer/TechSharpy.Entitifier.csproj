@@ -60,10 +60,12 @@
     <Compile Include="Core\Trigger.cs" />
     <Compile Include="Data\Action.cs" />
     <Compile Include="Data\Authentication.cs" />
+    <Compile Include="Data\DataSource.cs" />
     <Compile Include="Data\EntityModel.cs" />
     <Compile Include="Data\EntitySchema.cs" />
     <Compile Include="Data\Function.cs" />
     <Compile Include="Data\LookUp.cs" />
+    <Compile Include="Data\Privilege.cs" />
     <Compile Include="Data\Procedure.cs" />
     <Compile Include="Data\Trigger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

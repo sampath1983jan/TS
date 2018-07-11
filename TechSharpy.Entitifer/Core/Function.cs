@@ -50,7 +50,7 @@ namespace TechSharpy.Entitifier.Core
                 Outputparam = g.IsNull("Outputparam") ? new OutputParam() : Newtonsoft.Json.JsonConvert.DeserializeObject<OutputParam>("Outputparam")               
             }).ToList();
         }
-        public bool Save() {
+        internal protected bool Save() {
             string ip = Newtonsoft.Json.JsonConvert.SerializeObject(Inputparam);
             string op = Newtonsoft.Json.JsonConvert.SerializeObject(Outputparam);
             if (FunctionID <= 0)

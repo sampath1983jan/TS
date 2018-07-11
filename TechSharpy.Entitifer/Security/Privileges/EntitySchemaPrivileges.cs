@@ -9,8 +9,8 @@ namespace TechSharpy.Entitifier.Security.Privileges
     public class EntitySchemaPrivilege : Privilege
     {
 
-        public EntitySchemaPrivilege(int dskey, int userkey, int privilegekey, bool add, bool view,
-            bool remove, bool change) : base(dskey, userkey, privilegekey, add, view, remove, change) {
+        public EntitySchemaPrivilege(string dskey, int userkey, bool add, bool view,
+            bool remove, bool change) : base(dskey, userkey,  add, view, remove, change) {
 
         }
         public override bool Delete()
@@ -20,7 +20,14 @@ namespace TechSharpy.Entitifier.Security.Privileges
 
         public override bool Save()
         {
-            throw new NotImplementedException();
+            if (privilege.SaveEntityPrivilege(this.UserKey, this.Datasourcekey, 
+                 this.View, this.Add, this.Remove,this.Change))
+            {
+                return true;
+            }
+            else return false;
+
+           // throw new NotImplementedException();
         }
     }
 }

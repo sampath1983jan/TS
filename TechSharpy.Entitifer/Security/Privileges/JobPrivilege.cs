@@ -9,8 +9,8 @@ namespace TechSharpy.Entitifier.Security.Privileges
    public class JobPrivilege : Privilege
     {
 
-        public JobPrivilege(int dskey, int userkey, int privilegekey, bool add, bool view,
-            bool remove, bool change) : base(dskey, userkey, privilegekey, add, view, remove, change)
+        public JobPrivilege(string dskey, int userkey, bool add, bool view,
+            bool remove, bool change) : base(dskey, userkey, add, view, remove, change)
         {
 
         }
@@ -21,7 +21,13 @@ namespace TechSharpy.Entitifier.Security.Privileges
 
         public override bool Save()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            if (privilege.SaveJobPrivilege(this.UserKey, this.Datasourcekey, this.View,
+                this.Add, this.Remove,this.Change))
+            {
+                return true;
+            }
+            else return false;
         }
     }
 }
