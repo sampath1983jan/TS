@@ -64,6 +64,7 @@
     <Compile Include="Data\EntityModel.cs" />
     <Compile Include="Data\EntitySchema.cs" />
     <Compile Include="Data\Function.cs" />
+    <Compile Include="Data\Job.cs" />
     <Compile Include="Data\LookUp.cs" />
     <Compile Include="Data\Privilege.cs" />
     <Compile Include="Data\Procedure.cs" />

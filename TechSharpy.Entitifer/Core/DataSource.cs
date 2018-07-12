@@ -105,10 +105,15 @@ namespace TechSharpy.Entitifier.Core
         }
 
         public bool SaveProcedure(Procedure procedure) {
-            return true;
+            if (procedure.Save())
+            {
+                return true;
+            }
+            else return false;            
         }
 
         public bool SaveJob(Job job) {
+            
             return true;
         }
 
