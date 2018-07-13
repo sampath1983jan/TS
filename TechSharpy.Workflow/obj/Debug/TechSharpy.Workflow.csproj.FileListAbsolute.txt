@@ -1,0 +1,6 @@
+D:\TS\TS Work location\TS\TechSharpy.Workflow\bin\Debug\TechSharpy.Workflow.dll
+D:\TS\TS Work location\TS\TechSharpy.Workflow\bin\Debug\TechSharpy.Workflow.pdb
+D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.dll
+D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.pdb

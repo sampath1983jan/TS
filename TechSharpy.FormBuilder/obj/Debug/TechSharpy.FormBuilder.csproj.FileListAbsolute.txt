@@ -1,0 +1,6 @@
+D:\TS\TS Work location\TS\TechSharpy.FormBuilder\bin\Debug\TechSharpy.FormBuilder.dll
+D:\TS\TS Work location\TS\TechSharpy.FormBuilder\bin\Debug\TechSharpy.FormBuilder.pdb
+D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.dll
+D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.pdb

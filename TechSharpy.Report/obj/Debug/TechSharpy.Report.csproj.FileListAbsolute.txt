@@ -1,0 +1,5 @@
+D:\TS\TS Work location\TS\TechSharpy.Report\bin\Debug\TechSharpy.Report.dll
+D:\TS\TS Work location\TS\TechSharpy.Report\bin\Debug\TechSharpy.Report.pdb
+D:\TS\TS Work location\TS\TechSharpy.Report\obj\Debug\TechSharpy.Report.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Report\obj\Debug\TechSharpy.Report.dll
+D:\TS\TS Work location\TS\TechSharpy.Report\obj\Debug\TechSharpy.Report.pdb

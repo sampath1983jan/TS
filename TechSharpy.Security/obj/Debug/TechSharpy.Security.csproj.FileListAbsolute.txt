@@ -1,0 +1,6 @@
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TechSharpy.Security.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TechSharpy.Security.pdb
+D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.pdb
