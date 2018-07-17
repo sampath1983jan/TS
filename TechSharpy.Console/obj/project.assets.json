@@ -664,23 +664,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sampatha\\.nuget\\packages\\": {},
+    "C:\\Users\\pavithra\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\TS\\TS Work location\\TS\\TechSharpy.Console\\TechSharpy.Console.csproj",
+      "projectUniqueName": "C:\\Project Document\\TSMasterCodeRoot\\TechSharpy.Console\\TechSharpy.Console.csproj",
       "projectName": "TechSharpy.Console",
-      "projectPath": "D:\\TS\\TS Work location\\TS\\TechSharpy.Console\\TechSharpy.Console.csproj",
-      "packagesPath": "C:\\Users\\sampatha\\.nuget\\packages\\",
-      "outputPath": "D:\\TS\\TS Work location\\TS\\TechSharpy.Console\\obj\\",
+      "projectPath": "C:\\Project Document\\TSMasterCodeRoot\\TechSharpy.Console\\TechSharpy.Console.csproj",
+      "packagesPath": "C:\\Users\\pavithra\\.nuget\\packages\\",
+      "outputPath": "C:\\Project Document\\TSMasterCodeRoot\\TechSharpy.Console\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\sampatha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pavithra\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

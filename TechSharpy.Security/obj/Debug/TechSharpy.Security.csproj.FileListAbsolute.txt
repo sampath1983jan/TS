@@ -4,9 +4,15 @@ D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.cspr
 D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.dll
 D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.pdb
-D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TS.HRIS.Data.dll
-D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\MySql.Data.dll
-D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\SMRHRT.Services.dll
-D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\SMRHRT.Exception.dll
-D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TS.HRIS.Data.pdb
-D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CopyComplete
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\TechSharpy.Security.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\TechSharpy.Security.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\obj\Debug\TechSharpy.Security.csprojAssemblyReference.cache
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CoreCompileInputs.cache
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\obj\Debug\TechSharpy.Security.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\obj\Debug\TechSharpy.Security.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\TS.HRIS.Data.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\MySql.Data.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\SMRHRT.Services.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\SMRHRT.Exception.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\TS.HRIS.Data.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CopyComplete
