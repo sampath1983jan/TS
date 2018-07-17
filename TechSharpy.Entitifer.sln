@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechSharpy.Console", "TechS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Workflow", "TechSharpy.Workflow\TechSharpy.Workflow.csproj", "{A3845915-9F08-47D5-850D-CD972951A5DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSparpy.Component", "TechSparpy.Component\TechSparpy.Component.csproj", "{193B109C-39E7-4C33-A812-0F2071A8384C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Component", "TechSparpy.Component\TechSharpy.Component.csproj", "{193B109C-39E7-4C33-A812-0F2071A8384C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Calc", "TechSharpy.Calc\TechSharpy.Calc.csproj", "{124D81CE-B71F-4E7E-84D2-D0F0203F22D4}"
 EndProject

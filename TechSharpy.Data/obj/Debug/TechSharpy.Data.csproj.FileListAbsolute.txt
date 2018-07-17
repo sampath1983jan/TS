@@ -12,7 +12,6 @@ C:\Project Document\TSMasterCodeRoot\TechSharpy.Data\obj\Debug\TechSharpy.Data.c
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Data\obj\Debug\TS.HRIS.Data.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Data\obj\Debug\TS.HRIS.Data.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Data\obj\Debug\TechSharpy.Data.csprojAssemblyReference.cache
-D:\TS\TS Work location\TS\TechSharpy.Data\obj\Debug\TechSharpy.Data.csprojAssemblyReference.cache
 D:\TS\TS Work location\TS\TechSharpy.Data\obj\Debug\TechSharpy.Data.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Data\obj\Debug\TechSharpy.Data.csproj.CopyComplete
 D:\TS\TS Work location\TS\TechSharpy.Data\bin\Debug\TechSharpy.Data.dll

@@ -1,0 +1,6 @@
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Component.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Component.pdb
+D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.pdb
+D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.csprojAssemblyReference.cache

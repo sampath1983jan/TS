@@ -1,4 +1,3 @@
-D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csprojAssemblyReference.cache
 D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfoInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfo.cs

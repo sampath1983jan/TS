@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Core\Action.cs" />
     <Compile Include="Core\DataSource.cs" />
     <Compile Include="Core\EnityInstanceLookUp.cs" />

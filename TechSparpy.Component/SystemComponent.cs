@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSharpy.Entitifier
+namespace TechSharpy.Component
 {
-    public class Class1
+    class SystemComponent
     {
     }
 }

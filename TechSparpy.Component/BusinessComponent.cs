@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSparpy.Component
+namespace TechSharpy.Component
 {
-    public class Class1
+    class BusinessComponent
     {
+
     }
 }
