@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
+
 namespace TechSharpy.Entitifier.Data
 {
-    class DataSource : DataAccess
+    class DataSource 
     {
         DataTable dtResult;
         Query iQuery;
+        TechSharpy.Data.DataBase rd;
         public DataSource()
         {
             try
             {
-                this.Init();
+                rd = new DataBase();
                 dtResult = new DataTable();
             }
             catch (Exception ex)
@@ -25,20 +28,20 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public DataTable getDataSource(int DataSourceID) {
-            iQuery = new Query(QueryType._Select).AddField("*", "s_DataSource")
+            iQuery = new MYSQLQueryBuilder(QueryType._Select).AddField("*", "s_DataSource")
              .AddWhere(0, "s_DataSource", "DataSourceID", FieldType._Text, Operator._Equal, DataSourceID.ToString(), Condition._None);
-            dtResult = this.GetData(iQuery);
+            dtResult = rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;
         }
 
         public int Save(string sourceKey,string name) {
-            int nextid = getNextID("DataSource");
-            iQuery = new Query(QueryType._Insert)
+            int nextid = rd.getNextID("DataSource");
+            iQuery = new MYSQLQueryBuilder(QueryType._Insert)
                 .AddField("DataSourceID", "s_DataSource",  FieldType._Number, "", nextid.ToString())
                 .AddField("sourceKey","s_DataSource",  FieldType._String, "", sourceKey)
                 .AddField("name", "s_DataSource",  FieldType._String, "", name)                
                 .AddField("LastUPD", "s_DataSource",  FieldType._DateTime, "", DateTime.Now.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return nextid;
             }
@@ -49,10 +52,10 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public bool Save(int DataSourceID,string Name) {
-            iQuery = new Query(QueryType._Update)
+            iQuery = new MYSQLQueryBuilder(QueryType._Update)
               .AddField("DataSourceName", "s_DataSource", FieldType._String, "", Name.ToString())
               .AddWhere(0, "s_DataSource", "DataSourceID", FieldType._Number, Operator._Equal, DataSourceID.ToString(), Condition._None);
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -64,10 +67,10 @@ namespace TechSharpy.Entitifier.Data
 
         public bool Delete(int DataSourceID)
         {
-            iQuery = new Query(QueryType._Delete)
+            iQuery = new MYSQLQueryBuilder(QueryType._Delete)
               .AddField("*", "s_DataSource", FieldType._String)
               .AddWhere(0, "s_DataSource", "DataSourceID", FieldType._Number, Operator._Equal, DataSourceID.ToString(), Condition._None);
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }

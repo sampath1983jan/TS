@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
+
 namespace TechSharpy.Entitifier.Data
 {
-    public class Action : DataAccess
+    public class Action 
     {
 
-        DataTable dtResult;
+       
+        TechSharpy.Data.DataBase rd;
         public Action()
         {
             try
             {
-                this.Init();
+                rd = new DataBase();
             }
             catch (Exception ex)
             {
@@ -26,10 +29,8 @@ namespace TechSharpy.Entitifier.Data
         public int SaveAction(int pEntitykey, int pActionType, bool pIsInclude, string pActionName, string pActionSchema)
         {
 
-            int NextID = this.getNextID("Action");
-            
-
-                Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("Action");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entity_action")
                 .AddField("ActionID", "s_entity_action", FieldType._Number, "", NextID.ToString())
                 .AddField("ActionName", "s_entity_action", FieldType._String, "", pActionName.ToString())
@@ -39,7 +40,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("ActionDate", "s_entity_action", FieldType._String, "", DateTime.Now.ToString())
                 .AddField("IsInclude", "s_entity_action", FieldType._Question, "", pIsInclude.ToString())
                  .AddField("lastUPD", "s_entity_action", FieldType._Question, "", DateTime.Now.ToString());
-                if (this.ExecuteQuery(iQuery) > 0)
+                if (rd.ExecuteQuery(iQuery).Result)
                 {
                     return NextID;
                 }

@@ -5,17 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Entitifier.Data
 {
-   public class Trigger : DataAccess
+   public class Trigger 
     {
             DataTable dtResult;
-            public Trigger()
+        TechSharpy.Data.DataBase rd;
+        public Trigger()
             {
                 try
                 {
-                    this.Init();
+                rd = new DataBase();
                 }
                 catch (Exception ex)
                 {
@@ -25,8 +27,8 @@ namespace TechSharpy.Entitifier.Data
 
         public int Save(string Name, int entityKey, TechSharpy.Entitifier.Core.ActionType type, TechSharpy.Entitifier.Core.EventType eventType,string steps) 
         {
-            int NextID = this.getNextID("Trigger");
-            Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("Trigger");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entity_trigger")
                 .AddField("TriggerID", "s_entity_trigger", FieldType._Number, "", NextID.ToString())
                 .AddField("Name", "s_entity_trigger", FieldType._String, "", Name.ToString())
@@ -34,7 +36,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("Actiontype", "s_entity_trigger", FieldType._String, "", type.ToString())
                 .AddField("eventType", "s_entity_trigger", FieldType._String, "", eventType.ToString())                              
                 .AddField("LastUPD", "s_entity_trigger", FieldType._DateTime, "", DateTime.Now.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return NextID;
             }
@@ -46,7 +48,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Save(int triggerID,string Name, int entityKey, TechSharpy.Entitifier.Core.ActionType type, TechSharpy.Entitifier.Core.EventType eventType, string steps)
         {
 
-            Query iQuery = new Query(QueryType._Update
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
                 ).AddTable("s_entity_trigger")
                 .AddField("Name", "s_entity_trigger", FieldType._String, "", Name.ToString())
                 .AddField("entityKey", "s_entity_trigger", FieldType._Number, "", entityKey.ToString())
@@ -56,7 +58,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("LastUPD", "s_entity_trigger", FieldType._DateTime, "", DateTime.Now.ToString())
                 .AddWhere(0, "s_entity_trigger", "TriggerID", FieldType._Number, Operator._Equal, triggerID.ToString(), Condition._None);
             
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result )
             {
                 return true;
             }
@@ -69,11 +71,10 @@ namespace TechSharpy.Entitifier.Data
 
         public Boolean Delete(int TriggerID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entity_trigger").
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entity_trigger").
                AddWhere(0, "s_entity_trigger", "TriggerID", FieldType._Number, Operator._Equal, TriggerID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+             
+            if (rd.ExecuteQuery(DeleteQ).Result)
             {
                 return true;
             }
@@ -86,9 +87,9 @@ namespace TechSharpy.Entitifier.Data
         public DataTable getTriggers( int entityKey)
         {
             dtResult = new DataTable();
-            Query selectQ = new Query(QueryType._Select).AddTable("s_entity_trigger").AddField("*", "s_entity_trigger").           
+            Query selectQ = new MYSQLQueryBuilder(QueryType._Select).AddTable("s_entity_trigger").AddField("*", "s_entity_trigger").           
                 AddWhere(0, "s_entity_trigger", "EntityID", FieldType._Number, Operator._Equal, entityKey.ToString());
-            dtResult = this.GetData(selectQ);
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
         }
 

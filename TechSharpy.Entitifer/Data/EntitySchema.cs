@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Entitifier.Data
 {
-    public class EntitySchema:DataAccess
+    public class EntitySchema
 
     {
         DataTable dtResult;
+        TechSharpy.Data.DataBase rd;
         public EntitySchema()
         {
             try
             {
-                this.Init();
+                rd = new DataBase();
             }
             catch (Exception ex)
             {
@@ -26,30 +28,30 @@ namespace TechSharpy.Entitifier.Data
         {
             dtResult = new DataTable();
             //dtResult.Pivot("","");
-            Query selectQ = new Query(QueryType._Select).AddTable("s_entity").AddField("*", "s_entity").
+            Query selectQ = new MYSQLQueryBuilder(QueryType._Select).AddTable("s_entity").AddField("*", "s_entity").
                 AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString());
-            dtResult = this.GetData(selectQ);
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
         }
 
         public DataTable GetEntity(int ClientID, Int64 EntityID)
         {
             dtResult = new DataTable();
-            Query selectQ = new Query(QueryType._Select).AddTable("s_entity").AddField("*", "s_entity").
+            Query selectQ = new MYSQLQueryBuilder(QueryType._Select).AddTable("s_entity").AddField("*", "s_entity").
                 AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
                 AddWhere(0, "s_entity", "EntityID", FieldType._Number, Operator._Equal, EntityID.ToString());
-            dtResult = this.GetData(selectQ);
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
         }
 
         public Boolean DeleteEntityFields(int pClientID, int pEntityID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entityfields").
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entityfields").
                 AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(),Condition._And).
                AddWhere(0, "s_entityfields", "EntityID", FieldType._Number, Operator._Equal, pEntityID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+           // int iResult;
+           // iResult = (rd.ExecuteQuery(DeleteQ).Result);
+            if ((rd.ExecuteQuery(DeleteQ).Result))
             {
                 return true;
             }
@@ -61,12 +63,12 @@ namespace TechSharpy.Entitifier.Data
 
         public Boolean DeleteEntityField(int pClientID, int pEntityID,int pEntityFieldID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entityfields").AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entityfields").AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
                AddWhere(0, "s_entityfields", "FieldID", FieldType._Number, Operator._Equal, pEntityFieldID.ToString(),Condition._And)
                .AddWhere(0, "s_entityfields", "EntityID", FieldType._Number, Operator._Equal, pEntityID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+         //   int iResult;
+          
+            if ((rd.ExecuteQuery(DeleteQ).Result))
             {
                 return true;
             }
@@ -78,11 +80,11 @@ namespace TechSharpy.Entitifier.Data
 
         public Boolean Delete(int pClientID, int pEntityID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entity").AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entity").AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
                AddWhere(0, "s_entity", "EntityID", FieldType._Number, Operator._Equal, pEntityID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+         //   int iResult;
+           // iResult = rd.ExecuteQuery(DeleteQ);
+            if ((rd.ExecuteQuery(DeleteQ).Result))
             {
                 return true;
             }
@@ -94,8 +96,8 @@ namespace TechSharpy.Entitifier.Data
 
         public int Save(int pClientID, string pTableName, string Name, string pDescription, string keys, TechSharpy.Entitifier.Core.EntityType pType)
         {
-            int NextID = this.getNextID("Entity");
-            Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("Entity");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entity")
                 .AddField("EntityID", "s_entity", FieldType._Number, "", NextID.ToString())
                 .AddField("Name", "s_entity", FieldType._String, "", Name.ToString())
@@ -105,7 +107,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("Type", "s_entity", FieldType._Number, "", Convert.ToInt32(pType).ToString())
                 .AddField("ClientID", "s_entity", FieldType._Number, "", pClientID.ToString())
           .AddField("LastUPD", "s_entity", FieldType._DateTime, "", DateTime.Now.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if ((rd.ExecuteQuery(iQuery).Result))
             {
                 return NextID;
             }
@@ -118,7 +120,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Update(int pClientID, Int64 pEntityID, string pTableName, string Name, string pDescription, string keys,
            TechSharpy.Entitifier.Core.EntityType pType)
         {
-            Query iQuery = new Query(QueryType._Update
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
                 ).AddTable("s_entity")
                 .AddField("Description", "s_entity", FieldType._String, "", pDescription.ToString())
                 .AddField("Name", "s_entity", FieldType._String, "", Name.ToString())
@@ -130,7 +132,7 @@ namespace TechSharpy.Entitifier.Data
             .AddField("lastUpD", "s_entity", FieldType._DateTime, "", DateTime.Now.ToString())
            .AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
                AddWhere(0, "s_entity", "EntityID", FieldType._Number, Operator._Equal, pEntityID.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -143,10 +145,10 @@ namespace TechSharpy.Entitifier.Data
         public bool CheckEntityExist(string EntityName)
         {
             dtResult = new DataTable();
-            Query selectQ = new Query(QueryType._Select).AddTable("s_entity").AddField("*", "s_entity").
+            Query selectQ = new MYSQLQueryBuilder(QueryType._Select).AddTable("s_entity").AddField("*", "s_entity").
                //    AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
                AddWhere(0, "s_entity", "TableName", FieldType._String, Operator._Equal, EntityName.ToString());
-            dtResult = this.GetData(selectQ);
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
             if (dtResult.Rows.Count > 0)
             {
                 return true;
@@ -160,10 +162,10 @@ namespace TechSharpy.Entitifier.Data
         public DataTable GetEntityFields(int ClientID, Int64 EntityID)
         {
             dtResult = new DataTable();
-            Query selectQ = new Query(QueryType._Select).AddTable("s_entityfields").AddField("*", "s_entityfields").
+            Query selectQ = new MYSQLQueryBuilder(QueryType._Select).AddTable("s_entityfields").AddField("*", "s_entityfields").
                AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
                AddWhere(0, "s_entityfields", "EntityID", FieldType._Number, Operator._Equal, EntityID.ToString());
-            dtResult = this.GetData(selectQ);
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
         }
 
@@ -171,11 +173,11 @@ namespace TechSharpy.Entitifier.Data
         public DataTable GetEntityField(int ClientID, Int64 EntityID, int pFieldID)
         {
             dtResult = new DataTable();
-            Query selectQ = new Query(QueryType._Select).AddTable("s_entityfields").AddField("*", "s_entityfields").
+            Query selectQ = new MYSQLQueryBuilder(QueryType._Select).AddTable("s_entityfields").AddField("*", "s_entityfields").
                AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
                AddWhere(0, "s_entityfields", "EntityID", FieldType._Number, Operator._Equal, EntityID.ToString()).
                AddWhere(0, "s_entityfields", "FieldID", FieldType._Number, Operator._Equal, pFieldID.ToString());
-            dtResult = this.GetData(selectQ);
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
         }
 
@@ -185,8 +187,8 @@ namespace TechSharpy.Entitifier.Data
             long incrementby, string description, bool enableencription, bool enablelimit)
         {
 
-            int NextID = this.getNextID("EntityField");
-            Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("EntityField");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entityfields")
                 .AddField("EntityID", "s_entityfields", FieldType._Number, "", entityKey.ToString())
                 .AddField("FieldID", "s_entityfields", FieldType._Number, "", NextID.ToString())
@@ -218,7 +220,7 @@ namespace TechSharpy.Entitifier.Data
 
                 ;
 
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return NextID;
             }
@@ -234,7 +236,7 @@ namespace TechSharpy.Entitifier.Data
             long incrementby, string description, bool enableencription, bool enablelimit)
         {
 
-            Query iQuery = new Query(QueryType._Update
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
                 ).AddTable("s_entityfields")
                     .AddField("EntityID", "s_entityfields", FieldType._Number, "", entityKey.ToString())
             //    .AddField("FieldID", "s_entityfields", FieldType._Number, "", FieldID.ToString())
@@ -266,7 +268,7 @@ namespace TechSharpy.Entitifier.Data
                   .AddWhere (0, "s_entityfields", "FieldID", FieldType._Number,Operator._Equal,FieldID.ToString(),Condition._And )
                   .AddWhere(0, "s_entityfields", "EntityID", FieldType._Number, Operator._Equal, entityKey.ToString(), Condition._None);
 
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -276,11 +278,11 @@ namespace TechSharpy.Entitifier.Data
             }
         }
 
-        public bool ExecuteNonQuery(TQuery tq)
+        public bool ExecuteNonQuery(MYSQLTQueryBuilder tq)
         {
             try
             {
-                if (this.ExecuteTQuery(tq))
+                if (rd.ExecuteTQuery(tq).Result)
                 {
                     return true;
                 }

@@ -1,6 +1,5 @@
 D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSparpy.Component.dll
 D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSparpy.Component.pdb
-D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSparpy.Component.csprojAssemblyReference.cache
 D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSparpy.Component.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSparpy.Component.dll
 D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSparpy.Component.pdb

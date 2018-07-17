@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Data;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
+
 namespace TechSharpy.Entitifier.Data
 {
-    public class Procedure : DataAccess
+    public class Procedure
 
     {
         DataTable dtResult;
+        TechSharpy.Data.DataBase rd;
         public Procedure()
         {
             try
             {
-                this.Init();
+                rd = new DataBase();
             }
             catch (Exception ex)
             {
@@ -21,26 +24,26 @@ namespace TechSharpy.Entitifier.Data
 
         public DataTable GetProcedure(int procedureID) {
             dtResult = new DataTable();
-            Query iQuery = new Query(QueryType._Select)
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Select)
                 .AddField("ProcedureID", "s_entity_procedure")
                 .AddField("Name", "s_entity_procedure")
                 .AddField("Steps", "s_entity_procedure")
             .AddField("datasourcekey", "s_entity_procedure");
-            dtResult = this.GetData(iQuery);
+            dtResult = rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;
         }
 
         public int Save(string Name, string steps,string datasourcekey)
         {
-            int NextID = this.getNextID("procedure");
-            Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("procedure");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entity_procedure")
                 .AddField("ProcedureID", "s_entity_procedure", FieldType._Number, "", NextID.ToString())
                 .AddField("Name", "s_entity_procedure", FieldType._String, "", Name.ToString())
                 .AddField("datasourcekey", "s_entity_procedure", FieldType._String, "", datasourcekey.ToString())
                 .AddField("Steps", "s_entity_procedure", FieldType._String, "", steps.ToString())
                 .AddField("LastUPD", "s_entity_procedure", FieldType._DateTime, "", DateTime.Now.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return NextID;
             }
@@ -52,13 +55,13 @@ namespace TechSharpy.Entitifier.Data
         public bool Delete(int procedureID,string datasourcekey)
         {
 
-            Query iQuery = new Query(QueryType._Delete
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Delete
                 ).AddTable("s_entity_procedure")
                .AddField("*", "s_entity_procedure", FieldType._String)
                 .AddWhere(0, "s_entity_procedure", "datasourcekey", FieldType._String, Operator._Equal, datasourcekey.ToString(), Condition._And)
                 .AddWhere(0, "s_entity_procedure", "ProcedureID", FieldType._Number, Operator._Equal, procedureID.ToString(), Condition._None);
 
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -71,7 +74,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Save(int procedureID, string Name,  string steps,string datasourcekey)
         {
 
-            Query iQuery = new Query(QueryType._Update
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
                 ).AddTable("s_entity_procedure")
                .AddField("Name", "s_entity_procedure", FieldType._String, "", Name.ToString())                
                 .AddField("Steps", "s_entity_procedure", FieldType._String, "", steps.ToString())
@@ -79,7 +82,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddWhere(0, "s_entity_procedure", "datasourcekey", FieldType._String, Operator._Equal, datasourcekey.ToString(), Condition._And)
                 .AddWhere(0, "s_entity_procedure", "ProcedureID", FieldType._Number, Operator._Equal, procedureID.ToString(), Condition._None);
 
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }

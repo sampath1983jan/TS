@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace TechSharpy.Security
 {
-    public class Class1
-    {
-    }
+  
 }

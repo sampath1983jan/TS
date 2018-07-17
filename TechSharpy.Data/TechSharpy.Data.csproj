@@ -7,8 +7,8 @@
     <ProjectGuid>{E4AC00F9-50DB-4975-A567-3412E5F89926}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TS.HRIS.Data</RootNamespace>
-    <AssemblyName>TS.HRIS.Data</AssemblyName>
+    <RootNamespace>TechSharpy.Data</RootNamespace>
+    <AssemblyName>TechSharpy.Data</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -64,11 +64,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABS\TQuery.cs" />
+    <Compile Include="ABS\Query.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="Connection\MSSQLConnection.cs" />
+    <Compile Include="Connection\MySQLConnection.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="DataSet.cs" />
+    <Compile Include="DataType\MSSQL.cs" />
+    <Compile Include="DataType\MySQL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Query.cs" />
-    <Compile Include="TQuery.cs" />
+    <Compile Include="QueryBuilder\MySqlQuery.cs" />
+    <Compile Include="QueryAttribute\Field.cs" />
+    <Compile Include="QueryAttribute\Join.cs" />
+    <Compile Include="QueryAttribute\SortOrder.cs" />
+    <Compile Include="QueryAttribute\Table.cs" />
+    <Compile Include="QueryAttribute\WhereGroup.cs" />
+    <Compile Include="RDBMS.cs" />
+    <Compile Include="QueryBuilder\MySqlTQuery.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Entitifier.Data
 {
-    class LookUp : DataAccess
+    class LookUp 
 
     {
         DataTable dtResult;
+        TechSharpy.Data.DataBase rd;
         public LookUp()
         {
             try
             {
-                this.Init();
+                rd = new DataBase();
             }
             catch (Exception ex)
             {
@@ -25,17 +27,17 @@ namespace TechSharpy.Entitifier.Data
         public DataTable GetLookUpItems(int pClientID, int pLookUpID)
         {
             dtResult = new DataTable();
-            Query selectQ = new Query(QueryType._Select).AddTable("vw_lookupitem").AddField("*", "vw_lookupitem").
+            Query selectQ = new MYSQLQueryBuilder(QueryType._Select).AddTable("vw_lookupitem").AddField("*", "vw_lookupitem").
                 AddWhere(0, "vw_lookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
                 AddWhere(0, "vw_lookupitem", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
-            dtResult = this.GetData(selectQ);
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
         }
 
         public int Save(int pClientID, string pName, bool pIsCore,bool haveChild, TechSharpy.Entitifier.Core.LookUpType lookupType)
         {
-            int NextID = this.getNextID("LookUp");
-            Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("LookUp");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entitylookup")
                 .AddField("LookUpID", "s_entitylookup", FieldType._Number, "", NextID.ToString())
                 .AddField("Name", "s_entitylookup", FieldType._String, "", pName.ToString())
@@ -44,7 +46,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("ClientID", "s_entitylookup", FieldType._Number, "", pClientID.ToString())
                 .AddField("LookUpType", "s_entitylookup", FieldType._Number, "", lookupType.ToString())
              .AddField("LastUPD", "s_entitylookup", FieldType._DateTime, "", DateTime.Now.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return NextID;
             }
@@ -56,7 +58,7 @@ namespace TechSharpy.Entitifier.Data
 
         public bool Save(int pClientID, int pLookUpId, string pName, bool pIsCore, bool haveChild, TechSharpy.Entitifier.Core.LookUpType lookupType)
         {
-            Query iQuery = new Query(QueryType._Update
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
          ).AddTable("s_entitylookup")
          .AddField("LookUpName", "s_entitylookup", FieldType._String, "", pName.ToString())
          .AddField("IsCore", "s_entitylookup", FieldType._String, "", pIsCore.ToString())
@@ -65,7 +67,7 @@ namespace TechSharpy.Entitifier.Data
             .AddField("lastUpD", "s_entitylookup", FieldType._DateTime, "", DateTime.Now.ToString())
         .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
         AddWhere(0, "s_entitylookup", "LookUpId", FieldType._Number, Operator._Equal, pLookUpId.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -76,12 +78,11 @@ namespace TechSharpy.Entitifier.Data
         }
         public bool Delete(int pClientID, int pLookUpID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entitylookup")
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entitylookup")
                 .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
       AddWhere(0, "s_entitylookup", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+            
+            if (rd.ExecuteQuery(DeleteQ).Result)
             {
                 return true;
             }
@@ -93,12 +94,11 @@ namespace TechSharpy.Entitifier.Data
 
         public bool DeleteLookUpItems(int pClientID, int pLookUpID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entitylookupitem")
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entitylookupitem")
                 .AddWhere(0, "s_entitylookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
       AddWhere(0, "s_entitylookupitem", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+                     
+            if (rd.ExecuteQuery(DeleteQ).Result)
             {
                 return true;
             }
@@ -109,13 +109,12 @@ namespace TechSharpy.Entitifier.Data
         }
         public bool DeleteLookUpItem(int pClientID, int pLookUpID, int pLookUpItemID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entitylookupitem")
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entitylookupitem")
                 .AddWhere(0, "s_entitylookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString())
                  .AddWhere(0, "s_entitylookupitem", "LookUpItemID", FieldType._Number, Operator._Equal, pLookUpItemID.ToString()).
       AddWhere(0, "s_entitylookupitem", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+            
+            if (rd.ExecuteQuery(DeleteQ).Result)
             {
                 return true;
             }
@@ -127,8 +126,8 @@ namespace TechSharpy.Entitifier.Data
 
         public int SaveItem(int pClientID, int pLookUpID, string pName, string pShortName, int order,int parentLookUpID)
         {
-            int NextID = this.getNextID("LookUpItem");
-            Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("LookUpItem");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entitylookupitem")
                 .AddField("LookUpID", "s_entitylookupitem", FieldType._Number, "", pLookUpID.ToString())
                    .AddField("LookUpInstanceID", "s_entitylookupitem", FieldType._Number, "", NextID.ToString())
@@ -138,7 +137,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("parentLookUpID", "s_entitylookupitem", FieldType._Number, "", parentLookUpID.ToString())
                 .AddField("ClientID", "s_entitylookupitem", FieldType._Number, "", pClientID.ToString())
              .AddField("LastUPD", "s_entitylookupitem", FieldType._DateTime, "", DateTime.Now.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return NextID;
             }
@@ -150,7 +149,7 @@ namespace TechSharpy.Entitifier.Data
 
         public bool SaveItem(int pClientID, int pLookupinstanceid, int pLookUpID, string pName, string pShortName,int order,int parentLookUpID)
         {
-            Query iQuery = new Query(QueryType._Update
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
          ).AddTable("s_entitylookup")
          .AddField("LookUpName", "s_entitylookup", FieldType._String, "", pName.ToString())
          .AddField("ShortName", "s_entitylookup", FieldType._String, "", pShortName.ToString())
@@ -161,7 +160,7 @@ namespace TechSharpy.Entitifier.Data
     .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
         AddWhere(0, "s_entitylookup", "LookUpId", FieldType._Number, Operator._Equal, pLookUpID.ToString()).
          AddWhere(0, "s_entitylookup", "Lookupinstanceid", FieldType._Number, Operator._Equal, pLookupinstanceid.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }

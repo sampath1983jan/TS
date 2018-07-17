@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
+
 namespace TechSharpy.Entitifier.Data
 {
-    class User:DataAccess
+    class User
     {
         DataTable dtResult;
         Query iQuery;
+        DataBase rd = new DataBase();
         public User()
         {
             try
             {
-                this.Init();
+               
                 dtResult = new DataTable();
             }
             catch (Exception ex)
@@ -25,29 +28,29 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public DataTable GetUserInfo(string UserName, string Password) {
-            iQuery = new Query(QueryType._Select).AddField("*", "s_SecurityUser")
+            iQuery = new MYSQLQueryBuilder(QueryType._Select).AddField("*", "s_SecurityUser")
                 .AddWhere(0, "s_SecurityUser", "username", FieldType._Text, Operator._Equal, UserName, Condition._And)
                 .AddWhere(0, "s_SecurityUser", "password", FieldType._Text, Operator._Equal, Password, Condition._None);
-            dtResult = this.GetData(iQuery);
+            dtResult = rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;
         }
 
         public DataTable GetUserInfo(int UserID) {
-            iQuery = new Query(QueryType._Select).AddField("*", "s_SecurityUser")
+            iQuery = new MYSQLQueryBuilder(QueryType._Select).AddField("*", "s_SecurityUser")
                .AddWhere(0, "s_SecurityUser", "UserID", FieldType._Number, Operator._Equal, UserID.ToString(), Condition._None);             
-            dtResult = this.GetData(iQuery);
+            dtResult = rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;  
         }
 
         public bool Save(string UserName, string Password, Security.User.UserType ut,string datasourcekey) {
-            int nextid = getNextID("User");
-            iQuery = new Query(QueryType._Insert)
+            int nextid =  rd.getNextID("User");
+            iQuery = new MYSQLQueryBuilder(QueryType._Insert)
                 .AddField("s_SecurityUser", "UserID", FieldType._String, "", nextid.ToString())
                 .AddField("s_SecurityUser", "UserName", FieldType._String, "", UserName)
                 .AddField("s_SecurityUser", "Password", FieldType._String, "", Password)
                 .AddField("s_SecurityUser", "UserType", FieldType._String, "", ((int)ut).ToString())
                 .AddField("s_SecurityUser", "datasourcekey", FieldType._String, "", datasourcekey);
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -57,10 +60,10 @@ namespace TechSharpy.Entitifier.Data
         }
         public bool ChangeUserType(int UserID, Security.User.UserType UserType)
         {
-            iQuery = new Query(QueryType._Update)
+            iQuery = new MYSQLQueryBuilder(QueryType._Update)
                 .AddField("s_SecurityUser", "UserType", FieldType._String, "", ((int)UserType).ToString())
                 .AddWhere(0, "s_SecurityUser", "UserID", FieldType._Number, Operator._Equal, UserID.ToString(), Condition._None);
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -71,19 +74,19 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public bool ChangePassword(int UserID, string Password) {
-            iQuery = new Query(QueryType._Update)
+            iQuery = new MYSQLQueryBuilder(QueryType._Update)
                 .AddField("s_SecurityUser", "Password", FieldType._String, "", Password)
                 .AddWhere(0, "s_SecurityUser", "UserID", FieldType._Number, Operator._Equal, UserID.ToString(), Condition._None);
-            if (this.ExecuteQuery(iQuery) > 0) {
+            if (rd.ExecuteQuery(iQuery).Result) {
                 return true;
             } else {
                 return false;
             }            
         }
         public bool Delete(int UserID) {
-            iQuery = new Query(QueryType._Delete).AddField("*", "s_SecurityUser")
+            iQuery = new MYSQLQueryBuilder(QueryType._Delete).AddField("*", "s_SecurityUser")
               .AddWhere(0, "s_SecurityUser", "UserID", FieldType._Number, Operator._Equal, UserID.ToString(), Condition._None);
-            if (this.ExecuteQuery(iQuery) >0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }

@@ -103,7 +103,7 @@ namespace TechSharpy.Entitifier.Core
         /// <returns></returns>
         internal protected Services.ErrorHandling.ErrorInfoCollection Save()
         {
-            TQuery tq;
+            MYSQLTQueryBuilder tq;
             if (this.EntityKey > 0)
             {
                 if (dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString(), this.EntityType))
@@ -121,7 +121,7 @@ namespace TechSharpy.Entitifier.Core
                 if (!dataEntity.CheckEntityExist(this.TableName))
                 {
                     this.EntityKey = dataEntity.Save(-1, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString(), this.EntityType);
-                    tq = new TQuery(TQueryType._Create);
+                    tq = new MYSQLTQueryBuilder(TQueryType._Create);
                     if (this.EntityKey > 0)
                     {
                         tq.TableName(this.TableName.Replace(" ", ""));
@@ -151,13 +151,13 @@ namespace TechSharpy.Entitifier.Core
            bool pIsCore, bool pIsEditable, bool pEnableEncription, bool pAcceptNull, string pDisplayName, string value, bool isReadonly,
            string defaultValue, int displayorder, int pmaxLength, string displayName, bool autoIncrement, int incrementfrom, int incrementby)
         {
-            TQuery tq;
+            MYSQLTQueryBuilder tq;
             EntityField fd = new EntityField(pFieldName, pEntityFieldID, pFieldType, pIsKeyField, pIsRequired, pIsUnique, LookUpID, pIsCore, pEntityID, value, isReadonly,
                 defaultValue, displayorder, new List<string>(), pMin, pMax, pmaxLength, displayName, autoIncrement, incrementfrom, incrementby,
                 Description, pEnableEncription, pEnableContentLimit);
 
             fd.InstanceID = pEntityFieldID;
-            tq = new TQuery(TQueryType._AlterTable);
+            tq = new MYSQLTQueryBuilder(TQueryType._AlterTable);
             tq.TableName(this.TableName.Replace(" ", ""));
             if (fd.Save())
             {

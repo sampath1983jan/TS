@@ -5,29 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Data;
+using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Entitifier.Data
 {
-   public class Function : DataAccess
+   public class Function  
     {
         DataTable dtResult;
+        TechSharpy.Data.DataBase rd;
         public Function()
         {
             try
             {
-                this.Init();
+                rd = new DataBase();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-
         public int Save(string Name,  string inputParam,string outputParam, string steps)
         {
-            int NextID = this.getNextID("Function");
-            Query iQuery = new Query(QueryType._Insert
+            int NextID = rd.getNextID("Function");
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
                 ).AddTable("s_entity_function")
                 .AddField("FunctionID", "s_entity_function", FieldType._Number, "", NextID.ToString())
                 .AddField("Name", "s_entity_function", FieldType._String, "", Name.ToString())
@@ -35,7 +35,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("Outputparam", "s_entity_function", FieldType._String, "", outputParam.ToString())
                 .AddField("Steps", "s_entity_function", FieldType._String, "", steps.ToString())
                 .AddField("LastUPD", "s_entity_function", FieldType._DateTime, "", DateTime.Now.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return NextID;
             }
@@ -48,7 +48,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Save(int functionID, string Name, string inputParam, string outputParam, string steps)
         {
 
-            Query iQuery = new Query(QueryType._Update
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
                 ).AddTable("s_entity_function")
                .AddField("Name", "s_entity_function", FieldType._String, "", Name.ToString())
                 .AddField("Inputparam", "s_entity_function", FieldType._String, "", inputParam.ToString())
@@ -57,7 +57,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("LastUPD", "s_entity_function", FieldType._DateTime, "", DateTime.Now.ToString())
                 .AddWhere(0, "s_entity_function", "functionID", FieldType._Number, Operator._Equal, functionID.ToString(), Condition._None);
 
-            if (this.ExecuteQuery(iQuery) > 0)
+            if ((rd.ExecuteQuery(iQuery).Result))
             {
                 return true;
             }
@@ -70,11 +70,10 @@ namespace TechSharpy.Entitifier.Data
 
         public Boolean Delete(int functionID)
         {
-            Query DeleteQ = new Query(QueryType._Delete).AddTable("s_entity_function").
+            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entity_function").
                AddWhere(0, "s_entity_function", "functionID", FieldType._Number, Operator._Equal, functionID.ToString());
-            int iResult;
-            iResult = this.ExecuteQuery(DeleteQ);
-            if (iResult >= 1)
+            
+            if ((rd.ExecuteQuery(DeleteQ).Result))
             {
                 return true;
             }
@@ -85,7 +84,7 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public DataTable getFunction() {
-            Query iQuery = new Query(QueryType._Select
+            Query iQuery = new MYSQLQueryBuilder(QueryType._Select
                 ).AddTable("s_entity_function")
                 .AddField("FunctionID", "s_entity_function", FieldType._String, "", "")
                .AddField("Name", "s_entity_function", FieldType._String, "", "")
@@ -93,7 +92,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("Outputparam", "s_entity_function", FieldType._String, "", "")
                 .AddField("Steps", "s_entity_function", FieldType._String, "", "")
                 .AddField("LastUPD", "s_entity_function", FieldType._DateTime, "", "");
-           dtResult= this.GetData(iQuery);
+           dtResult= rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;
         }
 

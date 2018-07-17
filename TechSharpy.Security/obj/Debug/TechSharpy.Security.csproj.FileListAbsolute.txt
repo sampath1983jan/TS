@@ -16,3 +16,9 @@ C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\SMRHRT.Servic
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\SMRHRT.Exception.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\bin\Debug\TS.HRIS.Data.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CopyComplete
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\MySql.Data.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\SMRHRT.Services.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\SMRHRT.Exception.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CopyComplete
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TechSharpy.Data.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TechSharpy.Data.pdb

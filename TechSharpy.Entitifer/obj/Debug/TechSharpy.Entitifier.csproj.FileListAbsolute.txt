@@ -1,12 +1,10 @@
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csprojAssemblyReference.cache
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TS.HRIS.Data.dll
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\MySql.Data.dll
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\SMRHRT.Services.dll
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\SMRHRT.Exception.dll
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.pdb
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TS.HRIS.Data.pdb
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CopyComplete
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.dll
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.xml
@@ -30,3 +28,5 @@ C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\bin\Debug\TS.HRIS.Data
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.xml
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CopyComplete
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Data.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Data.pdb

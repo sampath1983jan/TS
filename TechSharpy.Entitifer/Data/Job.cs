@@ -7,18 +7,20 @@ using System.Data;
 using TechSharpy.Data;
 using TechSharpy.Entitifier.Core;
 using static TechSharpy.Entitifier.Core.Job;
+using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Entitifier.Data
 {
-    class Job:DataAccess
+    class Job
     {
         DataTable dtResult;
         Query iQuery;
+        TechSharpy.Data.DataBase rd;
         public Job()
         {
             try
             {
-                this.Init();
+                rd = new DataBase();
                 dtResult = new DataTable();
             }
             catch (Exception ex)
@@ -30,7 +32,7 @@ namespace TechSharpy.Entitifier.Data
 
         public DataTable GetJob(int JobID)
         {
-            iQuery = new Query(QueryType._Select)
+            iQuery = new MYSQLQueryBuilder(QueryType._Select)
                .AddField("jobid", "s_entityjob", FieldType._Number, "")
                 .AddField("datasourcekey", "s_entityjob", FieldType._String, "")
                 .AddField("name", "s_entityjob", FieldType._String, "")
@@ -41,7 +43,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("currentschedule", "s_entityjob", FieldType._DateTime, "")
                 .AddField("type", "s_entityjob", FieldType._Number, "")
                 .AddField("status", "s_entityjob", FieldType._Number, "");
-            dtResult = this.GetData(iQuery);
+            dtResult = rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;
         }
 
@@ -49,8 +51,8 @@ namespace TechSharpy.Entitifier.Data
         public int Save(string Datasourcekey, string name, string description, string steps,
             DateTime jobstartDate,DateTime jobTime, JobType type,DateTime currentSchedule, Status status)
         {
-            int inext = this.getNextID("Job");
-            iQuery = new Query(QueryType._Insert)
+            int inext = rd.getNextID("Job");
+            iQuery = new MYSQLQueryBuilder(QueryType._Insert)
                 .AddField("jobid", "s_entityjob", FieldType._Number, "", inext.ToString())
                 .AddField("datasourcekey", "s_entityjob", FieldType._String, "", Datasourcekey.ToString())
                 .AddField("name", "s_entityjob", FieldType._String, "", name.ToString())
@@ -61,7 +63,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("currentschedule", "s_entityjob", FieldType._DateTime, "", currentSchedule.ToString())
                 .AddField("type", "s_entityjob", FieldType._Number, "", type.ToString())
                 .AddField("status", "s_entityjob", FieldType._Number, "", status.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return inext ;
             }
@@ -73,11 +75,11 @@ namespace TechSharpy.Entitifier.Data
         public bool UpdateCurrentSchedule(int jobid,string datasourcekey)
         {
 
-            iQuery = new Query(QueryType._Update)              
+            iQuery = new MYSQLQueryBuilder(QueryType._Update)              
                  .AddField("currentschedule", "s_entityjob", FieldType._DateTime, "", DateTime.Now.ToString())              
                 .AddWhere(0, "s_entityjob", "datasourcekey", FieldType._Number, Operator._Equal, datasourcekey.ToString(), Condition._And)
                 .AddWhere(0, "s_entityjob", "jobid", FieldType._Number, Operator._Equal, jobid.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -89,11 +91,11 @@ namespace TechSharpy.Entitifier.Data
         public bool UpdateStatus(int jobid, string datasourcekey,Status status)
         {
 
-            iQuery = new Query(QueryType._Update)
+            iQuery = new MYSQLQueryBuilder(QueryType._Update)
                  .AddField("status", "s_entityjob", FieldType._Number, "", status.ToString())
                 .AddWhere(0, "s_entityjob", "datasourcekey", FieldType._Number, Operator._Equal, datasourcekey.ToString(), Condition._And)
                 .AddWhere(0, "s_entityjob", "jobid", FieldType._Number, Operator._Equal, jobid.ToString());
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
@@ -107,7 +109,7 @@ namespace TechSharpy.Entitifier.Data
             DateTime jobstartDate, DateTime jobTime, JobType type)
         {
             
-            iQuery = new Query(QueryType._Update)                
+            iQuery = new MYSQLQueryBuilder(QueryType._Update)                
             //    .AddField("datasourcekey", "s_entityjob", FieldType._String, "", datasourcekey.ToString())
                 .AddField("name", "s_entityjob", FieldType._String, "", name.ToString())
                 .AddField("description", "s_entityjob", FieldType._String, "", description.ToString())
@@ -121,7 +123,7 @@ namespace TechSharpy.Entitifier.Data
                 .AddWhere(0, "s_entityjob", "jobid", FieldType._Number, Operator._Equal, jobid.ToString());
                 
             
-            if (this.ExecuteQuery(iQuery) > 0)
+            if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
             }
