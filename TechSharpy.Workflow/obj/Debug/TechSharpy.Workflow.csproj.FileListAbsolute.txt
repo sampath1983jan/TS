@@ -4,3 +4,9 @@ D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.cspr
 D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.dll
 D:\TS\TS Work location\TS\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Workflow\bin\Debug\TechSharpy.Workflow.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Workflow\bin\Debug\TechSharpy.Workflow.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.csprojAssemblyReference.cache
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.csproj.CoreCompileInputs.cache
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.Workflow\obj\Debug\TechSharpy.Workflow.pdb

@@ -81,13 +81,13 @@
     <Compile Include="Security\Privileges\ProcedurePrivilege.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TechSharpy.Data\TechSharpy.Data.csproj">
+      <Project>{e4ac00f9-50db-4975-a567-3412e5f89926}</Project>
+      <Name>TechSharpy.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TechSharpy.Services\TechSharpy.Services.csproj">
       <Project>{686710ce-5a21-409d-8879-7ffe6f98f8fa}</Project>
       <Name>TechSharpy.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\sampatha\Documents\Visual Studio 2017\Projects\TechSharpy.Component\TechSharpy.Data\TechSharpy.Data.csproj">
-      <Project>{e4ac00f9-50db-4975-a567-3412e5f89926}</Project>
-      <Name>TechSharpy.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

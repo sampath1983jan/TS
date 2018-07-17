@@ -3,3 +3,8 @@ D:\TS\TS Work location\TS\TechSharpy.App\bin\Debug\TechSharpy.App.pdb
 D:\TS\TS Work location\TS\TechSharpy.App\obj\Debug\TechSharpy.App.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.App\obj\Debug\TechSharpy.App.dll
 D:\TS\TS Work location\TS\TechSharpy.App\obj\Debug\TechSharpy.App.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.App\bin\Debug\TechSharpy.App.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.App\bin\Debug\TechSharpy.App.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.App\obj\Debug\TechSharpy.App.csproj.CoreCompileInputs.cache
+C:\Project Document\TSMasterCodeRoot\TechSharpy.App\obj\Debug\TechSharpy.App.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.App\obj\Debug\TechSharpy.App.pdb

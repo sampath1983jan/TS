@@ -4,3 +4,9 @@ D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilde
 D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.dll
 D:\TS\TS Work location\TS\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.FormBuilder\bin\Debug\TechSharpy.FormBuilder.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.FormBuilder\bin\Debug\TechSharpy.FormBuilder.pdb
+C:\Project Document\TSMasterCodeRoot\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.csprojAssemblyReference.cache
+C:\Project Document\TSMasterCodeRoot\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.csproj.CoreCompileInputs.cache
+C:\Project Document\TSMasterCodeRoot\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.dll
+C:\Project Document\TSMasterCodeRoot\TechSharpy.FormBuilder\obj\Debug\TechSharpy.FormBuilder.pdb
