@@ -4,3 +4,9 @@ D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.cspr
 D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CoreCompileInputs.cache
 D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.dll
 D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.pdb
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TS.HRIS.Data.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\MySql.Data.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\SMRHRT.Services.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\SMRHRT.Exception.dll
+D:\TS\TS Work location\TS\TechSharpy.Security\bin\Debug\TS.HRIS.Data.pdb
+D:\TS\TS Work location\TS\TechSharpy.Security\obj\Debug\TechSharpy.Security.csproj.CopyComplete
