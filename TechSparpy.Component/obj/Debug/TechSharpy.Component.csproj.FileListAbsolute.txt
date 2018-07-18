@@ -4,3 +4,15 @@ D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.cs
 D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.dll
 D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.pdb
 D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Entitifier.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Data.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Services.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\Newtonsoft.Json.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\MySql.Data.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\SMRHRT.Services.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\SMRHRT.Exception.dll
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Entitifier.pdb
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Data.pdb
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\TechSharpy.Services.pdb
+D:\TS\TS Work location\TS\TechSparpy.Component\bin\Debug\Newtonsoft.Json.xml
+D:\TS\TS Work location\TS\TechSparpy.Component\obj\Debug\TechSharpy.Component.csproj.CopyComplete

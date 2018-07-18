@@ -8,4 +8,3 @@ C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\bin\Debug\TechSharpy.Se
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\obj\Debug\TechSharpy.Services.csproj.CoreCompileInputs.cache
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\obj\Debug\TechSharpy.Services.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\obj\Debug\TechSharpy.Services.pdb
-D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.csprojAssemblyReference.cache

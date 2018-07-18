@@ -28,7 +28,7 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public DataTable getDataSource(int DataSourceID) {
-            iQuery = new MYSQLQueryBuilder(QueryType._Select).AddField("*", "s_DataSource")
+            iQuery = new QueryBuilder(QueryType._Select).AddField("*", "s_DataSource")
              .AddWhere(0, "s_DataSource", "DataSourceID", FieldType._Text, Operator._Equal, DataSourceID.ToString(), Condition._None);
             dtResult = rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;
@@ -36,7 +36,7 @@ namespace TechSharpy.Entitifier.Data
 
         public int Save(string sourceKey,string name) {
             int nextid = rd.getNextID("DataSource");
-            iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+            iQuery = new QueryBuilder(QueryType._Insert)
                 .AddField("DataSourceID", "s_DataSource",  FieldType._Number, "", nextid.ToString())
                 .AddField("sourceKey","s_DataSource",  FieldType._String, "", sourceKey)
                 .AddField("name", "s_DataSource",  FieldType._String, "", name)                
@@ -52,7 +52,7 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public bool Save(int DataSourceID,string Name) {
-            iQuery = new MYSQLQueryBuilder(QueryType._Update)
+            iQuery = new QueryBuilder(QueryType._Update)
               .AddField("DataSourceName", "s_DataSource", FieldType._String, "", Name.ToString())
               .AddWhere(0, "s_DataSource", "DataSourceID", FieldType._Number, Operator._Equal, DataSourceID.ToString(), Condition._None);
             if (rd.ExecuteQuery(iQuery).Result)
@@ -67,7 +67,7 @@ namespace TechSharpy.Entitifier.Data
 
         public bool Delete(int DataSourceID)
         {
-            iQuery = new MYSQLQueryBuilder(QueryType._Delete)
+            iQuery = new QueryBuilder(QueryType._Delete)
               .AddField("*", "s_DataSource", FieldType._String)
               .AddWhere(0, "s_DataSource", "DataSourceID", FieldType._Number, Operator._Equal, DataSourceID.ToString(), Condition._None);
             if (rd.ExecuteQuery(iQuery).Result)

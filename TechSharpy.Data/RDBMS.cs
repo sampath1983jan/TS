@@ -41,7 +41,7 @@ namespace TechSharpy.Data
         public int getNextID(string EntityID)
         {
             // DataAccess ds;
-            Query sQuery = new MYSQLQueryBuilder(QueryType._Select).AddField("keyvalue", "s_entitykeys")
+            Query sQuery = new QueryBuilder(QueryType._Select).AddField("keyvalue", "s_entitykeys")
                 .AddWhere(0, "s_entitykeys", "entityid", FieldType._String, Operator._Equal, EntityID.ToString(), Condition._None);
             System.Data.DataTable dt = new System.Data.DataTable();                       
             dt = da.GetData(sQuery);
@@ -50,7 +50,7 @@ namespace TechSharpy.Data
             {
                 Nextid = Convert.ToInt32(dt.Rows[0]["keyvalue"]);
                 Nextid = Nextid + 1;
-                Query iQuery = new MYSQLQueryBuilder(QueryType._Update
+                Query iQuery = new QueryBuilder(QueryType._Update
                      ).AddTable("s_entitykeys")
                      .AddField("keyvalue", "s_entitykeys", FieldType._Number, "", Nextid.ToString())
                      .AddWhere(0, "s_entitykeys", "EntityID", FieldType._String, Operator._Equal, EntityID.ToString());
@@ -59,7 +59,7 @@ namespace TechSharpy.Data
             else
             {
                 Nextid = Nextid + 1;
-                Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
+                Query iQuery = new QueryBuilder(QueryType._Insert
                    ).AddTable("s_entitykeys")
                    .AddField("keyvalue", "s_entitykeys", FieldType._Number, "", Nextid.ToString())
                     .AddField("EntityID", "s_entitykeys", FieldType._String, "", EntityID.ToString())
@@ -70,38 +70,54 @@ namespace TechSharpy.Data
 
         }
 
+        
         public DataBase ExecuteQuery(Query qBuilder)
         {
-            if (!qBuilder.ValidateSchema()) {
-                throw new Exception("Query validation failed");
-            }
-            if (qBuilder.Type == QueryType._Delete || qBuilder.Type == QueryType._Insert || qBuilder.Type == QueryType._Update)
-            {
-                if (da.ExecuteQuery(qBuilder) > 0)
+            if (this.Type == DataSourceType.MYSQL) {
+                MYSQLQueryBuilder ms = (MYSQLQueryBuilder)qBuilder;
+                if (!ms.ValidateSchema())
                 {
-                    Result = true;
+                    throw new Exception("Query validation failed");
+                }
+                if (ms.Type == QueryType._Delete || ms.Type == QueryType._Insert || ms.Type == QueryType._Update)
+                {
+                    if (da.ExecuteQuery(ms) > 0)
+                    {
+                        Result = true;
+                    }
+                    else
+                    {
+                        Result = false;
+                    };
                 }
                 else
                 {
-                    Result = false;
-                };
-            }
-            else {
-                GetResult = da.GetData(qBuilder);
-            }
+                    GetResult = da.GetData(ms);
+                }
+            }           
+            
             return this;
         }
-        public DataBase ExecuteTQuery(MYSQLTQueryBuilder tQuery) {
+        public DataBase ExecuteTQuery(TQuery tQuery) {
             //  tQuery.AddField
-            if (tQuery.ValidateSchema()) {
-                if (da.ExecuteTQuery(tQuery))
+            if (this.Type == DataSourceType.MYSQL)
+            {
+                MYSQLTQueryBuilder ms = (MYSQLTQueryBuilder) tQuery;
+
+                if (tQuery.ValidateSchema())
                 {
-                    Result= true;
+                    if (da.ExecuteTQuery(ms))
+                    {
+                        Result = true;
+                    }
+                    else
+                    {
+                        Result = false;
+                    }
                 }
-                else {
-                    Result= false;
-                }
+
             }
+               
             return this;
         }
     }

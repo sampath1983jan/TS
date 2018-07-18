@@ -42,5 +42,4 @@ namespace TechSharpy.Data.ABS
 
     }
 
-
 }

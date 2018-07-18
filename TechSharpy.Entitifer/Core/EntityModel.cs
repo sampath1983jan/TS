@@ -100,6 +100,7 @@ namespace TechSharpy.Entitifier.Core
             NodeKey = nodeKey;
             ModeID = modelID;
             Nodejoints = new List<NodeJoint>();
+            dataEntityModel = new Data.EntityModel();
         }
         public void addJoint(string leftJoin, string rightJoin) {
             Nodejoints.Add(new NodeJoint(leftJoin, rightJoin));

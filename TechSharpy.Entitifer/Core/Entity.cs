@@ -103,7 +103,7 @@ namespace TechSharpy.Entitifier.Core
         /// <returns></returns>
         internal protected Services.ErrorHandling.ErrorInfoCollection Save()
         {
-            MYSQLTQueryBuilder tq;
+            TQueryBuilder tq;
             if (this.EntityKey > 0)
             {
                 if (dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString(), this.EntityType))
@@ -121,7 +121,7 @@ namespace TechSharpy.Entitifier.Core
                 if (!dataEntity.CheckEntityExist(this.TableName))
                 {
                     this.EntityKey = dataEntity.Save(-1, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString(), this.EntityType);
-                    tq = new MYSQLTQueryBuilder(TQueryType._Create);
+                    tq = new TQueryBuilder(TQueryType._Create);
                     if (this.EntityKey > 0)
                     {
                         tq.TableName(this.TableName.Replace(" ", ""));
@@ -151,13 +151,13 @@ namespace TechSharpy.Entitifier.Core
            bool pIsCore, bool pIsEditable, bool pEnableEncription, bool pAcceptNull, string pDisplayName, string value, bool isReadonly,
            string defaultValue, int displayorder, int pmaxLength, string displayName, bool autoIncrement, int incrementfrom, int incrementby)
         {
-            MYSQLTQueryBuilder tq;
+            TQueryBuilder tq;
             EntityField fd = new EntityField(pFieldName, pEntityFieldID, pFieldType, pIsKeyField, pIsRequired, pIsUnique, LookUpID, pIsCore, pEntityID, value, isReadonly,
                 defaultValue, displayorder, new List<string>(), pMin, pMax, pmaxLength, displayName, autoIncrement, incrementfrom, incrementby,
                 Description, pEnableEncription, pEnableContentLimit);
 
             fd.InstanceID = pEntityFieldID;
-            tq = new MYSQLTQueryBuilder(TQueryType._AlterTable);
+            tq = new TQueryBuilder(TQueryType._AlterTable);
             tq.TableName(this.TableName.Replace(" ", ""));
             if (fd.Save())
             {
@@ -178,7 +178,7 @@ namespace TechSharpy.Entitifier.Core
         /// remove Entity 
         /// </summary>
         /// <returns></returns>
-        public bool Remove()
+        internal protected bool Remove()
         {
             if (dataEntity.Delete(-1, this.EntityKey))
             {
@@ -187,7 +187,7 @@ namespace TechSharpy.Entitifier.Core
             return false;
         }
 
-        public bool RemoveField(int EntityFieldID)
+        internal protected bool RemoveField(int EntityFieldID)
         {
             return dataEntity.DeleteEntityField(-1, this.EntityKey, EntityFieldID);
         }
@@ -195,12 +195,12 @@ namespace TechSharpy.Entitifier.Core
         /// hide entityschema
         /// </summary>
         /// <returns></returns>
-        public bool Hide()
+        internal protected bool Hide()
         {
             return true;
         }
 
-        public bool addTrigger(Trigger trigger) {
+        internal protected bool addTrigger(Trigger trigger) {
             if (trigger.Save())
             {
                 return true;
@@ -269,7 +269,7 @@ namespace TechSharpy.Entitifier.Core
                 IsCore = g.IsNull("isCoreField") ? false : g.Field<object>("isCoreField").ToString() == "1" ? true : false,
                 IsReadOnly = g.IsNull("IsReadOnly") ? false : g.Field<object>("IsReadOnly").ToString() == "1" ? true : false,
                 EnableEncription = g.IsNull("EnableEncription") ? false : g.Field<object>("EnableEncription").ToString() == "1" ? true : false,
-                enableLimit = g.IsNull("EnableContentlimit") ? false : g.Field<object>("EnableContentlimit").ToString() == "1" ? true : false,
+                enableContentLimit = g.IsNull("EnableContentlimit") ? false : g.Field<object>("EnableContentlimit").ToString() == "1" ? true : false,
                 //  FileExtension = g.IsNull("FileExtension") ? "" : g.Field<string>("FileExtension"),
                 LookUpArray = g.IsNull("LookUpArray") ? new List<string>() : g.Field<string>("LookUpArray").Split(',').ToList(),
                 DisplayOrder = g.IsNull("DisplayOrder") ? 0 : g.Field<int>("DisplayOrder"),

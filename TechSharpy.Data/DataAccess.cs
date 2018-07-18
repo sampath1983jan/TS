@@ -13,7 +13,7 @@ namespace TechSharpy.Data
     {       
         public abstract System.Data.DataTable GetData(Query DataQuery);
         public abstract int ExecuteQuery(Query DataQuery);
-        public abstract bool ExecuteTQuery(MYSQLTQueryBuilder tQuery);           
+        public abstract bool ExecuteTQuery(TQuery tQuery);           
     }
 }
 

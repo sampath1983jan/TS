@@ -24,7 +24,7 @@ namespace TechSharpy.Entitifier.Data
 
         public DataTable GetProcedure(int procedureID) {
             dtResult = new DataTable();
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Select)
+            Query iQuery = new QueryBuilder(QueryType._Select)
                 .AddField("ProcedureID", "s_entity_procedure")
                 .AddField("Name", "s_entity_procedure")
                 .AddField("Steps", "s_entity_procedure")
@@ -36,7 +36,7 @@ namespace TechSharpy.Entitifier.Data
         public int Save(string Name, string steps,string datasourcekey)
         {
             int NextID = rd.getNextID("procedure");
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
+            Query iQuery = new QueryBuilder(QueryType._Insert
                 ).AddTable("s_entity_procedure")
                 .AddField("ProcedureID", "s_entity_procedure", FieldType._Number, "", NextID.ToString())
                 .AddField("Name", "s_entity_procedure", FieldType._String, "", Name.ToString())
@@ -55,7 +55,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Delete(int procedureID,string datasourcekey)
         {
 
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Delete
+            Query iQuery = new QueryBuilder(QueryType._Delete
                 ).AddTable("s_entity_procedure")
                .AddField("*", "s_entity_procedure", FieldType._String)
                 .AddWhere(0, "s_entity_procedure", "datasourcekey", FieldType._String, Operator._Equal, datasourcekey.ToString(), Condition._And)
@@ -74,7 +74,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Save(int procedureID, string Name,  string steps,string datasourcekey)
         {
 
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
+            Query iQuery = new QueryBuilder(QueryType._Update
                 ).AddTable("s_entity_procedure")
                .AddField("Name", "s_entity_procedure", FieldType._String, "", Name.ToString())                
                 .AddField("Steps", "s_entity_procedure", FieldType._String, "", steps.ToString())

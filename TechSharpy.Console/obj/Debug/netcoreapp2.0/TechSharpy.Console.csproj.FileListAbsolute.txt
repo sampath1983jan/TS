@@ -19,3 +19,7 @@ C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfo.cs
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.pdb
+D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Services.dll
+D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Services.pdb
+D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csproj.CopyComplete

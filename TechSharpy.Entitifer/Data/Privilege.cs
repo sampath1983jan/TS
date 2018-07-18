@@ -28,7 +28,7 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public bool SaveDataSourcePrivilege(int Userkey,string datasourcekey, bool View, bool Add, bool Delete,bool change) {
-            iQuery = new MYSQLQueryBuilder(QueryType._Select)
+            iQuery = new QueryBuilder(QueryType._Select)
                 .AddField("Userkey", "s_DSPrivilege")
                 .AddField("datasourcekey", "s_DSprivilege")
                 .AddField("view", "s_DSprivilege")
@@ -40,7 +40,7 @@ namespace TechSharpy.Entitifier.Data
 
             if (dtResult.Rows.Count > 0)
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Update)
+                iQuery = new QueryBuilder(QueryType._Update)
                 .AddField("view", "s_DSprivilege", FieldType._Question, "", View.ToString())
                 .AddField("add", "s_DSprivilege", FieldType._Question, "", Add.ToString())
                 .AddField("remove", "s_DSprivilege", FieldType._Question, "", Delete.ToString())
@@ -54,7 +54,7 @@ namespace TechSharpy.Entitifier.Data
                 else return false;
             }
             else {
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+                iQuery = new QueryBuilder(QueryType._Insert)
                .AddField("Userkey", "s_DSPrivilege", FieldType._String, "", Userkey.ToString())
                .AddField("datasourcekey", "s_DSprivilege", FieldType._String, "", datasourcekey)
               .AddField("view", "s_DSprivilege", FieldType._Question, "", View.ToString())
@@ -72,7 +72,7 @@ namespace TechSharpy.Entitifier.Data
         public bool SaveProcedurePrivilege(int Userkey,string datasourcekey, 
              bool View, bool Add, bool Delete,bool change)
         {
-            iQuery = new MYSQLQueryBuilder(QueryType._Select)
+            iQuery = new QueryBuilder(QueryType._Select)
                 .AddField("Userkey", "s_ProcedurePrivilege")
                 .AddField("datasourcekey", "s_ProcedurePrivilege")
                 .AddField("view", "s_ProcedurePrivilege")
@@ -85,7 +85,7 @@ namespace TechSharpy.Entitifier.Data
 
             if (dtResult.Rows.Count > 0)
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Update)
+                iQuery = new QueryBuilder(QueryType._Update)
                 .AddField("view", "s_ProcedurePrivilege", FieldType._Question, "", View.ToString())
                 .AddField("add", "s_ProcedurePrivilege", FieldType._Question, "", Add.ToString())
                 .AddField("remove", "s_ProcedurePrivilege", FieldType._Question, "", Delete.ToString())
@@ -101,7 +101,7 @@ namespace TechSharpy.Entitifier.Data
             }
             else
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+                iQuery = new QueryBuilder(QueryType._Insert)
                .AddField("Userkey", "s_ProcedurePrivilege", FieldType._String, "", Userkey.ToString())
               // .AddField("ProcedureID", "s_ProcedurePrivilege", FieldType._String, "", procedureID.ToString())
                .AddField("datasourcekey", "s_ProcedurePrivilege", FieldType._String, "", datasourcekey.ToString())
@@ -122,7 +122,7 @@ namespace TechSharpy.Entitifier.Data
         public bool SaveFunctionPrivilege(int Userkey, string datasourcekey, 
             bool View, bool Add, bool Delete,bool change)
         {
-            iQuery = new MYSQLQueryBuilder(QueryType._Select)
+            iQuery = new QueryBuilder(QueryType._Select)
                 .AddField("Userkey", "s_FunctionPrivilege")
                 .AddField("datasourcekey", "s_FunctionPrivilege")
                 .AddField("view", "s_FunctionPrivilege")
@@ -135,7 +135,7 @@ namespace TechSharpy.Entitifier.Data
 
             if (dtResult.Rows.Count > 0)
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Update)
+                iQuery = new QueryBuilder(QueryType._Update)
                 .AddField("view", "s_FunctionPrivilege", FieldType._Question, "", View.ToString())
                 .AddField("add", "s_FunctionPrivilege", FieldType._Question, "", Add.ToString())
                 .AddField("remove", "s_FunctionPrivilege", FieldType._Question, "", Delete.ToString())
@@ -151,7 +151,7 @@ namespace TechSharpy.Entitifier.Data
             }
             else
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+                iQuery = new QueryBuilder(QueryType._Insert)
                .AddField("Userkey", "s_FunctionPrivilege", FieldType._String, "", Userkey.ToString())
             //   .AddField("FunctionID", "s_FunctionPrivilege", FieldType._String, "", FunctionID.ToString())
                .AddField("datasourcekey", "s_FunctionPrivilege", FieldType._String, "", datasourcekey.ToString())
@@ -171,7 +171,7 @@ namespace TechSharpy.Entitifier.Data
 
         public bool SaveEntityPrivilege(int Userkey, string datasourcekey,  bool View, bool Add, bool Delete,bool change)
         {
-            iQuery = new MYSQLQueryBuilder(QueryType._Select)
+            iQuery = new QueryBuilder(QueryType._Select)
                 .AddField("Userkey", "s_entityPrivilege")
                 .AddField("datasourcekey", "s_entityPrivilege")
                 .AddField("view", "s_entityPrivilege")
@@ -184,7 +184,7 @@ namespace TechSharpy.Entitifier.Data
 
             if (dtResult.Rows.Count > 0)
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Update)
+                iQuery = new QueryBuilder(QueryType._Update)
                 .AddField("view", "s_entityPrivilege", FieldType._Question, "", View.ToString())
                 .AddField("add", "s_entityPrivilege", FieldType._Question, "", Add.ToString())
                 .AddField("remove", "s_entityPrivilege", FieldType._Question, "", Delete.ToString())
@@ -200,7 +200,7 @@ namespace TechSharpy.Entitifier.Data
             }
             else
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+                iQuery = new QueryBuilder(QueryType._Insert)
                .AddField("Userkey", "s_entityPrivilege", FieldType._String, "", Userkey.ToString())
               // .AddField("EntityID", "s_entityPrivilege", FieldType._String, "", EntityID.ToString())
                .AddField("datasourcekey", "s_entityPrivilege", FieldType._String, "", datasourcekey.ToString())
@@ -221,7 +221,7 @@ namespace TechSharpy.Entitifier.Data
         public bool SaveJobPrivilege(int Userkey, string datasourcekey,
             bool View, bool Add, bool Delete,bool change)
         {
-            iQuery = new MYSQLQueryBuilder(QueryType._Select)
+            iQuery = new QueryBuilder(QueryType._Select)
                 .AddField("Userkey", "s_jobprivilege")
                 .AddField("datasourcekey", "s_jobprivilege")
                 .AddField("view", "s_jobprivilege")
@@ -234,7 +234,7 @@ namespace TechSharpy.Entitifier.Data
 
             if (dtResult.Rows.Count > 0)
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Update)
+                iQuery = new QueryBuilder(QueryType._Update)
                 .AddField("view", "s_jobprivilege", FieldType._Question, "", View.ToString())
                 .AddField("add", "s_jobprivilege", FieldType._Question, "", Add.ToString())
                 .AddField("remove", "s_jobprivilege", FieldType._Question, "", Delete.ToString())
@@ -250,7 +250,7 @@ namespace TechSharpy.Entitifier.Data
             }
             else
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+                iQuery = new QueryBuilder(QueryType._Insert)
                .AddField("Userkey", "s_jobprivilege", FieldType._String, "", Userkey.ToString())
             //   .AddField("JobID", "s_jobprivilege", FieldType._String, "", JobID.ToString())
                .AddField("datasourcekey", "s_jobprivilege", FieldType._String, "", datasourcekey.ToString())
@@ -271,7 +271,7 @@ namespace TechSharpy.Entitifier.Data
         public bool SaveModelPrivilege(int Userkey, string datasourcekey, 
          bool View, bool Add, bool Delete, bool change)
         {
-            iQuery = new MYSQLQueryBuilder(QueryType._Select)
+            iQuery = new QueryBuilder(QueryType._Select)
                 .AddField("Userkey", "s_modelprivilege")
                 .AddField("datasourcekey", "s_modelprivilege")
                 .AddField("view", "s_modelprivilege")
@@ -284,7 +284,7 @@ namespace TechSharpy.Entitifier.Data
 
             if (dtResult.Rows.Count > 0)
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Update)
+                iQuery = new QueryBuilder(QueryType._Update)
                 .AddField("view", "s_modelprivilege", FieldType._Question, "", View.ToString())
                 .AddField("add", "s_modelprivilege", FieldType._Question, "", Add.ToString())
                 .AddField("remove", "s_modelprivilege", FieldType._Question, "", Delete.ToString())
@@ -300,7 +300,7 @@ namespace TechSharpy.Entitifier.Data
             }
             else
             {
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+                iQuery = new QueryBuilder(QueryType._Insert)
                .AddField("Userkey", "s_modelprivilege", FieldType._String, "", Userkey.ToString())
                //.AddField("modelID", "s_modelprivilege", FieldType._String, "", modelID.ToString())
                .AddField("datasourcekey", "s_modelprivilege", FieldType._String, "", datasourcekey.ToString())

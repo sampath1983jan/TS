@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
+using System.Linq;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TechSharpy.Entitifier.Core
 {
-    public class EntityField
-    {
+    public abstract class FieldAttribute {
         public string Name;
         public Int32 InstanceID;
         public EntityFieldType FieldType;
@@ -21,16 +24,26 @@ namespace TechSharpy.Entitifier.Core
         public string DefaultValue;
         public int DisplayOrder;
         public List<string> LookUpArray;
-        public bool enableLimit;
+        public bool enableContentLimit;
         public string Min;
         public string Max;
         public int MaxLength;
-        public string DisplayName; 
+        public string DisplayName;
         public bool AutoIncrement;
         public Int64 Incrementfrom;
         public Int64 Incrementby;
         public bool IsShow;
         public string Description;
+
+        public abstract bool Save();
+        public abstract bool Remove();
+        public abstract bool Hide();
+        public abstract void Load();
+    }
+    public class EntityField: FieldAttribute
+    {    
+        
+                
         private Data.EntitySchema dataEntity;
         public EntityField() {
             InstanceID = -1;
@@ -56,7 +69,7 @@ namespace TechSharpy.Entitifier.Core
             Incrementfrom = 0;
             Incrementby = 0;
             Description = "";
-            enableLimit = false;
+            enableContentLimit = false;
             EnableEncription = false;
             dataEntity = new Data.EntitySchema();
         }
@@ -88,7 +101,7 @@ namespace TechSharpy.Entitifier.Core
             Incrementby = incrementby;
             IsShow = true;
             Description = description;
-            enableLimit = enablelimit;
+            enableContentLimit = enablelimit;
             EnableEncription = enableencription;
             dataEntity = new Data.EntitySchema();
         }
@@ -119,39 +132,119 @@ namespace TechSharpy.Entitifier.Core
             Incrementby = 0;
             EnableEncription = false;
             Description = "";
-            enableLimit = false;
+            enableContentLimit = false;
             dataEntity = new Data.EntitySchema();
         }
-
-        public bool Save() {
-             
+                
+        public override bool Save()
+        {
             if (this.InstanceID > 0)
             {
                 return (dataEntity.SaveField(this.Name, this.InstanceID, this.FieldType, this.IsKey, this.IsRequired, this.IsUnique, this.LookUpID, this.IsCore, this.EntityKey, this.Value, this.IsReadOnly
                 , this.DefaultValue, this.DisplayOrder, new List<string>(), this.Min, this.Max, this.MaxLength, this.DisplayName, this.AutoIncrement, this.Incrementfrom,
-                this.Incrementby, this.Description, this.EnableEncription, this.enableLimit));                                        
-
+                this.Incrementby, this.Description, this.EnableEncription, this.enableContentLimit));
             }
-            else {
+            else
+            {
                 int next = 0;
-                next =  dataEntity.SaveField(this.Name, this.FieldType, this.IsKey, this.IsRequired, this.IsUnique, this.LookUpID, this.IsCore, this.EntityKey, this.Value, this.IsReadOnly
+                next = dataEntity.SaveField(this.Name, this.FieldType, this.IsKey, this.IsRequired, this.IsUnique, this.LookUpID, this.IsCore, this.EntityKey, this.Value, this.IsReadOnly
                 , this.DefaultValue, this.DisplayOrder, new List<string>(), this.Min, this.Max, this.MaxLength, this.DisplayName, this.AutoIncrement, this.Incrementfrom,
-                this.Incrementby, this.Description, this.EnableEncription, this.enableLimit);
+                this.Incrementby, this.Description, this.EnableEncription, this.enableContentLimit);
                 this.InstanceID = next;
-                if (next > 0) {
+                if (next > 0)
+                {
                     return true;
-                }               
-            }            
+                }
+            }
             return false;
         }
 
-        public bool Remove() {
+        public override bool Remove()
+        {
+            if (dataEntity.DeleteEntityField(-1, this.EntityKey, this.InstanceID))
+            {
+                return true;
+            }
+            else return false;            
+        }
+
+        public override bool Hide()
+        {
             return true;
         }
 
-        public bool Hide() {
-            return true;
+        public override void Load()
+        {
+            DataTable dt = new DataTable();
+            dt= dataEntity.GetEntityField(-1, this.EntityKey, this.InstanceID);
+
+            var cat = dt.AsEnumerable().Select(g => new EntityField
+            {
+                EntityKey = g.IsNull("EntityID") ? 0 : g.Field<int>("EntityID"),
+                InstanceID = g.IsNull("FieldID") ? 0 : g.Field<int>("FieldID"),
+                DisplayName = g.IsNull("DisplayName") ? "" : g.Field<string>("DisplayName"),
+                Name = g.IsNull("FieldName") ? "" : g.Field<string>("FieldName"),
+                Description = g.IsNull("FieldDescription") ?"" : g.Field<string>("FieldDescription"),
+                FieldType = g.IsNull("FieldType") ? EntityFieldType._Text : g.Field<EntityFieldType>("FieldType"),
+                LookUpID = g.IsNull("LookUpId") ? 0 : g.Field<int>("LookUpId"),
+                IsRequired = g.IsNull("isRequired") ? false : g.Field<bool>("isRequired"),
+                IsUnique = g.IsNull("isUnique") ? false : g.Field<bool>("isUnique"),
+                IsKey = g.IsNull("isKeyField") ? false : g.Field<bool>("isKeyField"),
+                AutoIncrement = g.IsNull("autoIncrement") ? false : g.Field<bool>("autoIncrement"),
+                MaxLength = g.IsNull("Contentlimit") ? 0 : g.Field<int>("Contentlimit"),
+                Incrementfrom = g.IsNull("incrementfrom") ? 0 : g.Field<int>("incrementfrom"),
+                Incrementby = g.IsNull("incrementby") ? 0 : g.Field<int>("incrementby"),
+                Value = g.IsNull("value") ? "" : g.Field<string>("value"),
+                DefaultValue = g.IsNull("defaultValue") ? "" : g.Field<string>("defaultValue"),
+                DisplayOrder = g.IsNull("displayOrder") ? 0 : g.Field<int>("displayOrder"),
+                Min = g.IsNull("Minimum") ? "" : g.Field<string>("Minimum"),
+                Max = g.IsNull("Maximum") ? "" : g.Field<string>("Maximum"),
+                IsCore = g.IsNull("isCoreField") ? false : g.Field<bool>("isCoreField"),
+                IsReadOnly = g.IsNull("isReadOnly") ? false : g.Field<bool>("isReadOnly"),
+                EnableEncription = g.IsNull("EnableEncription") ? false : g.Field<bool>("EnableEncription"),
+                enableContentLimit = g.IsNull("EnableContentlimit") ? false : g.Field<bool>("EnableContentlimit"),
+            }).FirstOrDefault();
+
+            this.EntityKey = cat.EntityKey;
+            this.InstanceID = cat.InstanceID;
+            this.DisplayOrder = cat.DisplayOrder;
+            this.DisplayName = cat.DisplayName;
+            this.Name = cat.Name;
+            this.Description = cat.Description;
+            this.FieldType = cat.FieldType;
+            LookUpID = cat.LookUpID;            
+            IsRequired = cat.IsRequired;
+            IsUnique = cat.IsUnique;
+            this.IsCore = cat.IsCore;
+            this.IsReadOnly = cat.IsReadOnly;
+            this.EnableEncription = cat.EnableEncription;
+            this.enableContentLimit = cat.enableContentLimit;
+            this.IsKey = cat.IsKey;
+            this.AutoIncrement = cat.AutoIncrement;
+            this.MaxLength = cat.MaxLength;
+            this.Incrementfrom = cat.Incrementfrom;
+            this.Incrementby = cat.Incrementby;
+            this.Value = cat.Value;
+            this.DefaultValue = cat.DefaultValue;
+            this.Min = cat.Min;
+            this.Max = cat.Max;
+            
+
+
         }
 
+         
+
+        
     }
+
+
+    
+
+
+     
+
+
 }
+
+

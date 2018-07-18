@@ -5,87 +5,15 @@ using System.Text;
 using System.Configuration;
 using MySql.Data.MySqlClient;
 using TechSharpy.Data.QueryAttribute;
+using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Data
 {
-    public enum QueryType
-    {
-        _Select,
-        _Insert,
-        _Update,
-        _Delete
-    }
-    public enum FieldType
-    {
-        _Number,
-        _Decimal,
-        _Currency,
-        _Double,
-        _String,
-        _Lookup,
-        _Date,
-        _DateTime,
-        _Question,
-        _Text,
-        _Time,
-        _File,
-        _Image,
-        _Entity
-    }
-    public enum Operator
-    {
-        _Equal,
-        _NotEqual,
-        _In,
-        _NotIn,
-        _Between,
-        _Greater,
-        _Greaterthan,
-        _Less,
-        _Lessthan,
-        _Contain,
-        _StartWidth,
-        _EndWidth,
+    
 
-    }
-    public enum JoinType{
-        _InnerJoin,
-        _LeftJoin,
-        _RightJoin,
-        
-    }
-    public enum Condition { 
-        _None,
-        _And,
-        _Or
-    }
-    public enum SortType{
-        _Asc,
-        _Desc
-    }
-    public enum Aggregate { 
-        _None,
-        _Sum,
-        _Average,
-        _Min,
-        _Max,
-        _Count
-
-    }
-
-     public static class QueryResource{
-         public static string _delete_table_more_exist = "Delete function cannot perform due to more then one table exist in the query.";
-      }
-
-     
-   public class MYSQLQueryBuilder :ABS.Query
-    {     
-       
-        //public List<Field> QueryFields;
-        //public List<Table> Tables;
-        //public List<Join> Joins;
-        //public List<WhereGroup> WhereGroups;
-        //public List<SortOrder> Ordersby;
+    public class MYSQLQueryBuilder :ABS.Query
+    {   
+      
         private const string Select = "Select {0} from {1} {2}";
         private const string Delete = "Delete from {0}";
         private const string Update = "update {0} set {1} {2}";
@@ -385,8 +313,8 @@ namespace TechSharpy.Data
         }              
     }
 
-   
- 
+
+    
      
 
 

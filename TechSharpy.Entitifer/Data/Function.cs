@@ -27,7 +27,7 @@ namespace TechSharpy.Entitifier.Data
         public int Save(string Name,  string inputParam,string outputParam, string steps)
         {
             int NextID = rd.getNextID("Function");
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
+            Query iQuery = new QueryBuilder(QueryType._Insert
                 ).AddTable("s_entity_function")
                 .AddField("FunctionID", "s_entity_function", FieldType._Number, "", NextID.ToString())
                 .AddField("Name", "s_entity_function", FieldType._String, "", Name.ToString())
@@ -48,7 +48,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Save(int functionID, string Name, string inputParam, string outputParam, string steps)
         {
 
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Update
+            Query iQuery = new QueryBuilder(QueryType._Update
                 ).AddTable("s_entity_function")
                .AddField("Name", "s_entity_function", FieldType._String, "", Name.ToString())
                 .AddField("Inputparam", "s_entity_function", FieldType._String, "", inputParam.ToString())
@@ -70,7 +70,7 @@ namespace TechSharpy.Entitifier.Data
 
         public Boolean Delete(int functionID)
         {
-            Query DeleteQ = new MYSQLQueryBuilder(QueryType._Delete).AddTable("s_entity_function").
+            Query DeleteQ = new QueryBuilder(QueryType._Delete).AddTable("s_entity_function").
                AddWhere(0, "s_entity_function", "functionID", FieldType._Number, Operator._Equal, functionID.ToString());
             
             if ((rd.ExecuteQuery(DeleteQ).Result))
@@ -84,7 +84,7 @@ namespace TechSharpy.Entitifier.Data
         }
 
         public DataTable getFunction() {
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Select
+            Query iQuery = new QueryBuilder(QueryType._Select
                 ).AddTable("s_entity_function")
                 .AddField("FunctionID", "s_entity_function", FieldType._String, "", "")
                .AddField("Name", "s_entity_function", FieldType._String, "", "")

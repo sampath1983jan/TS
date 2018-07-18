@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v2.0": {
       "TechSharpy.Console/1.0.0": {
+        "dependencies": {
+          "TechSharpy.Services": "1.0.0"
+        },
         "runtime": {
           "TechSharpy.Console.dll": {}
+        }
+      },
+      "TechSharpy.Services/1.0.0": {
+        "runtime": {
+          "TechSharpy.Services.dll": {}
         }
       }
     }
   },
   "libraries": {
     "TechSharpy.Console/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TechSharpy.Services/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

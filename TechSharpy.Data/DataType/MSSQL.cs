@@ -14,7 +14,7 @@ namespace TechSharpy.Data.DataType
             throw new NotImplementedException();
         }
 
-        public override bool ExecuteTQuery(MYSQLTQueryBuilder tQuery)
+        public override bool ExecuteTQuery(TQuery tQuery)
         {
             throw new NotImplementedException();
         }

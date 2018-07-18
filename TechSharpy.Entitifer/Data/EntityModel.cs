@@ -31,7 +31,7 @@ namespace TechSharpy.Entitifier.Data
             try
             {
                 int NextID = rd.getNextID("EntityModel");
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert)
+                iQuery = new QueryBuilder(QueryType._Insert)
                     .AddField("ModelID", "EntityModel", FieldType._Number, "", NextID.ToString())
                     .AddField("ModelName", "EntityModel", FieldType._String, "", ModelName)
                 .AddField("Sourcekey", "EntityModel", FieldType._String, "", Sourcekey)
@@ -51,7 +51,7 @@ namespace TechSharpy.Entitifier.Data
         }
         public bool Save(int modelID,string modelName)
         {
-            iQuery = new MYSQLQueryBuilder(QueryType._Update).AddTable("EntityModelMode").
+            iQuery = new QueryBuilder(QueryType._Update).AddTable("EntityModelMode").
                 AddField("modelName", "EntityModelMode", FieldType._String, "", modelName)
                             .AddWhere(0, "EntityModelMode", "ModelID", 
                             FieldType._Number, Operator._Equal, modelID.ToString(), Condition._None);
@@ -70,7 +70,7 @@ namespace TechSharpy.Entitifier.Data
         public bool SaveNode(int modelID,int Entitykey, int left, int right, int Nodekey) {
             try
             {                
-                iQuery = new MYSQLQueryBuilder(QueryType._Insert).AddField("ModelID", "EntityModelMode", FieldType._Number, "", modelID.ToString())
+                iQuery = new QueryBuilder(QueryType._Insert).AddField("ModelID", "EntityModelMode", FieldType._Number, "", modelID.ToString())
                 .AddField("Entitykey", "EntityModelMode", FieldType._Number, "", Entitykey.ToString())
                   .AddField("left", "EntityModelMode", FieldType._Number, "", left.ToString())
                 .AddField("right", "EntityModelMode", FieldType._Number, "", right.ToString())
@@ -92,7 +92,7 @@ namespace TechSharpy.Entitifier.Data
 
         public bool RemoveNode(int modelID, int Entitykey, int Nodekey) {
 
-            iQuery = new MYSQLQueryBuilder(QueryType._Delete).AddTable("EntityModelMode")
+            iQuery = new QueryBuilder(QueryType._Delete).AddTable("EntityModelMode")
                 .AddWhere(0, "EntityModelMode", "ModelID", FieldType._Number, Operator._Equal, modelID.ToString(),Condition._And).
                AddWhere(0, "EntityModelMode", "Entitykey", FieldType._Number, Operator._Equal, Entitykey.ToString(), Condition._And)
                .AddWhere(0, "EntityModelMode", "Nodekey", FieldType._Number, Operator._Equal, Nodekey.ToString());
@@ -108,7 +108,7 @@ namespace TechSharpy.Entitifier.Data
         }
         
         public bool RemoveModel(int modelID) {
-            iQuery = new MYSQLQueryBuilder(QueryType._Delete).AddTable("EntityModelMode")
+            iQuery = new QueryBuilder(QueryType._Delete).AddTable("EntityModelMode")
                             .AddWhere(0, "EntityModelMode", "ModelID", FieldType._Number, Operator._Equal, modelID.ToString(), Condition._None);                                               
             if (rd.ExecuteQuery(iQuery).Result)
             {

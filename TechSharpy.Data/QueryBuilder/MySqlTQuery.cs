@@ -7,7 +7,7 @@ using TechSharpy.Data.QueryAttribute;
 namespace TechSharpy.Data
 {
     public enum TQueryType { 
-    _Create,
+         _Create,
         _AlterTable,
         _AlterTableColumnDataType,
         _RemoveTableColumn,
@@ -98,4 +98,24 @@ namespace TechSharpy.Data
           //  throw new NotImplementedException();
         }
     }
+
+    public class TQueryBuilder : ABS.TQuery
+    {
+        public TQueryBuilder(TQueryType pType) : base(pType)
+        {
+
+        }
+        public override string toString()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ValidateSchema()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+
 }

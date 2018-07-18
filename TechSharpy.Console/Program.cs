@@ -28,7 +28,7 @@ namespace TechSharpy.ConsoleApp
 
             string roman = "MCMXXVIII";
             Context context = new Context(roman);
-
+            context.CopyTo();
             // Build the 'parse tree'
 
             List<Expression> tree = new List<Expression>();
@@ -61,7 +61,7 @@ namespace TechSharpy.ConsoleApp
     /// The 'Context' class
 
     /// </summary>
-
+    [Serializable]
     class Context
 
     {
@@ -73,6 +73,14 @@ namespace TechSharpy.ConsoleApp
         public Context(string input)
         {
             this._input = input;
+           
+        }
+
+        public void CopyTo() {
+            Context c = new Context("My copy function added");
+            
+           // c.CopyTo<Context>(this);
+
         }
 
         // Gets or sets input

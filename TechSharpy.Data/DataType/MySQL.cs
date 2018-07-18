@@ -17,7 +17,7 @@ namespace TechSharpy.Data.DataType
         public MySQL() {
               cmd = new MySqlCommand();
         }
-        public override bool ExecuteTQuery(MYSQLTQueryBuilder tQuery)
+        public override bool ExecuteTQuery(TQuery tQuery)
         {
             cmd = Connection.GetConnection().CreateCommand();
             try

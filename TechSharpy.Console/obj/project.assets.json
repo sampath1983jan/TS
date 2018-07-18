@@ -196,6 +196,15 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "TechSharpy.Services/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/TechSharpy.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TechSharpy.Services.dll": {}
+        }
       }
     }
   },
@@ -656,11 +665,17 @@
         "netstandard.library.2.0.0.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "TechSharpy.Services/1.0.0": {
+      "type": "project",
+      "path": "../TechSharpy.Services/TechSharpy.Services.csproj",
+      "msbuildProject": "../TechSharpy.Services/TechSharpy.Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "Microsoft.NETCore.App >= 2.0.0"
+      "Microsoft.NETCore.App >= 2.0.0",
+      "TechSharpy.Services >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -692,7 +707,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\TS\\TS Work location\\TS\\TechSharpy.Services\\TechSharpy.Services.csproj": {
+              "projectPath": "D:\\TS\\TS Work location\\TS\\TechSharpy.Services\\TechSharpy.Services.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

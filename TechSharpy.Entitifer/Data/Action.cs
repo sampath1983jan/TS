@@ -30,7 +30,7 @@ namespace TechSharpy.Entitifier.Data
         {
 
             int NextID = rd.getNextID("Action");
-            Query iQuery = new MYSQLQueryBuilder(QueryType._Insert
+            Query iQuery = new QueryBuilder(QueryType._Insert
                 ).AddTable("s_entity_action")
                 .AddField("ActionID", "s_entity_action", FieldType._Number, "", NextID.ToString())
                 .AddField("ActionName", "s_entity_action", FieldType._String, "", pActionName.ToString())
