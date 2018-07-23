@@ -6,25 +6,20 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
+
  
 
     public static class ObjectExtension
     {
 
-        public static Object CopyTo<T>(this object objSource)
+    public static Object CopyTo<T>(this object objSource)
 
-        {
-            using (MemoryStream stream = new MemoryStream())
+    {
 
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(stream, objSource);
-                stream.Position = 0;
-                return (T)formatter.Deserialize(stream);                
-            }
-
-        }
-
+        var serializedParent = Newtonsoft.Json.JsonConvert.SerializeObject(objSource);
+        object ms = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(serializedParent);
+        return ms;
+    }
     }
 
  

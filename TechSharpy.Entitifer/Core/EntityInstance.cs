@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TechSharpy.Entitifier.Core
 {
+    [Serializable]
     public abstract class FieldAttribute {
         public string Name;
         public Int32 InstanceID;
@@ -35,11 +36,12 @@ namespace TechSharpy.Entitifier.Core
         public bool IsShow;
         public string Description;
 
-        public abstract bool Save();
-        public abstract bool Remove();
-        public abstract bool Hide();
-        public abstract void Load();
+        protected  abstract bool Save();
+        protected  abstract bool Remove();
+        protected  abstract bool Hide();
+        protected  abstract void Load();
     }
+    [Serializable]
     public class EntityField: FieldAttribute
     {    
         
@@ -135,8 +137,10 @@ namespace TechSharpy.Entitifier.Core
             enableContentLimit = false;
             dataEntity = new Data.EntitySchema();
         }
-                
-        public override bool Save()
+        internal bool SaveField() {
+            return Save();
+        }
+        protected  override bool Save()
         {
             if (this.InstanceID > 0)
             {
@@ -159,7 +163,7 @@ namespace TechSharpy.Entitifier.Core
             return false;
         }
 
-        public override bool Remove()
+        protected  override bool Remove()
         {
             if (dataEntity.DeleteEntityField(-1, this.EntityKey, this.InstanceID))
             {
@@ -168,12 +172,12 @@ namespace TechSharpy.Entitifier.Core
             else return false;            
         }
 
-        public override bool Hide()
+        protected  override bool Hide()
         {
             return true;
         }
 
-        public override void Load()
+        protected  override void Load()
         {
             DataTable dt = new DataTable();
             dt= dataEntity.GetEntityField(-1, this.EntityKey, this.InstanceID);

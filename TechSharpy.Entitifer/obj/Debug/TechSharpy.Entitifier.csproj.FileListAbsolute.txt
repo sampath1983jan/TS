@@ -1,17 +1,3 @@
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csprojAssemblyReference.cache
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CoreCompileInputs.cache
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\MySql.Data.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\SMRHRT.Services.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\SMRHRT.Exception.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.pdb
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CopyComplete
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.xml
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Entitifier.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Entitifier.pdb
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.dll
-D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csprojAssemblyReference.cache
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CoreCompileInputs.cache
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.dll
@@ -28,5 +14,29 @@ C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\bin\Debug\TS.HRIS.Data
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.xml
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CopyComplete
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Entitifier.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Entitifier.pdb
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.dll
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Data.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\MySql.Data.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\SMRHRT.Services.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\SMRHRT.Exception.dll
 D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Data.pdb
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Services.pdb
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Newtonsoft.Json.xml
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.csproj.CopyComplete
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\obj\Debug\TechSharpy.Entitifier.pdb
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\System.Text.Encoding.CodePages.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\netstandard.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\System.Diagnostics.PerformanceCounter.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Entitifier.dll.config
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Google.Protobuf.dll
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\TechSharpy.Data.dll.config
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\MySql.Data.xml
+D:\TS\TS Work location\TS\TechSharpy.Entitifer\bin\Debug\Google.Protobuf.xml

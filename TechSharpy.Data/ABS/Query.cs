@@ -7,6 +7,7 @@ using TechSharpy.Data.QueryAttribute;
 
 namespace TechSharpy.Data.ABS
 {
+    [Serializable]
     public abstract class Query
     {
 
@@ -30,7 +31,7 @@ namespace TechSharpy.Data.ABS
         public Query AddField(string pFieldName, string TableName, FieldType pType, string AliasName = "", string Value = "", Operator pOperator = Operator._Equal, Aggregate Agg = Aggregate._None)
         {
             QueryFields.Add(new Field(pFieldName, TableName, AliasName, Value, pOperator, pType, Agg));
-            if (isTableExist(TableName))
+            if (!isTableExist(TableName))
                 this.Tables.Add(new Table(TableName));
             return this;
         }
@@ -56,6 +57,43 @@ namespace TechSharpy.Data.ABS
         public Query AddJoin(string pTableName, string pFieldName, JoinType pjoin, string pJoinTable, string pJoinField, Condition pCondition = Condition._None)
         {
             Joins.Add(new Join(pTableName, pFieldName, pjoin, pJoinTable, pJoinField, pCondition));
+            return this;
+        }
+
+
+        public Query AddWhere(int pGroupIndex, string pTableName, string pFieldName, FieldType pType, string value = "", Condition condition=Condition._None)
+        {
+            WhereGroup wg;
+
+            if (this.WhereGroups.Count > pGroupIndex)
+            {
+                wg = this.WhereGroups[pGroupIndex];
+                wg.whereCases.Add(new WhereCase(pGroupIndex, pTableName, pFieldName, pType, Operator._Equal, value, condition));
+            }
+            else
+            {
+                wg = new WhereGroup();
+                wg.whereCases.Add(new WhereCase(pGroupIndex, pTableName, pFieldName, pType, Operator._Equal, value, condition));
+                this.WhereGroups.Add(wg);
+            }
+            return this;
+        }
+
+        public Query AddWhere(int pGroupIndex, string pTableName, string pFieldName, FieldType pType,  string value = "")
+        {
+            WhereGroup wg;
+
+            if (this.WhereGroups.Count > pGroupIndex)
+            {
+                wg = this.WhereGroups[pGroupIndex];
+                wg.whereCases.Add(new WhereCase(pGroupIndex, pTableName, pFieldName, pType, Operator._Equal, value, Condition._None));
+            }
+            else
+            {
+                wg = new WhereGroup();
+                wg.whereCases.Add(new WhereCase(pGroupIndex, pTableName, pFieldName, pType, Operator._Equal, value, Condition._None));
+                this.WhereGroups.Add(wg);
+            }
             return this;
         }
 

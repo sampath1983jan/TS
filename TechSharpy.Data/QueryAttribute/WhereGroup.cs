@@ -30,7 +30,9 @@ namespace TechSharpy.Data.QueryAttribute
         public string ConditionValue;
         public Operator Operation;
 
+        public WhereCase() {
 
+        }
         public WhereCase(int pGroupIndex, string pTableName, string pFieldName, string pJoinTable, string pJoinField,
             JoinType pJoinType = JoinType._InnerJoin, Condition pCondition = Condition._And)
         {

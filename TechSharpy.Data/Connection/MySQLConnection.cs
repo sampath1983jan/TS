@@ -10,7 +10,20 @@ namespace TechSharpy.Data.Connection
         MySql.Data.MySqlClient.MySqlConnection Connection;
         public MySql.Data.MySqlClient.MySqlConnection GetConnection() {
             if (Connection == null) {
-                Connection = new MySql.Data.MySqlClient.MySqlConnection(getConnectionstring());
+                try
+
+                {
+                   // var encoding = Encoding.GetEncoding("latin1");
+
+                    System.Text.EncodingProvider provider;
+                    provider = System.Text.CodePagesEncodingProvider.Instance;
+                    Encoding.RegisterProvider(provider);
+
+                    Connection = new MySql.Data.MySqlClient.MySqlConnection(getConnectionstring());
+                }
+                catch (Exception ex) {
+                    throw ex;
+                }                
              }
             return Connection;
         }
@@ -18,7 +31,7 @@ namespace TechSharpy.Data.Connection
 
         public override string getConnectionstring()
         {
-            string Connection = "server=localhost;user=root;database=tshris;password=admin312;";
+            string Connection = "SslMode=none;persistsecurityinfo=True;SERVER=localhost;UID=root;DATABASE=tshris;PASSWORD=admin312;";
             return Connection;
         }
         

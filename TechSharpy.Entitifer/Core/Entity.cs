@@ -38,15 +38,15 @@ namespace TechSharpy.Entitifier.Core
     {
         #region Properties
         private const string ModuleName = "Data Schema";
-        public string Name;
-        public TechSharpy.Entitifier.Core.EntityType EntityType;
-        public Int32 EntityKey;
-        public string TableName;
+        protected string Name;
+        protected TechSharpy.Entitifier.Core.EntityType EntityType;
+        protected Int32 EntityKey;
+        protected string TableName;
         public List<string> PrimaryKeys;
-        public string Description;
+        protected string Description;
         public bool IsShow;
-        public List<Trigger> Triggers;
-        public List<EntityField> EntityInstances;
+        protected List<Trigger> Triggers;
+        protected List<EntityField> EntityInstances;
         private Data.EntitySchema dataEntity;
         private Services.ErrorHandling.ErrorInfoCollection Errors;
         #endregion
@@ -55,6 +55,7 @@ namespace TechSharpy.Entitifier.Core
         public EntitySchema()
         {
             dataEntity = new Data.EntitySchema();
+            Errors = new Services.ErrorHandling.ErrorInfoCollection();
         }
         public EntitySchema(string name, string description, EntityType entityType, int entityKey, string tableName, List<string> primaryKeys)
         {
@@ -73,26 +74,40 @@ namespace TechSharpy.Entitifier.Core
 
         public EntitySchema(int entityKey)
         {
+            this.Name = "";
+            this.Description = "";
             EntityKey = entityKey;
             PrimaryKeys = new List<string>();
             dataEntity = new Data.EntitySchema();
             EntityInstances = new List<EntityField>();
             Errors = new Services.ErrorHandling.ErrorInfoCollection();
             Triggers = new List<Trigger>();
+            Errors = new Services.ErrorHandling.ErrorInfoCollection();
             Init();
         }
 
         public EntitySchema(EntityType entityType)
         {
+            this.Name = "";
+            this.Description = "";
             EntityType = entityType;
             EntityKey = -1;
             dataEntity = new Data.EntitySchema();
             EntityInstances = new List<EntityField>();
             PrimaryKeys = new List<string>();
             Errors = new Services.ErrorHandling.ErrorInfoCollection();
+    
             Triggers = new List<Trigger>();
         }
         #endregion
+
+        private void SetDefault() {
+            this.Name =  Name == null ?  this.TableName: this.Name;
+            this.Description = Description == null ? "" : this.Description;
+            PrimaryKeys = PrimaryKeys == null ? new List<string>() : PrimaryKeys;
+            this.TableName = TableName == null ? "" : this.TableName;
+            this.EntityInstances = EntityInstances == null ? new List<EntityField>() : this.EntityInstances;
+        }
 
 
 
@@ -103,10 +118,21 @@ namespace TechSharpy.Entitifier.Core
         /// <returns></returns>
         internal protected Services.ErrorHandling.ErrorInfoCollection Save()
         {
+            SetDefault();
+            if (this.TableName == "")
+            {
+                Errors.Add("Table Name not generated.Contact system admin", Services.ErrorHandling.ErrorInfo.ErrorType._critical);
+                return Errors;
+            }
+            else if (this.EntityInstances.Count ==0) {
+                Errors.Add("Unable to generate table because field count is zero contact system admin", Services.ErrorHandling.ErrorInfo.ErrorType._critical);
+                return Errors;
+            }
             TQueryBuilder tq;
             if (this.EntityKey > 0)
             {
-                if (dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString(), this.EntityType))
+                 
+                if (dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, string.Join(",", this.PrimaryKeys.ToArray()), this.EntityType))
                 {
                     Errors.Add(ModuleName + "updated successfully", Services.ErrorHandling.ErrorInfo.ErrorType._noerror);
                 }
@@ -120,18 +146,19 @@ namespace TechSharpy.Entitifier.Core
             {
                 if (!dataEntity.CheckEntityExist(this.TableName))
                 {
-                    this.EntityKey = dataEntity.Save(-1, this.TableName, this.Name, this.Description, this.PrimaryKeys.ToString(), this.EntityType);
+                    this.EntityKey = dataEntity.Save(-1, this.TableName, this.Name, this.Description, string.Join(",", this.PrimaryKeys.ToArray()), this.EntityType);
                     tq = new TQueryBuilder(TQueryType._Create);
                     if (this.EntityKey > 0)
                     {
                         tq.TableName(this.TableName.Replace(" ", ""));
                         foreach (EntityField fd in this.EntityInstances)
                         {
-                            fd.EntityKey = this.EntityKey;
-                            if (fd.Save())
-                            {
-                                tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, getDataType(fd.FieldType), true, "");
-                            }
+                            //EntityField fdd = (Entitifier.Core.EntityField)fd.CopyTo<Entitifier.Core.EntityField>();
+                            //fdd.EntityKey = this.EntityKey;                             
+                           // if (fdd.SaveField())
+                           // {
+                                tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, getDataType(fd.FieldType), true, "");                               
+                           // }
                         }
                         dataEntity.ExecuteNonQuery(tq);
                     }
@@ -145,7 +172,7 @@ namespace TechSharpy.Entitifier.Core
         }
 
 
-        public bool AddField(int pClientID, int pEntityFieldID, Int32 pEntityID, string pFieldName, string pFieldDescription, EntityFieldType pFieldType,
+        internal protected bool AddField(int pClientID, int pEntityFieldID, Int32 pEntityID, string pFieldName, string pFieldDescription, EntityFieldType pFieldType,
            int LookUpID, bool pIsRequired, bool pIsUnique, bool pIsKeyField,
           bool pEnableContentLimit, string pContentLimit, string pMin, string pMax, string pFileExtension,
            bool pIsCore, bool pIsEditable, bool pEnableEncription, bool pAcceptNull, string pDisplayName, string value, bool isReadonly,
@@ -157,9 +184,10 @@ namespace TechSharpy.Entitifier.Core
                 Description, pEnableEncription, pEnableContentLimit);
 
             fd.InstanceID = pEntityFieldID;
+
             tq = new TQueryBuilder(TQueryType._AlterTable);
             tq.TableName(this.TableName.Replace(" ", ""));
-            if (fd.Save())
+            if (fd.SaveField())
             {
                 if (fd.InstanceID > 0)
                 {
@@ -213,7 +241,7 @@ namespace TechSharpy.Entitifier.Core
         /// <summary>
         /// Load EntitySchema
         /// </summary>
-        public void Init()
+        internal protected void Init()
         {
             DataTable dt = new DataTable();
             dt = dataEntity.GetEntity(-1, EntityKey);

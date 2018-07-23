@@ -1,10 +1,14 @@
-D:\TS\TS Work location\TS\TechSharpy.Services\bin\Debug\TechSharpy.Services.dll
-D:\TS\TS Work location\TS\TechSharpy.Services\bin\Debug\TechSharpy.Services.pdb
-D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.csproj.CoreCompileInputs.cache
-D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.dll
-D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\bin\Debug\TechSharpy.Services.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\bin\Debug\TechSharpy.Services.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\obj\Debug\TechSharpy.Services.csproj.CoreCompileInputs.cache
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\obj\Debug\TechSharpy.Services.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Services\obj\Debug\TechSharpy.Services.pdb
+D:\TS\TS Work location\TS\TechSharpy.Services\bin\Debug\TechSharpy.Services.dll
+D:\TS\TS Work location\TS\TechSharpy.Services\bin\Debug\TechSharpy.Services.pdb
+D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.dll
+D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.pdb
+D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSharpy.Services\bin\Debug\Newtonsoft.Json.dll
+D:\TS\TS Work location\TS\TechSharpy.Services\bin\Debug\Newtonsoft.Json.xml
+D:\TS\TS Work location\TS\TechSharpy.Services\obj\Debug\TechSharpy.Services.csproj.CopyComplete

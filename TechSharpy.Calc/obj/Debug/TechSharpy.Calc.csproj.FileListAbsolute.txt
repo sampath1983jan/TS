@@ -1,10 +1,11 @@
-D:\TS\TS Work location\TS\TechSharpy.Calc\bin\Debug\TechSharpy.Calc.dll
-D:\TS\TS Work location\TS\TechSharpy.Calc\bin\Debug\TechSharpy.Calc.pdb
-D:\TS\TS Work location\TS\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.csproj.CoreCompileInputs.cache
-D:\TS\TS Work location\TS\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.dll
-D:\TS\TS Work location\TS\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Calc\bin\Debug\TechSharpy.Calc.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Calc\bin\Debug\TechSharpy.Calc.pdb
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.csproj.CoreCompileInputs.cache
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.pdb
+D:\TS\TS Work location\TS\TechSharpy.Calc\bin\Debug\TechSharpy.Calc.dll
+D:\TS\TS Work location\TS\TechSharpy.Calc\bin\Debug\TechSharpy.Calc.pdb
+D:\TS\TS Work location\TS\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.dll
+D:\TS\TS Work location\TS\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.pdb
+D:\TS\TS Work location\TS\TechSharpy.Calc\obj\Debug\TechSharpy.Calc.csprojAssemblyReference.cache

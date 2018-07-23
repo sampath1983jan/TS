@@ -40,7 +40,7 @@ namespace TechSharpy.Entitifier.Data
             Query iQuery = new QueryBuilder(QueryType._Insert
                 ).AddTable("s_entitylookup")
                 .AddField("LookUpID", "s_entitylookup", FieldType._Number, "", NextID.ToString())
-                .AddField("Name", "s_entitylookup", FieldType._String, "", pName.ToString())
+                .AddField("LookUpName", "s_entitylookup", FieldType._String, "", pName.ToString())
                 .AddField("IsCore", "s_entitylookup", FieldType._Question, "", pIsCore.ToString())
                 .AddField("HaveChild", "s_entitylookup", FieldType._Question, "", pIsCore.ToString())
                 .AddField("ClientID", "s_entitylookup", FieldType._Number, "", pClientID.ToString())
@@ -131,7 +131,7 @@ namespace TechSharpy.Entitifier.Data
                 ).AddTable("s_entitylookupitem")
                 .AddField("LookUpID", "s_entitylookupitem", FieldType._Number, "", pLookUpID.ToString())
                    .AddField("LookUpInstanceID", "s_entitylookupitem", FieldType._Number, "", NextID.ToString())
-                .AddField("Name", "s_entitylookupitem", FieldType._String, "", pName.ToString())
+                .AddField("LookUpItemName", "s_entitylookupitem", FieldType._String, "", pName.ToString())
                 .AddField("ShortName", "s_entitylookupitem", FieldType._String, "", pShortName.ToString())
                 .AddField("order", "s_entitylookupitem", FieldType._Number, "", order.ToString())
                 .AddField("parentLookUpID", "s_entitylookupitem", FieldType._Number, "", parentLookUpID.ToString())
@@ -151,15 +151,15 @@ namespace TechSharpy.Entitifier.Data
         {
             Query iQuery = new QueryBuilder(QueryType._Update
          ).AddTable("s_entitylookup")
-         .AddField("LookUpName", "s_entitylookup", FieldType._String, "", pName.ToString())
-         .AddField("ShortName", "s_entitylookup", FieldType._String, "", pShortName.ToString())
+         .AddField("LookUpItemName", "s_entitylookupitem", FieldType._String, "", pName.ToString())
+         .AddField("ShortName", "s_entitylookupitem", FieldType._String, "", pShortName.ToString())
          //.AddField("IsEnabled", "s_entitylookup", FieldType._Question, "", IsEnabled.ToString())
-     .AddField("lastUpD", "s_entitylookup", FieldType._DateTime, "", DateTime.Now.ToString())
+     .AddField("lastUpD", "s_entitylookupitem", FieldType._DateTime, "", DateTime.Now.ToString())
       .AddField("order", "s_entitylookupitem", FieldType._Number, "", order.ToString())
                 .AddField("parentLookUpID", "s_entitylookupitem", FieldType._Number, "", parentLookUpID.ToString())
-    .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
-        AddWhere(0, "s_entitylookup", "LookUpId", FieldType._Number, Operator._Equal, pLookUpID.ToString()).
-         AddWhere(0, "s_entitylookup", "Lookupinstanceid", FieldType._Number, Operator._Equal, pLookupinstanceid.ToString());
+    .AddWhere(0, "s_entitylookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
+        AddWhere(0, "s_entitylookupitem", "LookUpId", FieldType._Number, Operator._Equal, pLookUpID.ToString()).
+         AddWhere(0, "s_entitylookupitem", "Lookupinstanceid", FieldType._Number, Operator._Equal, pLookupinstanceid.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;

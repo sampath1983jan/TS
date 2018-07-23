@@ -80,7 +80,7 @@ namespace TechSharpy.Data
     }
 
 
-    public class QueryBuilder : ABS.Query
+    public   class QueryBuilder : ABS.Query
     {
         public QueryBuilder(QueryType type) : base(type)
         {

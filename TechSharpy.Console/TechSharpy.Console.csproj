@@ -6,7 +6,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TechSharpy.Services\TechSharpy.Services.csproj" />
+    <PackageReference Include="MySql.Data" Version="8.0.11" />
+    <PackageReference Include="MySql.Data.Entity" Version="6.10.7" />
+    <PackageReference Include="MySql.Data.NET40" Version="1.0.0" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="4.5.0" />
+    <PackageReference Include="System.Security.Permissions" Version="4.5.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechSparpy.Component\TechSharpy.Component.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SMRHRT.Exception">
+      <HintPath>bin\Debug\SMRHRT.Exception.dll</HintPath>
+    </Reference>
+    <Reference Include="SMRHRT.Services">
+      <HintPath>bin\Debug\SMRHRT.Services.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

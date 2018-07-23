@@ -4,30 +4,32 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechSharpy.Data;
 
 namespace TechSharpy.Component.Attributes
 {
     public enum AttributeType{
-        //_Number = 1,
-        //_Float = 2,
-        //_Text = 3,
-        //_LongText = 4,
-        //_Date = 5,
-        //_DateTime = 6,
-        //_Time = 7,
-        //_Bool = 8,
-        //_Entity = 9,
-        //_Lookup = 10,
-        //_MultiLookup = 11,
-        //_Picture = 12,
-        //_File = 13,
-        _None=-1,
+        _Number = 1,
+        _Float = 2,
+        _Text = 3,
+        _LongText = 4,
+        _Date = 5,
+        _DateTime = 6,
+        _Time = 7,
+        _Bool = 8,
+        _Entity = 9,
+        _Lookup = 10,
+        _MultiLookup = 11,
+        _Picture = 12,
+        _File = 13,
+        _None =-1,
         _Auto = 14,
         _Year=15,
         _Month=16,
         _Quarter=17, 
         _Calculator=18
     }
+    [Serializable]
 public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField 
     {                       
         public int AttributeID;
@@ -39,18 +41,34 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
         public string ParentComponentKey;
         private Data.ComponentAttribute datacomponentAttribute;
 
-        public override bool Save()
-        {             
+        internal bool SaveAttribute() {
+          //  setEntityFieldType();
+            return Save();
+        }
+        internal void setEntityFieldType() {
+            base.FieldType = (Entitifier.Core.EntityFieldType)(int)this.Type;
+        }
+        private void SetDefault() {
+            this.ComponentKey = this.ComponentKey == null ? "" : this.ComponentKey;
+            this.RegExpression = this.RegExpression == null ? "" : RegExpression;
+            ParentComponentKey = this.ParentComponentKey == null ? "" : ParentComponentKey;
+            
+        }
+        protected  override bool Save()
+        {
+            SetDefault();
             if (base.Save())
             {
-                return datacomponentAttribute.SaveComponentAttribute(base.InstanceID, this.Type, this.ComponentKey, this.Cryptography, this.RegExpression, this.ParentComponentKey,
+                return datacomponentAttribute.SaveComponentAttribute(base.InstanceID, this.Type, this.ComponentKey, this.Cryptography, 
+                    this.RegExpression, this.ParentComponentKey,
                 this.ParentAttribute);
             }
             else {
                 return false;
             }            
         }
-        public override bool Remove()
+
+        protected  override bool Remove()
         {
             if (base.Remove()) {
                 if (datacomponentAttribute.Delete(this.ComponentKey, this.AttributeID))
@@ -61,11 +79,11 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             }            
             else return false;
         }
-        public override bool Hide()
+        protected  override bool Hide()
         {
             return base.Hide();
         }
-        public override void Load()
+        protected  override void Load()
         {
             DataTable dt = new DataTable();
             dt = datacomponentAttribute.GetComponentAttribute(this.ComponentKey, this.AttributeID);
@@ -86,7 +104,7 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             this.RegExpression = cat.RegExpression;
             this.ParentAttribute = cat.ParentAttribute;
             this.ParentComponentKey = cat.ParentComponentKey;
-            base.Load();
+          base.Load();
         }
         
         public ComponentAttribute(int attributeID,string componentKey)

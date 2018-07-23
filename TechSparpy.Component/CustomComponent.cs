@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TechSharpy.Component
 {
-    class SystemComponent
+    public class CustomComponent : Component,IComponent
     {
+       
     }
 }

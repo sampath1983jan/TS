@@ -9,9 +9,9 @@ using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Data
 {
-    
 
-    public class MYSQLQueryBuilder :ABS.Query
+    [Serializable]
+    public class MYSQLQueryBuilder : QueryBuilder
     {   
       
         private const string Select = "Select {0} from {1} {2}";
@@ -187,11 +187,11 @@ namespace TechSharpy.Data
                     }
                     else
                     {
-                        if (this.WhereGroups[iwhereg].condition == Condition._And)
+                        if (this.WhereGroups[iwhereg -1].condition == Condition._And)
                         {
                             sbWhereGroup.Append(" AND (");
                         }
-                        else if (this.WhereGroups[iwhereg].condition == Condition._Or)
+                        else if (this.WhereGroups[iwhereg -1].condition == Condition._Or)
                         {
                             sbWhereGroup.Append(" OR (");
                         }
@@ -204,14 +204,19 @@ namespace TechSharpy.Data
                     for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
                     {
                         WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
+                        WhereCase psws = null;
+                        if (iwhere != 0) {
+                            psws = this.WhereGroups[iwhereg].whereCases[iwhere-1];
+                        }
+                        
 
                         if (iwhere != 0)
                         {
-                            if (ws.condition == Condition._And)
+                            if (psws.condition == Condition._And)
                             {
                                 sbWherecase.Append(" AND ");
                             }
-                            else if (ws.condition == Condition._Or)
+                            else if (psws.condition == Condition._Or)
                             {
                                 sbWherecase.Append(" OR ");
                             }
@@ -288,22 +293,24 @@ namespace TechSharpy.Data
             string qry = Schema.ToLower();
             try
             {
-                if (qry.StartsWith("select") == false)
+                if (this.Type == QueryType._Select)
+                {
+                    if (qry.IndexOf("delete ") >= 0 | qry.IndexOf("insert ") >= 0 | qry.IndexOf("update ") >= 0 | qry.IndexOf("drop ") >= 0)
+                    {
+                        BoolResult = false;
+                    }
+                }
+                else {
+                    if (qry.IndexOf("select")>=0)
+                    {
+                        BoolResult = false;
+                    }
+                }
+                if (qry.IndexOf("#") > 0 || qry.IndexOf(";") > 0 | qry.IndexOf("--") > 0 | qry.IndexOf("*/") > 0 | qry.IndexOf("/*") > 0)
                 {
                     BoolResult = false;
                 }
-                else if (qry.IndexOf("delete ") > 0 | qry.IndexOf("insert ") > 0 | qry.IndexOf("update ") > 0 | qry.IndexOf("drop ") > 0)
-                {
-                    BoolResult = false;
-                }
-                else if (qry.IndexOf("from") < 1)
-                {
-                    BoolResult = false;
-                }
-                else if (qry.IndexOf("#") > 0 | qry.IndexOf("--") > 0 | qry.IndexOf("*/") > 0 | qry.IndexOf("/*") > 0)
-                {
-                    BoolResult = false;
-                }
+                
             }
             catch (Exception ex)
             {
