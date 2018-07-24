@@ -17,7 +17,7 @@ namespace TechSharpy.Component
          _GlobalComponent=6,
     }
 
-    public class BusinessComponent:Component,IComponent
+    public class BusinessComponent:Component
     {
              
         public Data.BusinessComponent databusinessComponent;
@@ -149,5 +149,7 @@ namespace TechSharpy.Component
             //base.Init();
             //DataTable dt = new DataTable();
         }
+
+        
     }
 }

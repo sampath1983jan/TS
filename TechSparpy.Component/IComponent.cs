@@ -8,14 +8,24 @@ using TechSharpy.Component.Attributes;
 
 namespace TechSharpy.Component
 {
-    public interface IComponent {
-          bool ComponentSave();
-          bool ComponentRemove();
-          bool ComponentHide();
-          void ComponentInit();
-    }
-    public class Component:Entitifier.Core.EntitySchema, IComponent
+    public abstract class IComponent: Entitifier.Core.EntitySchema
+    {
+        private int id;
 
+        protected IComponent(int id)
+        {
+            this.id = id;
+        }
+        protected IComponent()
+        {
+           
+        }
+        public abstract bool ComponentSave();
+         public abstract bool ComponentRemove();
+         public abstract bool ComponentHide();
+         public abstract void ComponentInit();
+    }
+    public class Component: IComponent
     {
         public string ComponentName;
         public int ID;
@@ -24,7 +34,7 @@ namespace TechSharpy.Component
         public ComponentType Type;
         public List<ComponentAttribute> ComponentAttributes;
         public Data.Component dataComponent;
-        public Component(int iD)
+        public Component(int iD):base(iD)
         {
             DataTable dt;
             dataComponent = new Data.Component();
@@ -37,10 +47,9 @@ namespace TechSharpy.Component
                 this.Type = dr.IsNull("componentType") ? ComponentType._CoreComponent : dr.Field<ComponentType>("componentType");
             }
             base.Init();
-        }
-      
+        }     
 
-        public Component() {
+        public Component():base() {
             ComponentAttributes = new List<ComponentAttribute>();
             EntityInstances = new List<Entitifier.Core.EntityField>();
         }
@@ -75,26 +84,121 @@ namespace TechSharpy.Component
             else if (this.Type == ComponentType._SubComponent) {
                 base.EntityType = Entitifier.Core.EntityType._RelatedMaster;
             }
-        }
+        }                
 
-        public bool ComponentSave()
+        public override bool ComponentSave()
         {
             throw new NotImplementedException();
         }
 
-        public bool ComponentRemove()
+        public override bool ComponentRemove()
         {
             throw new NotImplementedException();
         }
 
-        public bool ComponentHide()
+        public override bool ComponentHide()
         {
             throw new NotImplementedException();
         }
 
-        public void ComponentInit()
+        public override void ComponentInit()
         {
             throw new NotImplementedException();
         }
     }
 }
+
+
+interface VehicleFactory
+{
+    Bike GetBike(string Bike);
+     
+}
+
+class HondaFactory : VehicleFactory
+{
+    public Bike GetBike(string Bike)
+    {
+        switch (Bike)
+        {
+            case "Sports":
+                return new SportsBike();
+            case "Regular":
+                return new RegularBike();
+            default:
+                throw new ApplicationException(string.Format("Vehicle '{0}' cannot be created", Bike));
+        }
+
+    }
+
+     
+}
+
+
+public abstract class Bike
+{
+   public abstract string Name();
+public abstract string Speed { set; get; }
+}
+ 
+
+class RegularBike : Bike
+{
+    string _speed;   
+    public override string Speed { get => _speed; set => _speed=value; }        
+    public override string Name()
+    {
+        return "Regular Bike- Name";
+    }
+}
+
+class SportsBike : Bike
+{
+    public string myspeed;
+    string _speed;
+    public override string Speed { get => _speed; set => _speed = value; }
+
+
+    public override string Name()
+    {
+        return "Sports Bike- Name";
+    }
+
+   
+}
+
+
+class VehicleClient
+{
+    Bike bike;
+     
+    public VehicleClient(VehicleFactory factory, string type)
+    {
+      bike = factory.GetBike(type);
+      string ab=  bike.Speed;
+      var spk = (SportsBike)bike;
+        
+        
+
+
+    }
+
+    public string GetBikeName()
+    {
+        return bike.Name();
+    }
+
+   
+
+}
+
+public class ccs{
+    public ccs() {
+    VehicleFactory honda = new HondaFactory();
+    VehicleClient hondaclient = new VehicleClient(honda, "Regular");
+}
+}
+
+
+
+

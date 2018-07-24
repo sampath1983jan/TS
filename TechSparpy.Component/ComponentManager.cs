@@ -11,20 +11,29 @@ namespace TechSharpy.Component
     {
         private Component _iComponent;
         private ComponentType _Type;
+
         public Component Component { get { return _iComponent; } }
         public ComponentType Type { get { return _Type; } }
-        public int ComponentID;
+        private int ComponentID;
+
+        public int GetComponentID() {
+            return ComponentID;
+        }
+
         public ComponentManager(ComponentType componentType,Component icc) {
             _Type = componentType;
             _iComponent = icc;
         }
+
         public ComponentManager(int componentID) {
             this.ComponentID = componentID;
             Init();
         }
+
         public void AddAttribute(ComponentAttribute componentAttribute) {
             Component.AddAttribute(componentAttribute);
         }
+
         private void Init() {            
             _iComponent = new Component(this.ComponentID);
             _Type = _iComponent.Type;
@@ -40,6 +49,7 @@ namespace TechSharpy.Component
                 
             }
         }
+
         public void Save() {
             if (Type == ComponentType._CoreComponent || Type == ComponentType._ComponentAttribute || Type == ComponentType._ComponentTransaction)
             {                
