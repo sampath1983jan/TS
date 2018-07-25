@@ -32,24 +32,23 @@ namespace TechSharpy.Component.Data
         {
             int nextid = rd.getNextID("Component");
             iQuery = new QueryBuilder(QueryType._Insert)
-                .AddField("entityKey", "c_ComponentManager", FieldType._Number, "", entityKey.ToString())
-                .AddField("ComponentID", "c_ComponentManager", FieldType._Number, "", nextid.ToString())
-                .AddField("componentType", "c_ComponentManager", FieldType._Number, "", ((int)componentType).ToString())              
-                .AddField("LastUPD", "c_ComponentManager", FieldType._DateTime, "", DateTime.Now.ToString());
+                .AddField("entityKey", "c_Component", FieldType._Number, "", entityKey.ToString())
+                .AddField("ComponentID", "c_Component", FieldType._Number, "", nextid.ToString())
+                .AddField("componentType", "c_Component", FieldType._Number, "", ((int)componentType).ToString())              
+                .AddField("LastUPD", "c_Component", FieldType._DateTime, "", DateTime.Now.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
                 return nextid;
             }
             else return -1;
         }
-
-      
+              
         public bool Delete(int componentID, int entityKey)
         {
             iQuery = new QueryBuilder(QueryType._Delete)
-                .AddField("*", "c_ComponentManager")
-                .AddWhere(0, "c_ComponentManager", "ComponentID", FieldType._Number, componentID.ToString(), Condition._And)
-               .AddWhere(0, "c_ComponentManager", "entityKey", FieldType._Number, entityKey.ToString());
+                .AddField("*", "c_Component")
+                .AddWhere(0, "c_Component", "ComponentID", FieldType._Number, componentID.ToString());
+               //.AddWhere(0, "c_Component", "entityKey", FieldType._Number, entityKey.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
@@ -61,11 +60,11 @@ namespace TechSharpy.Component.Data
         public DataTable GetComponentByID( int ComponentID)
         {
             iQuery = new QueryBuilder(QueryType._Select)              
-                .AddField("ComponentID", "c_ComponentManager", FieldType._Number, "")               
-                .AddField("componentType", "c_ComponentManager", FieldType._String, "")
-                .AddField("entityKey", "c_ComponentManager", FieldType._String, "")
-                .AddField("LastUPD", "c_ComponentManager", FieldType._DateTime, "")
-            .AddWhere(0, "c_ComponentManager", "ComponentID", FieldType._Number, ComponentID.ToString());
+                .AddField("ComponentID", "c_Component", FieldType._Number, "")               
+                .AddField("componentType", "c_Component", FieldType._String, "")
+                .AddField("entityKey", "c_Component", FieldType._String, "")
+                .AddField("LastUPD", "c_Component", FieldType._DateTime, "")
+            .AddWhere(0, "c_Component", "ComponentID", FieldType._Number, ComponentID.ToString());
             Result = rd.ExecuteQuery(iQuery).GetResult;
             return Result;
         }

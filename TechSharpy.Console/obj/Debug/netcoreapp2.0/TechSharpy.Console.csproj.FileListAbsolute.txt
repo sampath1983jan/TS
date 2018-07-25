@@ -9,10 +9,6 @@ C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfo.cs
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.dll
 C:\Project Document\TSMasterCodeRoot\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.pdb
-D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csproj.CoreCompileInputs.cache
-D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfoInputs.cache
-D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfo.cs
-D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csprojAssemblyReference.cache
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Console.deps.json
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Console.runtimeconfig.json
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Console.runtimeconfig.dev.json
@@ -26,13 +22,17 @@ D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Entitifier.dll
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Services.dll
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Component.pdb
+D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Component.dll.config
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Data.pdb
+D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Data.dll.config
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Entitifier.pdb
+D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Entitifier.dll.config
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Services.pdb
 D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\Newtonsoft.Json.xml
+D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csprojAssemblyReference.cache
+D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csproj.CoreCompileInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfoInputs.cache
+D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.AssemblyInfo.cs
 D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.csproj.CopyComplete
 D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.dll
 D:\TS\TS Work location\TS\TechSharpy.Console\obj\Debug\netcoreapp2.0\TechSharpy.Console.pdb
-D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Component.dll.config
-D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Data.dll.config
-D:\TS\TS Work location\TS\TechSharpy.Console\bin\Debug\netcoreapp2.0\TechSharpy.Entitifier.dll.config

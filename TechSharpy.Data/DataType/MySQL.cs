@@ -43,11 +43,10 @@ namespace TechSharpy.Data.DataType
             string stQuery = DataQuery.toString();
             try
             {
-                 cmd = new MySqlCommand(stQuery, Connection.GetConnection());
+                cmd = new MySqlCommand(stQuery, Connection.GetConnection());
                 Connection.GetConnection().Open();
                 Result = cmd.ExecuteNonQuery();
                 Connection.GetConnection().Close();
-
             }
             catch (Exception ex)
             {

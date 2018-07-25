@@ -261,7 +261,7 @@ namespace TechSharpy.Entitifier.Core
             this.Description = e.Description;
             this.PrimaryKeys = e.PrimaryKeys;
             InitField();
-            InitTrigger();
+          //  InitTrigger();
         }
 
         private void InitTrigger() {
@@ -291,7 +291,7 @@ namespace TechSharpy.Entitifier.Core
                 Description = g.IsNull("FieldDescription") ? "" : g.Field<string>("FieldDescription"),
                 FieldType = g.IsNull("FieldType") ? EntityFieldType._Text : g.Field<EntityFieldType>("FieldType"),
                 LookUpID = g.IsNull("LookUpId") ? -1 : g.Field<int>("LookUpId"),
-                IsRequired = g.IsNull("isRequired") ? false : g.Field<object>("isRequired").ToString() == "1" ? true : false,
+                IsRequired = g.IsNull("isRequired") ? false : g.Field<object>("isRequired").ToString() =="1" ? true:false,
                 IsUnique = g.IsNull("isUnique") ? false : g.Field<object>("isUnique").ToString() == "1" ? true : false,
                 IsKey = g.IsNull("isKeyField") ? false : g.Field<object>("isKeyField").ToString() == "1" ? true : false,
                 IsCore = g.IsNull("isCoreField") ? false : g.Field<object>("isCoreField").ToString() == "1" ? true : false,
@@ -299,7 +299,7 @@ namespace TechSharpy.Entitifier.Core
                 EnableEncription = g.IsNull("EnableEncription") ? false : g.Field<object>("EnableEncription").ToString() == "1" ? true : false,
                 enableContentLimit = g.IsNull("EnableContentlimit") ? false : g.Field<object>("EnableContentlimit").ToString() == "1" ? true : false,
                 //  FileExtension = g.IsNull("FileExtension") ? "" : g.Field<string>("FileExtension"),
-                LookUpArray = g.IsNull("LookUpArray") ? new List<string>() : g.Field<string>("LookUpArray").Split(',').ToList(),
+                //  LookUpArray = g.IsNull("LookUpArray") ? new List<string>() : g.Field<string>("LookUpArray").Split(',').ToList(),
                 DisplayOrder = g.IsNull("DisplayOrder") ? 0 : g.Field<int>("DisplayOrder"),
                 MaxLength = g.IsNull("Contentlimit") ? 0 : g.Field<int>("Contentlimit"),
                 Min = g.IsNull("Minimum") ? "-1" : g.Field<string>("Minimum"),
@@ -307,10 +307,10 @@ namespace TechSharpy.Entitifier.Core
                 DisplayName = g.IsNull("DisplayName") ? "" : g.Field<string>("DisplayName"),
                 DefaultValue = g.IsNull("DefaultValue") ? "" : g.Field<string>("DefaultValue"),
                 Value = g.IsNull("Value") ? "" : g.Field<string>("Value"),
-                AutoIncrement = g.IsNull("AutoIncrement") ? false : g.Field<object>("AutoIncrement").ToString() == "1" ? true : false,
+                  AutoIncrement = g.IsNull("AutoIncrement") ? false : g.Field<object>("AutoIncrement").ToString() == "1" ? true : false,
                 Incrementby = g.IsNull("Incrementby") ? 0 : g.Field<int>("Incrementby"),
                 Incrementfrom = g.IsNull("Incrementfrom") ? 0 : g.Field<int>("Incrementfrom"),
-                IsShow = g.IsNull("IsShow") ? false : g.Field<object>("IsShow").ToString() == "1" ? true : false,
+               // IsShow = g.IsNull("IsShow") ? false : g.Field<bool>("IsShow"),
             }).ToList();
         }
 

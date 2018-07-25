@@ -163,7 +163,7 @@ namespace TechSharpy.Entitifier.Data
         {
             dtResult = new DataTable();
             Query selectQ = new QueryBuilder(QueryType._Select).AddTable("s_entityfields").AddField("*", "s_entityfields").
-               AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
+              // AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
                AddWhere(0, "s_entityfields", "EntityID", FieldType._Number, Operator._Equal, EntityID.ToString());
             dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
@@ -174,7 +174,7 @@ namespace TechSharpy.Entitifier.Data
         {
             dtResult = new DataTable();
             Query selectQ = new QueryBuilder(QueryType._Select).AddTable("s_entityfields").AddField("*", "s_entityfields").
-               AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
+          //     AddWhere(0, "s_entityfields", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
                AddWhere(0, "s_entityfields", "EntityID", FieldType._Number, Operator._Equal, EntityID.ToString()).
                AddWhere(0, "s_entityfields", "FieldID", FieldType._Number, Operator._Equal, pFieldID.ToString());
             dtResult = rd.ExecuteQuery(selectQ).GetResult;

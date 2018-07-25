@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechSharpy.Component.Attributes;
 using TechSharpy.Data;
 using TechSharpy.Data.ABS;
 
@@ -29,7 +30,7 @@ namespace TechSharpy.Component.Data
 
         public bool SaveComponentAttribute(int FieldInstanceID, Attributes.AttributeType attributeType,
             string componentKey,
-            int cryptography,string regExpression,string parentComponent,int parentAttribute) {
+            int cryptography,string regExpression,string parentComponent,string parentAttribute,UsageType usageFieldType) {
              int inext = rd.getNextID("ComponentAttribute");
             iQuery = new QueryBuilder(QueryType._Insert)
                 .AddField("ComponentAttributeID", "C_ComponentAttribute", FieldType._Number, "", inext.ToString())
@@ -39,7 +40,8 @@ namespace TechSharpy.Component.Data
                 .AddField("cryptography", "C_ComponentAttribute", FieldType._Number, "", (cryptography).ToString())
                 .AddField("regExpression", "C_ComponentAttribute", FieldType._String, "", (regExpression).ToString())
                 .AddField("parentComponent", "C_ComponentAttribute", FieldType._String, "", (parentComponent).ToString())
-                .AddField("parentAttribute", "C_ComponentAttribute", FieldType._Number, "", (parentAttribute).ToString())
+                .AddField("parentAttribute", "C_ComponentAttribute", FieldType._String, "", (parentAttribute).ToString())
+                .AddField("UsageFieldType", "C_ComponentAttribute", FieldType._Number, "", ((int)usageFieldType).ToString())
                 .AddField("LastUPD", "C_ComponentAttribute", FieldType._DateTime, "", (DateTime.Now.ToString()));
             if (rd.ExecuteQuery(iQuery).Result)
             {
@@ -51,7 +53,7 @@ namespace TechSharpy.Component.Data
         public bool SaveComponentAttribute(int componentAttribute,int FieldInstanceID, 
             Attributes.AttributeType attributeType,
             string componentKey,
-            int cryptography, string regExpression, string parentComponent, int parentAttributes) {
+            int cryptography, string regExpression, string parentComponent, int parentAttributes,UsageType usageFieldType) {
             iQuery = new QueryBuilder(QueryType._Update)
                .AddField("Attributetype", "C_ComponentAttribute", FieldType._Number, "", ((int)attributeType).ToString())
                // .AddField("componentKey", "C_ComponentAttribute", FieldType._String, "", (componentKey).ToString())
@@ -59,6 +61,7 @@ namespace TechSharpy.Component.Data
                 .AddField("regExpression", "C_ComponentAttribute", FieldType._String, "", (regExpression).ToString())
                 .AddField("parentComponent", "C_ComponentAttribute", FieldType._String, "", (parentComponent).ToString())
                 .AddField("parentAttribute", "C_ComponentAttribute", FieldType._Number, "", (parentAttributes).ToString())
+                .AddField("UsageFieldType", "C_ComponentAttribute", FieldType._Number, "", ((int)usageFieldType).ToString())
                  .AddField("LastUPD", "C_ComponentAttribute", FieldType._DateTime, "", (DateTime.Now.ToString()))
                  .AddWhere(0, "C_ComponentAttribute", "ComponentAttributeID", FieldType._Number,Operator._Equal,componentAttribute.ToString(),
                  Condition._None);
@@ -102,6 +105,7 @@ namespace TechSharpy.Component.Data
             .AddField("regExpression", "C_ComponentAttribute", FieldType._String, "")
             .AddField("parentComponent", "C_ComponentAttribute", FieldType._String)
             .AddField("parentAttribute", "C_ComponentAttribute", FieldType._Number)
+            .AddField("UsageFieldType", "C_ComponentAttribute", FieldType._Number)
             .AddField("LastUPD", "C_ComponentAttribute", FieldType._DateTime)
             .AddWhere(0, "C_ComponentAttribute", "ComponentAttributeID", FieldType._Number, Operator._Equal, attributeID.ToString(), Condition._And )
             .AddWhere(0, "C_ComponentAttribute", "componentKey", FieldType._String, Operator._Equal, componentKey, Condition._None);
@@ -119,6 +123,7 @@ namespace TechSharpy.Component.Data
              .AddField("regExpression", "C_ComponentAttribute", FieldType._String, "")
              .AddField("parentComponent", "C_ComponentAttribute", FieldType._String)
              .AddField("parentAttribute", "C_ComponentAttribute", FieldType._Number)
+              .AddField("UsageFieldType", "C_ComponentAttribute", FieldType._Number)
              .AddField("LastUPD", "C_ComponentAttribute", FieldType._DateTime)
              .AddWhere(0, "C_ComponentAttribute", "componentKey", FieldType._String, Operator._Equal, componentKey, Condition._None);
             Result = rd.ExecuteQuery(iQuery).GetResult;

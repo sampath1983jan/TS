@@ -27,24 +27,24 @@ namespace TechSharpy.Component.Data
         }
 
 
-        public int Save(string category, ComponentType componentType, string componentName, string componentDescription)
+        public bool Save(int componentID,string category, ComponentType componentType, string componentName, string componentDescription)
         {
-            int nextid = rd.getNextID("BusinessComponent");
+           // int nextid = rd.getNextID("BusinessComponent");
             iQuery = new QueryBuilder(QueryType._Insert)
-               // .AddField("entityKey", "c_BusinessComponent", FieldType._Number, "", entityKey.ToString())
-                .AddField("ComponentID", "c_BusinessComponent", FieldType._Number, "", nextid.ToString())
+                //.AddField("entityKey", "c_BusinessComponent", FieldType._Number, "", entityKey.ToString())
+                .AddField("ComponentID", "c_BusinessComponent", FieldType._Number, "", componentID.ToString())
          //       .AddField("componentType", "c_BusinessComponent", FieldType._Number, "", ((int)componentType).ToString())
                 .AddField("componentName", "c_BusinessComponent", FieldType._String, "", componentName)
                 .AddField("componentDescription", "c_BusinessComponent", FieldType._String, "", componentDescription)
                 .AddField("LastUPD", "c_BusinessComponent", FieldType._DateTime, "", DateTime.Now.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
-                return nextid;
+                return true;
             }
-            else return -1;
+            else return false;
         }
 
-        public bool Save(int componentID, int entityKey, string category, ComponentType componentType, string componentName,
+        public bool Update(int componentID, int entityKey, string category, ComponentType componentType, string componentName,
             string componentDescription)
         {
             iQuery = new QueryBuilder(QueryType._Update)
@@ -86,7 +86,8 @@ namespace TechSharpy.Component.Data
                 .AddField("ComponentID", "c_BusinessComponent", FieldType._Number, "")
                 // .AddField("componentType", "c_BusinessComponent", FieldType._Number, "")
                 .AddField("componentName", "c_BusinessComponent", FieldType._String, "")
-                .AddField("componentDescription", "c_BusinessComponent", FieldType._Number, "")
+                .AddField("componentDescription", "c_BusinessComponent", FieldType._String, "")
+                .AddField("TitlePattern", "c_BusinessComponent", FieldType._String, "")
                 .AddField("LastUPD", "c_BusinessComponent", FieldType._DateTime, "")
              //   .                AddWhere(0, "c_BusinessComponent", "ComponentID", FieldType._Number, entityKey.ToString(),Condition._And)
             .AddWhere(0, "c_BusinessComponent", "ComponentID", FieldType._Number, ComponentID.ToString(),Condition._None);            

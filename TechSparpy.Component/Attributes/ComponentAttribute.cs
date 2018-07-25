@@ -29,6 +29,11 @@ namespace TechSharpy.Component.Attributes
         _Quarter=17, 
         _Calculator=18
     }
+    public enum UsageType {
+        _InputField=1,
+        _CalculationField=2,
+        
+    }
     [Serializable]
 public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField 
     {                       
@@ -37,8 +42,9 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
         public string ComponentKey;      
         public int Cryptography;
         public string RegExpression;
-        public int ParentAttribute;
+        public string ParentAttribute;
         public string ParentComponentKey;
+        public UsageType UsageFieldType;
         private Data.ComponentAttribute datacomponentAttribute;
 
         internal bool SaveAttribute() {
@@ -61,7 +67,7 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             {
                 return datacomponentAttribute.SaveComponentAttribute(base.InstanceID, this.Type, this.ComponentKey, this.Cryptography, 
                     this.RegExpression, this.ParentComponentKey,
-                this.ParentAttribute);
+                this.ParentAttribute,this.UsageFieldType);
             }
             else {
                 return false;
@@ -95,7 +101,8 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
                 Cryptography = g.IsNull("cryptography") ? 0 : g.Field<int>("cryptography"),
                 RegExpression = g.IsNull("regExpression") ? "" : g.Field<string>("regExpression"),
                 ParentComponentKey = g.IsNull("parentComponent") ? "" : g.Field<string>("parentComponent"),
-                ParentAttribute = g.IsNull("parentAttribute") ? 0 : g.Field<int>("parentAttribute"),
+                ParentAttribute = g.IsNull("parentAttribute") ? "" : g.Field<string>("parentAttribute"),
+                UsageFieldType = g.IsNull("UsageFieldType") ?  UsageType._InputField : g.Field<UsageType>("UsageFieldType"),
             }).FirstOrDefault();
             this.InstanceID = cat.InstanceID;
             this.Type = cat.Type;
@@ -104,6 +111,7 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             this.RegExpression = cat.RegExpression;
             this.ParentAttribute = cat.ParentAttribute;
             this.ParentComponentKey = cat.ParentComponentKey;
+            this.UsageFieldType = cat.UsageFieldType;
           base.Load();
         }
         
