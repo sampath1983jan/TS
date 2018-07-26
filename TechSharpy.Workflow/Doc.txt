@@ -1,0 +1,9 @@
+﻿ Requirements
+
+ 1. User able to design workflow 
+ 2. User able to design workflow form
+ 3. User able to design workflow steps and assign navigation
+ 4. User able to design action/custom action (Draft/Submit/Approver/Processor)
+ 5. User able to set logical navigation(based on criterial) step to another step.
+ 6. Any user able to modify workflow form data at any level.
+ 
