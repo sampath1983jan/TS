@@ -1,5 +1,0 @@
-C:\Project Document\TechSharpy.HRIS\TS.HRIS\TS.HRIS.Data\bin\Debug\TS.HRIS.Data.dll
-C:\Project Document\TechSharpy.HRIS\TS.HRIS\TS.HRIS.Data\bin\Debug\TS.HRIS.Data.pdb
-C:\Project Document\TechSharpy.HRIS\TS.HRIS\TS.HRIS.Data\obj\Debug\TS.HRIS.Data.dll
-C:\Project Document\TechSharpy.HRIS\TS.HRIS\TS.HRIS.Data\obj\Debug\TS.HRIS.Data.pdb
-C:\Project Document\TechSharpy.HRIS\TS.HRIS\TS.HRIS.Data\obj\Debug\TS.HRIS.Data.csprojResolveAssemblyReference.cache
