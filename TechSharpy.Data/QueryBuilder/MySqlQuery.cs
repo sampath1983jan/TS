@@ -88,56 +88,8 @@ namespace TechSharpy.Data
                         sbJoin.Append(" " + this.Tables[0].TableName + " ");
                     }
                 }
-
-                for (int iwhereg = 0; iwhereg < this.WhereGroups.Count; iwhereg++)
-                {
-                    if (iwhereg == 0)
-                    {
-                        sbWhereGroup.Append(" Where (");
-                    }
-                    else
-                    {
-                        if (this.WhereGroups[iwhereg].condition == Condition._And)
-                        {
-                            sbWhereGroup.Append(" AND (");
-                        }
-                        else if (this.WhereGroups[iwhereg].condition == Condition._Or)
-                        {
-                            sbWhereGroup.Append(" OR (");
-                        }
-                        else
-                        {
-                            sbWhereGroup.Append(" ");
-                        }
-                    }
-                    System.Text.StringBuilder sbWherecase = new System.Text.StringBuilder();
-                    for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
-                    {
-                        WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
-
-                        if (iwhere != 0)
-                        {
-                            if (ws.condition == Condition._And)
-                            {
-                                sbWherecase.Append(" AND ");
-                            }
-                            else if (ws.condition == Condition._Or)
-                            {
-                                sbWherecase.Append(" OR ");
-                            }
-                            else
-                            {
-                                sbWherecase.Append(" ");
-                            }
-                        }
-                        sbWherecase.Append(FieldSelector + getTableAlias(ws.TableName) + FieldSelector + "." + FieldSelector + ws.FieldName + FieldSelector + getOperator(ws.Operation,
-                        MakeValidateData(ws.Type, ws.ConditionValue, ws.FieldName)));
-
-                    }
-
-                    sbWhereGroup.Append(sbWherecase + " ) ");
-
-                }
+                sbWhereGroup.Append(getWhere());
+                
                 sb.AppendFormat(Select, fd, sbJoin, sbWhereGroup);
             }
             else if (this.Type == QueryType._Insert)
@@ -155,11 +107,21 @@ namespace TechSharpy.Data
 
             else if (this.Type == QueryType._Delete)
             {
+                System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
                 if (this.Tables.Count > 1)
                 {
                     throw new Exception(QueryResource._delete_table_more_exist);
                 }
-                sb.AppendFormat(Delete, this.Tables[0].TableName);
+                sbWhereGroup.Append(getWhere());
+                if (sbWhereGroup.ToString() == "")
+                {
+                    sb.AppendFormat(Delete, this.Tables[0].TableName);
+                }
+                else {
+                    sb.AppendFormat(Delete, this.Tables[0].TableName + sbWhereGroup.ToString() );
+                }              
+
+                
             }
 
             else if (this.Type == QueryType._Update)
@@ -178,63 +140,119 @@ namespace TechSharpy.Data
                     sbField.Append(FieldSelector + getTableAlias(fd.TableName) + FieldSelector + "." + FieldSelector + fd.Name + FieldSelector + " = ");
                     sbField.Append(MakeValidateData(fd.Type, fd.Value, fd.Name));
                 }
+                sbWhereGroup.Append(getWhere());
+                //for (int iwhereg = 0; iwhereg < this.WhereGroups.Count; iwhereg++)
+                //{
+                //    if (iwhereg == 0)
+                //    {
+                //        sbWhereGroup.Append(" Where (");
+                //    }
+                //    else
+                //    {
+                //        if (this.WhereGroups[iwhereg -1].condition == Condition._And)
+                //        {
+                //            sbWhereGroup.Append(" AND (");
+                //        }
+                //        else if (this.WhereGroups[iwhereg -1].condition == Condition._Or)
+                //        {
+                //            sbWhereGroup.Append(" OR (");
+                //        }
+                //        else
+                //        {
+                //            sbWhereGroup.Append(" ");
+                //        }
+                //    }
+                //    System.Text.StringBuilder sbWherecase = new System.Text.StringBuilder();
+                //    for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
+                //    {
+                //        WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
+                //        WhereCase psws = null;
+                //        if (iwhere != 0) {
+                //            psws = this.WhereGroups[iwhereg].whereCases[iwhere-1];
+                //        }
 
-                for (int iwhereg = 0; iwhereg < this.WhereGroups.Count; iwhereg++)
-                {
-                    if (iwhereg == 0)
-                    {
-                        sbWhereGroup.Append(" Where (");
-                    }
-                    else
-                    {
-                        if (this.WhereGroups[iwhereg -1].condition == Condition._And)
-                        {
-                            sbWhereGroup.Append(" AND (");
-                        }
-                        else if (this.WhereGroups[iwhereg -1].condition == Condition._Or)
-                        {
-                            sbWhereGroup.Append(" OR (");
-                        }
-                        else
-                        {
-                            sbWhereGroup.Append(" ");
-                        }
-                    }
-                    System.Text.StringBuilder sbWherecase = new System.Text.StringBuilder();
-                    for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
-                    {
-                        WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
-                        WhereCase psws = null;
-                        if (iwhere != 0) {
-                            psws = this.WhereGroups[iwhereg].whereCases[iwhere-1];
-                        }
-                        
 
-                        if (iwhere != 0)
-                        {
-                            if (psws.condition == Condition._And)
-                            {
-                                sbWherecase.Append(" AND ");
-                            }
-                            else if (psws.condition == Condition._Or)
-                            {
-                                sbWherecase.Append(" OR ");
-                            }
-                            else
-                            {
-                                sbWherecase.Append(" ");
-                            }
-                        }
-                        sbWherecase.Append(FieldSelector + getTableAlias(ws.TableName) + FieldSelector + "." + FieldSelector + ws.FieldName + FieldSelector + getOperator(ws.Operation,
-                        MakeValidateData(ws.Type, ws.ConditionValue, ws.FieldName)));
+                //        if (iwhere != 0)
+                //        {
+                //            if (psws.condition == Condition._And)
+                //            {
+                //                sbWherecase.Append(" AND ");
+                //            }
+                //            else if (psws.condition == Condition._Or)
+                //            {
+                //                sbWherecase.Append(" OR ");
+                //            }
+                //            else
+                //            {
+                //                sbWherecase.Append(" ");
+                //            }
+                //        }
+                //        sbWherecase.Append(FieldSelector + getTableAlias(ws.TableName) + FieldSelector + "." + FieldSelector + ws.FieldName + FieldSelector + getOperator(ws.Operation,
+                //        MakeValidateData(ws.Type, ws.ConditionValue, ws.FieldName)));
 
-                    }
-                    sbWhereGroup.Append(sbWherecase + " ) ");
-                    //  sbWhereGroup.Append(")");
-                }
+                //    }
+                //    sbWhereGroup.Append(sbWherecase + " ) ");
+                //    //  sbWhereGroup.Append(")");
+                //}
+
                 sb.AppendFormat(Update, this.Tables[0].TableName + " as " + getTableAlias(this.Tables[0].TableName), sbField.ToString(), sbWhereGroup.ToString());
             }
             return sb.ToString();
+        }
+
+        private string getWhere() {
+            System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
+        //    System.Text.StringBuilder sbWherecase = new System.Text.StringBuilder();
+            for (int iwhereg = 0; iwhereg < this.WhereGroups.Count; iwhereg++)
+            {
+                if (iwhereg == 0)
+                {
+                    sbWhereGroup.Append(" Where (");
+                }
+                else
+                {
+                    if (this.WhereGroups[iwhereg].condition == Condition._And)
+                    {
+                        sbWhereGroup.Append(" AND (");
+                    }
+                    else if (this.WhereGroups[iwhereg].condition == Condition._Or)
+                    {
+                        sbWhereGroup.Append(" OR (");
+                    }
+                    else
+                    {
+                        sbWhereGroup.Append(" ");
+                    }
+                }
+                System.Text.StringBuilder sbWherecase = new System.Text.StringBuilder();
+                for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
+                {
+                    WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
+
+                    if (iwhere != 0)
+                    {
+                        if (ws.condition == Condition._And)
+                        {
+                            sbWherecase.Append(" AND ");
+                        }
+                        else if (ws.condition == Condition._Or)
+                        {
+                            sbWherecase.Append(" OR ");
+                        }
+                        else
+                        {
+                            sbWherecase.Append(" ");
+                        }
+                    }
+                    sbWherecase.Append(FieldSelector + getTableAlias(ws.TableName) + FieldSelector + "." + FieldSelector + ws.FieldName + FieldSelector + getOperator(ws.Operation,
+                    MakeValidateData(ws.Type, ws.ConditionValue, ws.FieldName)));
+
+                }
+
+                sbWhereGroup.Append(sbWherecase + " ) ");
+
+            }
+          return  sbWhereGroup.ToString();
         }
 
         internal override string getOperator(Operator opt, string fval)

@@ -28,8 +28,30 @@ namespace TechSharpy.Entitifier.Data
         {
             dtResult = new DataTable();
             Query selectQ = new QueryBuilder(QueryType._Select).AddTable("vw_lookupitem").AddField("*", "vw_lookupitem").
-                AddWhere(0, "vw_lookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
+                AddWhere(0, "vw_lookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(), Condition._And).
                 AddWhere(0, "vw_lookupitem", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
+            return dtResult;
+        }
+
+        public DataTable GetLookUpByName(string Name)
+        {
+            dtResult = new DataTable();
+            Query selectQ = new QueryBuilder(QueryType._Select).AddTable("s_entitylookup")
+                .AddField("*", "s_entitylookup")
+            //AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(), Condition._And).
+             .AddWhere(0, "s_entitylookup", "LookUpName", FieldType._String, Operator._Equal, Name.ToString());
+            dtResult = rd.ExecuteQuery(selectQ).GetResult;
+            return dtResult;
+        }
+
+        public DataTable GetLookUps()
+        {
+            dtResult = new DataTable();
+            Query selectQ = new QueryBuilder(QueryType._Select).AddTable("s_entitylookup")
+                .AddField("*", "s_entitylookup");
+                //AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(), Condition._And).
+               // AddWhere(0, "s_entitylookup", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
             dtResult = rd.ExecuteQuery(selectQ).GetResult;
             return dtResult;
         }
@@ -42,9 +64,9 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("LookUpID", "s_entitylookup", FieldType._Number, "", NextID.ToString())
                 .AddField("LookUpName", "s_entitylookup", FieldType._String, "", pName.ToString())
                 .AddField("IsCore", "s_entitylookup", FieldType._Question, "", pIsCore.ToString())
-                .AddField("HaveChild", "s_entitylookup", FieldType._Question, "", pIsCore.ToString())
+                .AddField("HaveChild", "s_entitylookup", FieldType._Question, "", haveChild.ToString())
                 .AddField("ClientID", "s_entitylookup", FieldType._Number, "", pClientID.ToString())
-                .AddField("LookUpType", "s_entitylookup", FieldType._Number, "", lookupType.ToString())
+                .AddField("LookUpType", "s_entitylookup", FieldType._Number, "",((int) lookupType).ToString())
              .AddField("LastUPD", "s_entitylookup", FieldType._DateTime, "", DateTime.Now.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
@@ -65,8 +87,10 @@ namespace TechSharpy.Entitifier.Data
          .AddField("HaveChild", "s_entitylookup", FieldType._String, "", haveChild.ToString())
          .AddField("LookUpType", "s_entitylookup", FieldType._Number, "", lookupType.ToString())
             .AddField("lastUpD", "s_entitylookup", FieldType._DateTime, "", DateTime.Now.ToString())
-        .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
-        AddWhere(0, "s_entitylookup", "LookUpId", FieldType._Number, Operator._Equal, pLookUpId.ToString());
+       // .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
+              .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(), Condition._And).
+      AddWhere(0, "s_entitylookup", "LookUpID", FieldType._Number, Operator._Equal, pLookUpId.ToString());
+            //AddWhere(0, "s_entitylookup", "LookUpId", FieldType._Number, Operator._Equal, pLookUpId.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
@@ -79,7 +103,7 @@ namespace TechSharpy.Entitifier.Data
         public bool Delete(int pClientID, int pLookUpID)
         {
             Query DeleteQ = new QueryBuilder(QueryType._Delete).AddTable("s_entitylookup")
-                .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
+                .AddWhere(0, "s_entitylookup", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(),Condition._And).
       AddWhere(0, "s_entitylookup", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
             
             if (rd.ExecuteQuery(DeleteQ).Result)
@@ -95,7 +119,7 @@ namespace TechSharpy.Entitifier.Data
         public bool DeleteLookUpItems(int pClientID, int pLookUpID)
         {
             Query DeleteQ = new QueryBuilder(QueryType._Delete).AddTable("s_entitylookupitem")
-                .AddWhere(0, "s_entitylookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString()).
+                .AddWhere(0, "s_entitylookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(), Condition._And).
       AddWhere(0, "s_entitylookupitem", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
                      
             if (rd.ExecuteQuery(DeleteQ).Result)
@@ -110,8 +134,8 @@ namespace TechSharpy.Entitifier.Data
         public bool DeleteLookUpItem(int pClientID, int pLookUpID, int pLookUpItemID)
         {
             Query DeleteQ = new QueryBuilder(QueryType._Delete).AddTable("s_entitylookupitem")
-                .AddWhere(0, "s_entitylookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString())
-                 .AddWhere(0, "s_entitylookupitem", "LookUpItemID", FieldType._Number, Operator._Equal, pLookUpItemID.ToString()).
+                .AddWhere(0, "s_entitylookupitem", "ClientID", FieldType._Number, Operator._Equal, pClientID.ToString(), Condition._And)
+                 .AddWhere(0, "s_entitylookupitem", "LookUpInstanceID", FieldType._Number, Operator._Equal, pLookUpItemID.ToString(), Condition._And).
       AddWhere(0, "s_entitylookupitem", "LookUpID", FieldType._Number, Operator._Equal, pLookUpID.ToString());
             
             if (rd.ExecuteQuery(DeleteQ).Result)
@@ -150,7 +174,7 @@ namespace TechSharpy.Entitifier.Data
         public bool SaveItem(int pClientID, int pLookupinstanceid, int pLookUpID, string pName, string pShortName,int order,int parentLookUpID)
         {
             Query iQuery = new QueryBuilder(QueryType._Update
-         ).AddTable("s_entitylookup")
+         ).AddTable("s_entitylookupitem")
          .AddField("LookUpItemName", "s_entitylookupitem", FieldType._String, "", pName.ToString())
          .AddField("ShortName", "s_entitylookupitem", FieldType._String, "", pShortName.ToString())
          //.AddField("IsEnabled", "s_entitylookup", FieldType._Question, "", IsEnabled.ToString())
