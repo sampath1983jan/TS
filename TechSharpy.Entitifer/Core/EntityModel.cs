@@ -18,13 +18,13 @@ namespace TechSharpy.Entitifier.Core
         public EntityModel() {
 
         }
-        public EntityModel(int modelID,string sourcekey, string modelName, List<EntityNode> entitynodes)
+        public EntityModel(string modelName, List<EntityNode> entitynodes)
         {
-            ModelID = modelID;
+            ModelID = -1;
             ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
             Entitynodes = entitynodes ?? throw new ArgumentNullException(nameof(entitynodes));
             dataEntityModel = new Data.EntityModel();
-            Sourcekey = sourcekey;
+            Sourcekey = "";
         }
         public EntityModel(int modelID, string sourcekey,string modelName)
         {
@@ -32,13 +32,13 @@ namespace TechSharpy.Entitifier.Core
             ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
             dataEntityModel = new Data.EntityModel();
         }
-        public EntityModel(int modelID,string sourcekey)
+        public EntityModel(int modelID)
         {
             ModelID = modelID;
             dataEntityModel = new Data.EntityModel();
             Entitynodes = new List<EntityNode>();
             EntityNodeFields = new List<EntityField>();
-            Sourcekey = sourcekey;
+            Sourcekey = "";
         }
         private bool Validation() {
             // Existing Node validation
@@ -82,23 +82,50 @@ namespace TechSharpy.Entitifier.Core
         }
     }
 
-   
 
-    public class EntityNode {
-        public int Entitykey;
-        public int LeftIndex;
-        public int RightIndex;
-        public int NodeKey;
-        public int ModeID;
-        public List<NodeJoint> Nodejoints;
+    public interface IEntityNode {
+        int Entitykey { get; set; }
+        int LeftIndex { get; set; }
+        int RightIndex { get; set; }
+        int NodeKey { get; set; }
+        int ModeID { get; set; }
+        int NodeID { get; set; }
+       
+    }
+
+    public class EntityNode:IEntityNode {
+
+        List<NodeJoint> Nodejoints { get; set; }
         private Data.EntityModel dataEntityModel;
-        public EntityNode(int modelID,int entitykey, int leftIndex, int rightIndex, int nodeKey)
+        private int _entityKey;
+        private int _leftIndex;
+        private int _rightindex;
+        private int _nodeKey;
+        private int _modelID;
+        private int _nodeID;
+      //  private List<NodeJoint> _nodeJoints;
+        public int Entitykey { get => _entityKey; set => _entityKey=value; }
+        public int LeftIndex { get => _leftIndex; set => _leftIndex = value; }
+        public int RightIndex { get => _rightindex; set => _rightindex = value; }
+        public int NodeKey { get => _nodeKey; set => _nodeKey = value; }
+        public int ModeID { get => _modelID; set => _modelID = value; }
+        public int NodeID { get => _nodeID; set => _nodeID = value; }
+        //public List<NodeJoint> Nodejoints { get => _nodeJoints; set => _nodeJoints = value; }
+
+        public EntityNode(int entitykey, int leftIndex, int rightIndex, int nodeKey)
         {
             Entitykey = entitykey;
             LeftIndex = leftIndex;
             RightIndex = rightIndex;
             NodeKey = nodeKey;
-            ModeID = modelID;
+            ModeID = -1;
+            NodeID = -1;
+            Nodejoints = new List<NodeJoint>();
+            dataEntityModel = new Data.EntityModel();
+        }
+        public EntityNode(int nodeID, int modeID) {
+            NodeID = nodeID;
+            ModeID = modeID;
             Nodejoints = new List<NodeJoint>();
             dataEntityModel = new Data.EntityModel();
         }
@@ -106,7 +133,19 @@ namespace TechSharpy.Entitifier.Core
             Nodejoints.Add(new NodeJoint(leftJoin, rightJoin));
         }
         public bool Save() {
-            return dataEntityModel.SaveNode(this.ModeID, this.Entitykey, this.LeftIndex, this.RightIndex, this.NodeKey);
+            string nj= Newtonsoft.Json.JsonConvert.SerializeObject(this.Nodejoints);
+            if (this.NodeID > 0)
+            {
+                return dataEntityModel.SaveNode(this.ModeID, this.NodeID, this.Entitykey, this.LeftIndex, this.RightIndex, this.NodeKey, nj);
+            }
+            else {
+                this.NodeID= dataEntityModel.SaveNode(this.ModeID, this.Entitykey, this.LeftIndex, this.RightIndex, this.NodeKey, nj);
+                if (this.NodeID > 0)
+                {
+                    return true;
+                }
+                else return false;
+            }            
         }
         public bool Remove()
         {
@@ -114,16 +153,21 @@ namespace TechSharpy.Entitifier.Core
         }
     }
 
-    public class NodeJoint {
-        public string leftJoin;
-        public string RightJoin;
-
+    public interface INodeJoint {
+          string leftJoin { set; get; }
+          string RightJoin { get; set; }
+    }
+    public class NodeJoint: INodeJoint
+    {       
         public NodeJoint(string leftJoin, string rightJoin)
         {
             this.leftJoin = leftJoin ?? throw new ArgumentNullException(nameof(leftJoin));
             RightJoin = rightJoin ?? throw new ArgumentNullException(nameof(rightJoin));
         }
-
+        private string _leftJoin;
+        private string _rightJoin;
+        public string leftJoin { get => _leftJoin; set => _leftJoin =value; }
+        public string RightJoin { get => _rightJoin; set => _rightJoin=value; }
     }
 
 }

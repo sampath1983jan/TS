@@ -51,9 +51,9 @@ namespace TechSharpy.Entitifier.Data
         }
         public bool Save(int modelID,string modelName)
         {
-            iQuery = new QueryBuilder(QueryType._Update).AddTable("EntityModelMode").
-                AddField("modelName", "EntityModelMode", FieldType._String, "", modelName)
-                            .AddWhere(0, "EntityModelMode", "ModelID", 
+            iQuery = new QueryBuilder(QueryType._Update).AddTable("EntityModelNode").
+                AddField("modelName", "EntityModelNode", FieldType._String, "", modelName)
+                            .AddWhere(0, "EntityModelNode", "ModelID", 
                             FieldType._Number, Operator._Equal, modelID.ToString(), Condition._None);
 
             
@@ -67,14 +67,47 @@ namespace TechSharpy.Entitifier.Data
             }
         }
         
-        public bool SaveNode(int modelID,int Entitykey, int left, int right, int Nodekey) {
+        public int SaveNode(int modelID,int Entitykey, int left, int right, int Nodekey,string nodeJoints) {
             try
-            {                
-                iQuery = new QueryBuilder(QueryType._Insert).AddField("ModelID", "EntityModelMode", FieldType._Number, "", modelID.ToString())
-                .AddField("Entitykey", "EntityModelMode", FieldType._Number, "", Entitykey.ToString())
-                  .AddField("left", "EntityModelMode", FieldType._Number, "", left.ToString())
-                .AddField("right", "EntityModelMode", FieldType._Number, "", right.ToString())
-                .AddField("Nodekey", "EntityModelMode", FieldType._Number, "", Nodekey.ToString());
+            {
+                int NextID = rd.getNextID("EntityModelNode");
+                iQuery = new QueryBuilder(QueryType._Insert)
+                .AddField("ModelID", "EntityModelNode", FieldType._Number, "", modelID.ToString())
+                .AddField("NodeID", "EntityModelNode", FieldType._Number, "", NextID.ToString())
+                .AddField("Entitykey", "EntityModelNode", FieldType._Number, "", Entitykey.ToString())
+                .AddField("left", "EntityModelNode", FieldType._Number, "", left.ToString())
+                .AddField("right", "EntityModelNode", FieldType._Number, "", right.ToString())
+                .AddField("Nodekey", "EntityModelNode", FieldType._Number, "", Nodekey.ToString())
+                .AddField("NodeJoints", "EntityModelNode", FieldType._String, "", nodeJoints.ToString());
+                if (rd.ExecuteQuery(iQuery).Result)
+                {
+                    return NextID;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool SaveNode(int modelID, int nodeID, int Entitykey, int left, int right, int Nodekey, string nodeJoints)
+        {
+            try
+            {
+                //   int NextID = rd.getNextID("EntityModel");
+                iQuery = new QueryBuilder(QueryType._Insert)
+                //   .AddField("ModelID", "EntityModelNode", FieldType._Number, "", modelID.ToString())
+                .AddField("Entitykey", "EntityModelNode", FieldType._Number, "", Entitykey.ToString())
+                .AddField("left", "EntityModelNode", FieldType._Number, "", left.ToString())
+                .AddField("right", "EntityModelNode", FieldType._Number, "", right.ToString())
+                .AddField("Nodekey", "EntityModelNode", FieldType._Number, "", Nodekey.ToString())
+                .AddField("NodeJoints", "EntityModelNode", FieldType._String, "", nodeJoints.ToString())
+                .AddWhere(0, "EntityModelNode", "ModelID", FieldType._Number, modelID.ToString(), Condition._And)
+                .AddWhere(0, "EntityModelNode", "nodeID", FieldType._Number, nodeID.ToString());
                 if (rd.ExecuteQuery(iQuery).Result)
                 {
                     return true;
@@ -90,12 +123,13 @@ namespace TechSharpy.Entitifier.Data
             }
         }
 
+
         public bool RemoveNode(int modelID, int Entitykey, int Nodekey) {
 
-            iQuery = new QueryBuilder(QueryType._Delete).AddTable("EntityModelMode")
-                .AddWhere(0, "EntityModelMode", "ModelID", FieldType._Number, Operator._Equal, modelID.ToString(),Condition._And).
-               AddWhere(0, "EntityModelMode", "Entitykey", FieldType._Number, Operator._Equal, Entitykey.ToString(), Condition._And)
-               .AddWhere(0, "EntityModelMode", "Nodekey", FieldType._Number, Operator._Equal, Nodekey.ToString());
+            iQuery = new QueryBuilder(QueryType._Delete).AddTable("EntityModelNode")
+                .AddWhere(0, "EntityModelNode", "ModelID", FieldType._Number, Operator._Equal, modelID.ToString(),Condition._And).
+               AddWhere(0, "EntityModelNode", "Entitykey", FieldType._Number, Operator._Equal, Entitykey.ToString(), Condition._And)
+               .AddWhere(0, "EntityModelNode", "Nodekey", FieldType._Number, Operator._Equal, Nodekey.ToString());
             
             if (rd.ExecuteQuery(iQuery).Result)
             {
@@ -108,8 +142,8 @@ namespace TechSharpy.Entitifier.Data
         }
         
         public bool RemoveModel(int modelID) {
-            iQuery = new QueryBuilder(QueryType._Delete).AddTable("EntityModelMode")
-                            .AddWhere(0, "EntityModelMode", "ModelID", FieldType._Number, Operator._Equal, modelID.ToString(), Condition._None);                                               
+            iQuery = new QueryBuilder(QueryType._Delete).AddTable("EntityModelNode")
+                            .AddWhere(0, "EntityModelNode", "ModelID", FieldType._Number, Operator._Equal, modelID.ToString(), Condition._None);                                               
             if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
