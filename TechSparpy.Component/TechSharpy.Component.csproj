@@ -51,6 +51,7 @@
     <Compile Include="IComponent.cs" />
     <Compile Include="LookUp\FieldLookupManager.cs" />
     <Compile Include="Model\ComponentModel.cs" />
+    <Compile Include="Model\ElementRelation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityComponent.cs" />
     <Compile Include="CustomComponent.cs" />
