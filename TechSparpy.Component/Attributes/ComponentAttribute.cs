@@ -55,9 +55,10 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             base.FieldType = (Entitifier.Core.EntityFieldType)(int)this.Type;
         }
         private void SetDefault() {
+            this.UsageFieldType = UsageType._InputField;
             this.ComponentKey = this.ComponentKey == null ? "" : this.ComponentKey;
             this.RegExpression = this.RegExpression == null ? "" : RegExpression;
-            ParentComponentKey = this.ParentComponentKey == null ? "" : ParentComponentKey;
+            this.ParentComponentKey = this.ParentComponentKey == null ? "" : ParentComponentKey;
             
         }
         protected  override bool Save()
@@ -123,7 +124,9 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             Load();
         }        
         public  ComponentAttribute() {
-            datacomponentAttribute = new Data.ComponentAttribute();
+            UsageFieldType = UsageType._InputField;
+            SetDefault();
+                   datacomponentAttribute = new Data.ComponentAttribute();
         }
     }
 

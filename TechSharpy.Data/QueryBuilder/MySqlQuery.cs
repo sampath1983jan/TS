@@ -228,14 +228,20 @@ namespace TechSharpy.Data
                 for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
                 {
                     WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
+                    WhereCase psws = null;
+                    if (iwhere != 0)
+                    {
+                        psws = this.WhereGroups[iwhereg].whereCases[iwhere - 1];
+                    }
+
 
                     if (iwhere != 0)
                     {
-                        if (ws.condition == Condition._And)
+                        if (psws.condition == Condition._And)
                         {
                             sbWherecase.Append(" AND ");
                         }
-                        else if (ws.condition == Condition._Or)
+                        else if (psws.condition == Condition._Or)
                         {
                             sbWherecase.Append(" OR ");
                         }

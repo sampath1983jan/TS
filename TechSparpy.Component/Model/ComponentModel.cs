@@ -7,63 +7,159 @@ using TechSharpy.Entitifier.Core;
 
 namespace TechSharpy.Component.Model
 {
-
-
-    public interface IComponentModel {
-        bool SaveModel();
-        bool RemoveModel();
-        bool RemoveElement();
-        void Load();
-
+    public class ComponentModelManager
+    {
+        public static IComponentModel Create(IComponentModelFactory factory, int modelID)
+        {
+            return factory.Create(modelID);
+        }
+        public static IComponentModel Create(IComponentModelFactory factory, string modelName, List<ElementRelation> elementRelations)
+        {
+            return factory.Create(modelName, elementRelations);
+        }
     }
+    public interface IComponentModelFactory
+    {
+        IComponentModel Create(int modelID);
+        IComponentModel Create(string modelName, List<ElementRelation> elementRelations);
+    }
+
+    public class ComponentModelFactory : IComponentModelFactory
+    {
+        public IComponentModel Create(int modelID)
+        {
+            return new ComponentModel(modelID);
+        }
+        public IComponentModel Create(string modelName, List<ElementRelation> elementRelations)
+        {
+            return new ComponentModel(modelName, elementRelations);
+        }
+    }
+    
+    public interface IComponentModel
+    {
+        string ComponentModelName { get; }
+        int ComponentModelID { get; }
+        List<ElementRelation> ElementRelations { get; }
+        bool SaveModel();
+        bool Remove();
+        bool RemoveElement(int nodekey, int entitykey);
+        void Load();
+        bool NameChange();
+        bool AddRelation(IElementRelation elementRelation);
+    }
+
     public class ComponentModel : Entitifier.Core.EntityModel, IComponentModel
     {
+        private List<ElementRelation> _elementRelations;
+        private string _componentModelName;
+        private int _componentModelID;
+        public List<ElementRelation> ElementRelations { get => _elementRelations; }
+        public string ComponentModelName { get => _componentModelName; }
+        public int ComponentModelID { get => _componentModelID; }
 
-        public List<ElementRelation> ElementRelations;
+        public ComponentModel() : base()
+        {
+            _elementRelations = new List<ElementRelation>();
+        }
+        public ComponentModel(int modelID) : base(modelID)
+        {
+            _elementRelations = new List<ElementRelation>();
+            _componentModelID = modelID;
+            base.Init();
+        }
+        public ComponentModel(string modelName, List<ElementRelation> elementRelations)
+            : base(modelName, Param(elementRelations))
+        {
+            _componentModelName = modelName;
+            _elementRelations = elementRelations;
 
-        public ComponentModel() : base() {
-            ElementRelations = new List<ElementRelation>();
-            
         }
-        public ComponentModel(int modelID) : base(modelID) {
-            ElementRelations = new List<ElementRelation>();
-        }
-        public ComponentModel(string modelName, List<ElementRelation> entitynodes)
-            :base(modelName, Param(entitynodes)) {
-           
-            
-        }
-        private static List<EntityNode> Param(List<ElementRelation> entitynodes) {            
-            List<IEntityNode> entityNode = entitynodes.Select(x => (IEntityNode)x).ToList();
-            List<EntityNode> entityNode1 = entityNode.Select(x => (EntityNode)x).ToList();
+        private static List<EntityNode> Param(List<ElementRelation> elementRelations)
+        {
+            List<IEntityNode> _er = elementRelations.Select(x => (IEntityNode)x).ToList();
+            List<EntityNode> entityNode1 = _er.Select(x => (EntityNode)x).ToList();
             return entityNode1;
+        }       
+        public bool AddRelation(IElementRelation elementRelation)
+        {
+            elementRelation.ModeID = _componentModelID;
+            
+            if (base.Validation()) {
+                if (_componentModelID > 0)
+                {
+                    this.ElementRelations.Add((ElementRelation)elementRelation);
+                    var er = (ElementRelation)elementRelation;
+                    er.ModeID = this.ModelID;
+                    if (er.Save())
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                else return true;        
+                
+            }
+            return false;
         }
-
-
-
-        public void AddRelation(ElementRelation elementRelation) {
-            elementRelation.ModeID = this.ModelID;
-            this.ElementRelations.Add(elementRelation);
+         
+        public bool NameChange()
+        {
+            return base.ChangeName();
         }
-
         public void Load()
         {
-            throw new NotImplementedException();
+           
         }
-
-        public bool RemoveElement()
+        public bool RemoveElement(int nodekey, int entitykey)
         {
-            throw new NotImplementedException();
+            return base.RemoveNode(entitykey, nodekey);
         }
-
-        public bool RemoveModel()
+        public bool Remove()
         {
-            throw new NotImplementedException();
+            return base.RemoveModel();
         }
-
         public bool SaveModel()
         {
-            throw new NotImplementedException();
-        }
+            if (this.Validation())
+            {
+                if (this.ModelID > 0)
+                {
+                    ElementRelation element_r ;
+                    foreach (ElementRelation er in this.ElementRelations)
+                    {
+                        if (er.NodeID <= 0) {
+                            element_r = er;
+                        }
+                        er.ModeID = this.ModelID;
+                        er.Save();                                
+                    }
+                    base.Init();                  
+                    return true;
+                }
+                else if (base.Save())
+                {
+                    foreach (ElementRelation er in this.ElementRelations)
+                    {
+                        er.ModeID = base.ModelID;
+                        er.Save();                        
+                    }
+                    base.Init();
+                  //  base.UpdateModelHierarchy(this.ElementRelations[0].NodeID);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }               
+            }
+            else {
+                return false;
+            }
+           
+        }       
     }
-}
+}   
+
+    
+

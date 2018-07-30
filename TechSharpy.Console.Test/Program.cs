@@ -9,44 +9,91 @@ namespace TechSharpy.Console.Test
     class Program
     {
         static void Main(string[] args)
-        {
+        {            
+            var er = Component.Model.ElementRelationManager.Create(new Component.Model.ElementRelationFactory(), 102, 0, 1, 105);
+            er.AddRelationNode(new Component.Model.ElementRelationNode("UserID", "UserID"));
+            var emodel = Component.Model.ComponentModelManager.Create(new Component.Model.ComponentModelFactory(), 1);
+            if (emodel.AddRelation(er))
+            {
+               // emodel.SaveModel();               
+            }
+            else {
+                //emodel.RemoveElement(er.NodeKey, er.Entitykey);
+             //   emodel.Remove();
+                System.Console.WriteLine("This relationship exist");
+            };            
+            //var h = Component.ComponentManager.Create(new ComponentHandlerFactory(),
+            //"Employee", "testing data", Component.ComponentType._CoreComponent, "UserID");
+            //Component.Attributes.ComponentAttribute ca = new Component.Attributes.ComponentAttribute();
+            //ca.Type = Component.Attributes.AttributeType._None;
+            //ca.Name = "UserID";
+            //ca.IsKey = true;
+            //ca.IsUnique = true;
+            //ca.EntityKey = -1;
+            //ca.DisplayName = "User ID";
+            //ca.DefaultValue = "";
+            //ca.IsKey = true;
+            //ca.enableContentLimit = true;
+            //ca.Max = "255";
+            //ca.Type = Component.Attributes.AttributeType._Number;
+            //ca.Min = "1";
+            //h.AddComponentAttribute(ca);
+            //ca = new Component.Attributes.ComponentAttribute();
+            //ca.Type = Component.Attributes.AttributeType._None;
+            //ca.Name = "EmployeeName";
+            //ca.IsKey = false;
+            //ca.IsUnique = true;
+            //ca.EntityKey = -1;
+            //ca.DisplayName = "Employee Name";
+            //ca.DefaultValue = "";            
+            //ca.enableContentLimit = true;
+            //ca.Max = "555";
+            //ca.Type = Component.Attributes.AttributeType._Text;
+            //ca.Min = "1";
+            //h.AddComponentAttribute(ca);
+            //ca = new Component.Attributes.ComponentAttribute();
+            //ca.Type = Component.Attributes.AttributeType._None;
+            //ca.Name = "EmployeeNumber";
+            //ca.IsKey = false;
+            //ca.IsUnique = true;
+            //ca.EntityKey = -1;
+            //ca.DisplayName = "Employee Number";
+            //ca.DefaultValue = "";
+            //ca.enableContentLimit = true;
+            //ca.Max = "255";
+            //ca.Type = Component.Attributes.AttributeType._Text;
+            //ca.Min = "1";
+            //h.AddComponentAttribute(ca);
+            //h.ComponentSave();
 
-          
-            
-            var lookup= Component.LookUp.LookUpManager.Create(new Component.LookUp.LookUpFactory(),
-                "Gender",true, false, new List<Entitifier.Core.LookUpItem>(), Entitifier.Core.LookUpType._None);
-            lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Male", "M", 1, -1));
-            lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Female", "F", 2, -1));
-            lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "None", "N", 0, -1));
-            lookup.SaveLookUp();
-            lookup.Dispose();
 
-            lookup = Component.LookUp.LookUpManager.Create(new Component.LookUp.LookUpFactory(),
-                "Status", true, false, new List<Entitifier.Core.LookUpItem>(), Entitifier.Core.LookUpType._None);
-            lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Active", "A", 1, -1));
-            lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Inactive", "InA", 2, -1));
-            lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "None", "N", 0, -1));
-            lookup.SaveLookUp();
-            List<Component.LookUp.Proxy.ComponentLookUp> cs= lookup.GetLookUpList(); 
+            //var lookup= Component.LookUp.LookUpManager.Create(new Component.LookUp.LookUpFactory(),
+            //    "Gender",true, false, new List<Entitifier.Core.LookUpItem>(), Entitifier.Core.LookUpType._None);
+            //lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Male", "M", 1, -1));
+            //lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Female", "F", 2, -1));
+            //lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "None", "N", 0, -1));
+            //lookup.SaveLookUp();
+            //lookup.Dispose();
 
-            
+            //lookup = Component.LookUp.LookUpManager.Create(new Component.LookUp.LookUpFactory(),
+            //    "Status", true, false, new List<Entitifier.Core.LookUpItem>(), Entitifier.Core.LookUpType._None);
+            //lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Active", "A", 1, -1));
+            //lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "Inactive", "InA", 2, -1));
+            //lookup.AddLookUpItem(new Entitifier.Core.LookUpItem(-1, -1, "None", "N", 0, -1));
+            //lookup.SaveLookUp();
+            //List<Component.LookUp.Proxy.ComponentLookUp> cs= lookup.GetLookUpList(); 
+
+
+
             //var lookup1 = Component.LookUp.LookUpManager.Create(new Component.LookUp.LookUpFactory(), lookup.GetLookUpID());
             //List<Component.LookUp.Proxy.ComponentLookUpItem> cli= lookup1.GetLookUpItem();
             //var ab= cli.Where(a => a.ItemID == cli.First().ItemID).FirstOrDefault();
             //ab.LookUpName = "Updated " + ab.LookUpName;
             //lookup1.UpdateLookUpItem(ab);
             //lookup1.DeleteLookUpItem(cli.First().ItemID);
-
-
-
-
             System.Console.ReadLine();
-
-
             //lookup.DeleteLookUp();
-
             //  var h = Component.ComponentManager.Create(new ComponentHandlerFactory(), "sys_User3", "testing data", Component.ComponentType._CoreComponent, "UserID");
-
             //  Component.Attributes.ComponentAttribute ca = new Component.Attributes.ComponentAttribute();
             //  ca.Type = Component.Attributes.AttributeType._None;
             //  ca.Name = "UserID";

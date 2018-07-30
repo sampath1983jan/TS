@@ -322,11 +322,14 @@ namespace TechSharpy.Entitifier.Core
             }
             else if (eft == EntityFieldType._Text)
             {
+                return FieldType._String;
+            }
+            else if (eft == EntityFieldType._LongText) {
                 return FieldType._Text;
             }
             else if (eft == EntityFieldType._Auto)
             {
-                return FieldType._Text;
+                return FieldType._String;
             }
             else if (eft == EntityFieldType._Bool)
             {
@@ -374,7 +377,7 @@ namespace TechSharpy.Entitifier.Core
             }
             else
             {
-                return FieldType._Text;
+                return FieldType._String;
             }
 
         }

@@ -189,7 +189,8 @@ namespace TechSharpy.Data.ABS
             {
                 if (!Value.IsNumeric())
                 {
-                    throw new Exception(string.Format("Invalid Data in {0}", FieldName));
+                    //throw new Exception(string.Format("Invalid Data in {0}", FieldName));
+                    return Value;
                 }
                 else
                 {

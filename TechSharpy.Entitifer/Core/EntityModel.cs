@@ -4,85 +4,149 @@ using System.Collections.Generic;
 using System.Text;
 using TechSharpy.Entitifier;
 using System.Linq;
+using System.Data;
 
 namespace TechSharpy.Entitifier.Core
 {
-    public class EntityModel
-    {
-        public int ModelID;
-        public string Sourcekey;
-        public string ModelName;
-        public List<EntityNode> Entitynodes;        
+    public interface IEntityModel {
+        int ModelID { set; get; }
+        string Sourcekey { set; get; }
+        string ModelName { set; get; }
+        List<EntityNode> Entitynodes { set; get; }
+    }
+    public class EntityModel:IEntityModel
+    {          
         public List<EntityField> EntityNodeFields;
         private Data.EntityModel dataEntityModel;
+        private int _modelID;
+        private string _modelName;
+        private List<EntityNode> _entityNodes;
+        public int ModelID { get => _modelID; set => _modelID=value; }
+        public string Sourcekey { get => _modelName; set => _modelName=value; }
+        public string ModelName { get => _modelName; set => _modelName=value; }
+        public List<EntityNode> Entitynodes { get => _entityNodes; set => _entityNodes=value; }
         public EntityModel() {
 
         }
         public EntityModel(string modelName, List<EntityNode> entitynodes)
         {
             ModelID = -1;
-            ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
-            Entitynodes = entitynodes ?? throw new ArgumentNullException(nameof(entitynodes));
-            dataEntityModel = new Data.EntityModel();
-            Sourcekey = "";
+            _modelName = modelName;            
+            _entityNodes = entitynodes;
+            dataEntityModel = new Data.EntityModel();            
         }
         public EntityModel(int modelID, string sourcekey,string modelName)
         {
             ModelID = modelID;
             ModelName = modelName ?? throw new ArgumentNullException(nameof(modelName));
+            _entityNodes = new List<EntityNode>();
             dataEntityModel = new Data.EntityModel();
         }
         public EntityModel(int modelID)
         {
             ModelID = modelID;
+          //  _modelID = -1;
             dataEntityModel = new Data.EntityModel();
-            Entitynodes = new List<EntityNode>();
+            _entityNodes = new List<EntityNode>();
             EntityNodeFields = new List<EntityField>();
-            Sourcekey = "";
+          //  Sourcekey = "";
         }
-        private bool Validation() {
+        private bool IsNodeExist(int nodeid,int entitykey,int nodekey) {
+            EntityNode en;
+            if (nodeid <= 0) {
+                en = Entitynodes.Where(a => a.Entitykey == entitykey && a.NodeKey == nodekey).FirstOrDefault();
+                if (en == null)
+                {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else return false;
+        }
+        public bool Validation() {
             // Existing Node validation
             // Parent Node validation
+            foreach (EntityNode en in Entitynodes) {
+                if (IsNodeExist(en.NodeID, en.Entitykey, en.NodeKey)) {
+                    return false;
+                }
+            }            
             return true;
         }
         public bool ChangeName() {
             return dataEntityModel.Save(this.ModelID, this.ModelName);
         }
-        public bool RemoveNode(int entitykey,int nodekey) {
-            EntityNode en ;
-           en= Entitynodes.Where(a => a.Entitykey == entitykey && a.NodeKey == nodekey && a.ModeID == this.ModelID).FirstOrDefault();
-            if (en != null)
+        public bool RemoveModel() {
+            if (dataEntityModel.RemoveModel(this.ModelID))
             {
-                en.Remove();
+                foreach (EntityNode en in this.Entitynodes)
+                {
+                    en.Remove();
+                }
                 return true;
             }
             else {
                 return false;
             }
         }
-        public bool Save() {
-            
-                int key = dataEntityModel.Save(this.ModelName, Sourcekey);
-                if (key > 0)
+        public bool RemoveNode(int entitykey,int nodekey) {
+            EntityNode en ;
+           en= Entitynodes.Where(a => a.Entitykey == entitykey && a.NodeKey == nodekey && a.ModeID == this.ModelID).FirstOrDefault();
+            if (en != null)
+            {
+                if (en.Remove())
                 {
-                    foreach (EntityNode en in Entitynodes)
-                    {
-                        en.Save();
-                    }
                     return true;
+                }
+                else return false;                
+            }
+            else {
+                return false;
+            }
+        }
+        public bool Save() {            
+                this._modelID = dataEntityModel.Save(this.ModelName, Sourcekey);
+                if (this._modelID > 0)
+                {
+                  return true;
                 }
                 else
                 {
                     return false;
                 }         
-          }
+        }        
         
         public void Init() {
-
+           DataTable dt = new DataTable();
+           DataTable dtRelation = new DataTable();
+            DataTable dtModel = new DataTable();
+           dt = dataEntityModel.GetModel(this.ModelID);
+           
+           dtRelation = dt.DefaultView.ToTable(true,"NodeID,ModelID,EntityKey,Nodekey,left,right,NodeJoints".Split(','));
+            dtModel = dt.DefaultView.ToTable(true, "ModelID,ModelName".Split(','));
+            foreach (DataRow dr in dtModel.Rows) {
+                this.ModelName = dr["ModelName"] == DBNull.Value ? "" : dr["ModelName"].ToString();               
+            }
+            foreach (DataRow dr in dtRelation.Rows) {
+                if (dr["nodeid"] != DBNull.Value) {
+                    int _nodeid = dr["nodeid"] == DBNull.Value ? 0 : (int)dr["nodeid"];
+                    int _entitykey = dr["EntityKey"] == DBNull.Value ? 0 : (int)dr["EntityKey"];
+                    int _nodekey = dr["Nodekey"] == DBNull.Value ? 0 : (int)dr["Nodekey"];
+                    int _left = dr["left"] == DBNull.Value ? 0 : (int)dr["left"];
+                    int _right = dr["right"] == DBNull.Value ? 0 : (int)dr["right"];
+                    string _joints = dr["NodeJoints"] == DBNull.Value ? "" : (string)dr["NodeJoints"];
+                    var n = new EntityNode(this.ModelID, _nodeid, _entitykey, _left, _right, _nodekey);
+                    List<NodeJoint> nodeJoint = Newtonsoft.Json.JsonConvert.DeserializeObject<List<NodeJoint>>(_joints);
+                    n.Nodejoints = nodeJoint;
+                    this.Entitynodes.Add(n);
+                }
+                
+            }
         }
     }
-
-
+    
     public interface IEntityNode {
         int Entitykey { get; set; }
         int LeftIndex { get; set; }
@@ -95,7 +159,7 @@ namespace TechSharpy.Entitifier.Core
 
     public class EntityNode:IEntityNode {
 
-        List<NodeJoint> Nodejoints { get; set; }
+        public List<NodeJoint> Nodejoints { get; set; }
         private Data.EntityModel dataEntityModel;
         private int _entityKey;
         private int _leftIndex;
@@ -123,6 +187,17 @@ namespace TechSharpy.Entitifier.Core
             Nodejoints = new List<NodeJoint>();
             dataEntityModel = new Data.EntityModel();
         }
+        public EntityNode(int modeID,int nodeID, int entitykey, int leftIndex, int rightIndex, int nodeKey)
+        {
+            Entitykey = entitykey;
+            LeftIndex = leftIndex;
+            RightIndex = rightIndex;
+            NodeKey = nodeKey;
+            ModeID = modeID;
+            NodeID = nodeID;
+            Nodejoints = new List<NodeJoint>();
+            dataEntityModel = new Data.EntityModel();
+        }
         public EntityNode(int nodeID, int modeID) {
             NodeID = nodeID;
             ModeID = modeID;
@@ -132,6 +207,7 @@ namespace TechSharpy.Entitifier.Core
         public void addJoint(string leftJoin, string rightJoin) {
             Nodejoints.Add(new NodeJoint(leftJoin, rightJoin));
         }
+        
         public bool Save() {
             string nj= Newtonsoft.Json.JsonConvert.SerializeObject(this.Nodejoints);
             if (this.NodeID > 0)
@@ -149,7 +225,7 @@ namespace TechSharpy.Entitifier.Core
         }
         public bool Remove()
         {
-            return dataEntityModel.RemoveNode(this.ModeID,this.Entitykey,this.NodeKey);
+            return dataEntityModel.RemoveNode(this.NodeID);
         }
     }
 
@@ -157,6 +233,7 @@ namespace TechSharpy.Entitifier.Core
           string leftJoin { set; get; }
           string RightJoin { get; set; }
     }
+
     public class NodeJoint: INodeJoint
     {       
         public NodeJoint(string leftJoin, string rightJoin)

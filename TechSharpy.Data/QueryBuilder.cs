@@ -27,7 +27,7 @@ namespace TechSharpy.Data
         _Time,
         _File,
         _Image,
-        _Entity
+        _Entity       
     }
     public enum Operator
     {

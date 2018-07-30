@@ -9,6 +9,14 @@ namespace TechSharpy.Component.Model
 {
 
     public interface IElementRelation {
+
+        int Entitykey { get; set; }
+        int LeftIndex { get; set; }
+        int RightIndex { get; set; }
+        int NodeKey { get; set; }
+        int ModeID { get; set; }
+        int NodeID { get; set; }
+
         void AddRelation();
         void AddRelationNode(ElementRelationNode elementRelationNode);        
     }
@@ -40,9 +48,8 @@ namespace TechSharpy.Component.Model
         }
     }
 
-    public class ElementRelation : Entitifier.Core.EntityNode,IElementRelation,IEntityNode
-    {
-        
+    public class ElementRelation : Entitifier.Core.EntityNode,IElementRelation
+    {        
         public List<ElementRelationNode> RelationNodes;
         public ElementRelation(int nodeID):base(nodeID,-1)
         {
@@ -53,14 +60,19 @@ namespace TechSharpy.Component.Model
         {
             RelationNodes = new List<ElementRelationNode>();
         }
+        public ElementRelation(int nodeID,int componentkey, int leftIndex, int rightIndex, int relatedComponentkey) :
+           base(componentkey, leftIndex, rightIndex, relatedComponentkey)
+        {
+            RelationNodes = new List<ElementRelationNode>();
+            NodeID = nodeID;
+        }
         public void AddRelation()
         {
-           // throw new NotImplementedException();
+           
         }
         public void AddRelationNode(ElementRelationNode elementRelationNode)
         {
-            this.addJoint(elementRelationNode.leftJoin, elementRelationNode.RightJoin);
-          
+            this.addJoint(elementRelationNode.leftJoin, elementRelationNode.RightJoin);          
         }
     }
 
@@ -72,7 +84,8 @@ namespace TechSharpy.Component.Model
         public string RightJoin { get => _rightJoin; set => _rightJoin = value; }
 
         public ElementRelationNode(string leftAttributeKey, string rightAttributeKey) {
-
+            this._leftJoin = leftAttributeKey;
+            this._rightJoin = rightAttributeKey;
         }
         
     }
