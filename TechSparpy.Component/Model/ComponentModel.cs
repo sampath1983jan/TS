@@ -44,9 +44,11 @@ namespace TechSharpy.Component.Model
         bool SaveModel();
         bool Remove();
         bool RemoveElement(int nodekey, int entitykey);
+        bool RemoveElement(int nodeID);
         void Load();
         bool NameChange();
         bool AddRelation(IElementRelation elementRelation);
+        bool RelationChange(int NodeID, int nodeKey, List<ElementRelationNode> elementRelationNode);
     }
 
     public class ComponentModel : Entitifier.Core.EntityModel, IComponentModel
@@ -80,7 +82,15 @@ namespace TechSharpy.Component.Model
             List<IEntityNode> _er = elementRelations.Select(x => (IEntityNode)x).ToList();
             List<EntityNode> entityNode1 = _er.Select(x => (EntityNode)x).ToList();
             return entityNode1;
-        }       
+        }
+
+        private static List<NodeJoint> Param(List<ElementRelationNode> elementRelationNode)
+        {
+            List<INodeJoint> _er = elementRelationNode.Select(x => (INodeJoint)x).ToList();
+            List<NodeJoint> entityNode1 = _er.Select(x => (NodeJoint)x).ToList();
+            return entityNode1;
+        }
+
         public bool AddRelation(IElementRelation elementRelation)
         {
             elementRelation.ModeID = _componentModelID;
@@ -115,6 +125,11 @@ namespace TechSharpy.Component.Model
         {
             return base.RemoveNode(entitykey, nodekey);
         }
+        public bool RemoveElement(int nodeID)
+        {
+            return base.RemoveNode(nodeID);
+        }
+
         public bool Remove()
         {
             return base.RemoveModel();
@@ -157,7 +172,15 @@ namespace TechSharpy.Component.Model
                 return false;
             }
            
-        }       
+        }
+
+        public bool RelationChange(int NodeID, int nodeKey, List<ElementRelationNode> elementRelationNode)
+        {
+           var en = ElementRelations.Where(a => a.NodeID == NodeID).FirstOrDefault();           
+            return en.ChangeNode(nodeKey, Param(elementRelationNode));
+        }
+
+ 
     }
 }   
 

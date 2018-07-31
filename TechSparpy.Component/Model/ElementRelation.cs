@@ -23,15 +23,15 @@ namespace TechSharpy.Component.Model
 
     public interface IElementRelationFactory {
         IElementRelation Create(int NodeID);
-        IElementRelation Create(int Componentkey, int leftIndex, int rightIndex, int relatedComponentkey);
+        IElementRelation Create(int Componentkey, int relatedComponentkey);
     }
 
     public class ElementRelationManager {
         public static IElementRelation Create(IElementRelationFactory elementRelationFactory,int nodeID) {
             return elementRelationFactory.Create(nodeID);
         }
-        public static IElementRelation Create(IElementRelationFactory elementRelationFactory,int Componentkey, int leftIndex, int rightIndex, int relatedComponentkey) {
-            return elementRelationFactory.Create(Componentkey, leftIndex, rightIndex, relatedComponentkey);
+        public static IElementRelation Create(IElementRelationFactory elementRelationFactory,int Componentkey, int relatedComponentkey) {
+            return elementRelationFactory.Create(Componentkey,  relatedComponentkey);
         }
     }
 
@@ -42,9 +42,9 @@ namespace TechSharpy.Component.Model
             return new ElementRelation(NodeID);    
         }
 
-        public IElementRelation Create(int Componentkey, int leftIndex, int rightIndex, int relatedComponentkey)
+        public IElementRelation Create(int Componentkey, int relatedComponentkey)
         {
-            return new ElementRelation(Componentkey, leftIndex, rightIndex, relatedComponentkey);
+            return new ElementRelation(Componentkey,relatedComponentkey);
         }
     }
 
@@ -55,13 +55,13 @@ namespace TechSharpy.Component.Model
         {
             NodeID = nodeID;
         }
-        public ElementRelation(int Componentkey, int leftIndex, int rightIndex, int relatedComponentkey) :
-            base( Componentkey, leftIndex, rightIndex, relatedComponentkey)
+        public ElementRelation(int Componentkey, int relatedComponentkey) :
+            base( -1,-1,Componentkey, relatedComponentkey)
         {
             RelationNodes = new List<ElementRelationNode>();
         }
-        public ElementRelation(int nodeID,int componentkey, int leftIndex, int rightIndex, int relatedComponentkey) :
-           base(componentkey, leftIndex, rightIndex, relatedComponentkey)
+        public ElementRelation(int nodeID,int componentkey, int relatedComponentkey) :
+           base( componentkey, relatedComponentkey)
         {
             RelationNodes = new List<ElementRelationNode>();
             NodeID = nodeID;

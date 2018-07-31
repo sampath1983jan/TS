@@ -91,6 +91,24 @@ namespace TechSharpy.Entitifier.Core
                 return false;
             }
         }
+        public bool RemoveNode(int nodeID)
+        {
+            EntityNode en;
+            en = Entitynodes.Where(a => a.NodeID == nodeID && a.ModeID == this.ModelID).FirstOrDefault();
+            if (en != null)
+            {
+                if (en.Remove())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool RemoveNode(int entitykey,int nodekey) {
             EntityNode en ;
            en= Entitynodes.Where(a => a.Entitykey == entitykey && a.NodeKey == nodekey && a.ModeID == this.ModelID).FirstOrDefault();
@@ -137,7 +155,9 @@ namespace TechSharpy.Entitifier.Core
                     int _left = dr["left"] == DBNull.Value ? 0 : (int)dr["left"];
                     int _right = dr["right"] == DBNull.Value ? 0 : (int)dr["right"];
                     string _joints = dr["NodeJoints"] == DBNull.Value ? "" : (string)dr["NodeJoints"];
-                    var n = new EntityNode(this.ModelID, _nodeid, _entitykey, _left, _right, _nodekey);
+                    var n = new EntityNode(this.ModelID, _nodeid, _entitykey, _nodekey);
+                    n.LeftIndex = _left;
+                    n.RightIndex = _right;
                     List<NodeJoint> nodeJoint = Newtonsoft.Json.JsonConvert.DeserializeObject<List<NodeJoint>>(_joints);
                     n.Nodejoints = nodeJoint;
                     this.Entitynodes.Add(n);
@@ -154,6 +174,7 @@ namespace TechSharpy.Entitifier.Core
         int NodeKey { get; set; }
         int ModeID { get; set; }
         int NodeID { get; set; }
+        int Depth { set; get; }
        
     }
 
@@ -167,6 +188,7 @@ namespace TechSharpy.Entitifier.Core
         private int _nodeKey;
         private int _modelID;
         private int _nodeID;
+        private int _depth;
       //  private List<NodeJoint> _nodeJoints;
         public int Entitykey { get => _entityKey; set => _entityKey=value; }
         public int LeftIndex { get => _leftIndex; set => _leftIndex = value; }
@@ -174,48 +196,61 @@ namespace TechSharpy.Entitifier.Core
         public int NodeKey { get => _nodeKey; set => _nodeKey = value; }
         public int ModeID { get => _modelID; set => _modelID = value; }
         public int NodeID { get => _nodeID; set => _nodeID = value; }
-        //public List<NodeJoint> Nodejoints { get => _nodeJoints; set => _nodeJoints = value; }
-
-        public EntityNode(int entitykey, int leftIndex, int rightIndex, int nodeKey)
+        public int Depth { get => _depth; set => _depth = value; }
+        
+        public EntityNode(int modeID,int nodeID, int entitykey, int nodeKey)
         {
             Entitykey = entitykey;
-            LeftIndex = leftIndex;
-            RightIndex = rightIndex;
-            NodeKey = nodeKey;
-            ModeID = -1;
-            NodeID = -1;
-            Nodejoints = new List<NodeJoint>();
-            dataEntityModel = new Data.EntityModel();
-        }
-        public EntityNode(int modeID,int nodeID, int entitykey, int leftIndex, int rightIndex, int nodeKey)
-        {
-            Entitykey = entitykey;
-            LeftIndex = leftIndex;
-            RightIndex = rightIndex;
+            LeftIndex = 0;
+            RightIndex = 1;
             NodeKey = nodeKey;
             ModeID = modeID;
             NodeID = nodeID;
             Nodejoints = new List<NodeJoint>();
+            _depth = 0;
             dataEntityModel = new Data.EntityModel();
         }
         public EntityNode(int nodeID, int modeID) {
             NodeID = nodeID;
             ModeID = modeID;
             Nodejoints = new List<NodeJoint>();
+            _depth = 0;
             dataEntityModel = new Data.EntityModel();
         }
         public void addJoint(string leftJoin, string rightJoin) {
             Nodejoints.Add(new NodeJoint(leftJoin, rightJoin));
         }
-        
+        public bool ChangeNode(int parentNode, List<NodeJoint> nodeJoints) {
+            //re-write this code again
+            if (this.Remove())
+            {
+                this.NodeKey = parentNode;
+                this.Nodejoints = Nodejoints;
+                if (this.Save())
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;            
+        }
+
         public bool Save() {
-            string nj= Newtonsoft.Json.JsonConvert.SerializeObject(this.Nodejoints);
+            string nj= Newtonsoft.Json.JsonConvert.SerializeObject(this.Nodejoints);            
             if (this.NodeID > 0)
             {
-                return dataEntityModel.SaveNode(this.ModeID, this.NodeID, this.Entitykey, this.LeftIndex, this.RightIndex, this.NodeKey, nj);
+                return dataEntityModel.SaveNode(this.ModeID, this.NodeID, this.Entitykey, this.NodeKey, nj,this.Depth);
             }
             else {
-                this.NodeID= dataEntityModel.SaveNode(this.ModeID, this.Entitykey, this.LeftIndex, this.RightIndex, this.NodeKey, nj);
+                DataTable dtDepth = new DataTable();
+                dtDepth = dataEntityModel.GetDepth(this.NodeKey);
+                if (dtDepth.Rows.Count > 0)
+                {
+                    _depth = dtDepth.Rows[0]["depth"] == DBNull.Value ? 0 : (int)dtDepth.Rows[0]["depth"];
+                }
+                else _depth = 0;                
+
+                this.NodeID= dataEntityModel.SaveNode(this.ModeID, this.Entitykey, this.NodeKey, nj,this.Depth);
                 if (this.NodeID > 0)
                 {
                     return true;
@@ -225,7 +260,7 @@ namespace TechSharpy.Entitifier.Core
         }
         public bool Remove()
         {
-            return dataEntityModel.RemoveNode(this.NodeID);
+            return dataEntityModel.RemoveNode(this.NodeID,this.Entitykey,this.NodeKey,this.ModeID);
         }
     }
 

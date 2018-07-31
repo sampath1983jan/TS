@@ -10,18 +10,23 @@ namespace TechSharpy.Console.Test
     {
         static void Main(string[] args)
         {            
-            var er = Component.Model.ElementRelationManager.Create(new Component.Model.ElementRelationFactory(), 102, 0, 1, 105);
+            var er = Component.Model.ElementRelationManager.Create(new Component.Model.ElementRelationFactory(), 105, 104);
             er.AddRelationNode(new Component.Model.ElementRelationNode("UserID", "UserID"));
             var emodel = Component.Model.ComponentModelManager.Create(new Component.Model.ComponentModelFactory(), 1);
-            if (emodel.AddRelation(er))
-            {
-               // emodel.SaveModel();               
-            }
-            else {
-                //emodel.RemoveElement(er.NodeKey, er.Entitykey);
-             //   emodel.Remove();
-                System.Console.WriteLine("This relationship exist");
-            };            
+            emodel.NameChange();
+         //   emodel.AddRelation(er);
+          //  emodel.RemoveElement(60);
+
+            //if (emodel.AddRelation(er))
+            //{
+            //   // emodel.SaveModel();               
+            //}
+            //else {
+            //    //emodel.RemoveElement(er.NodeKey, er.Entitykey);
+            // //   emodel.Remove();
+            //    System.Console.WriteLine("This relationship exist");
+            //};       
+
             //var h = Component.ComponentManager.Create(new ComponentHandlerFactory(),
             //"Employee", "testing data", Component.ComponentType._CoreComponent, "UserID");
             //Component.Attributes.ComponentAttribute ca = new Component.Attributes.ComponentAttribute();
@@ -91,7 +96,7 @@ namespace TechSharpy.Console.Test
             //ab.LookUpName = "Updated " + ab.LookUpName;
             //lookup1.UpdateLookUpItem(ab);
             //lookup1.DeleteLookUpItem(cli.First().ItemID);
-            System.Console.ReadLine();
+             
             //lookup.DeleteLookUp();
             //  var h = Component.ComponentManager.Create(new ComponentHandlerFactory(), "sys_User3", "testing data", Component.ComponentType._CoreComponent, "UserID");
             //  Component.Attributes.ComponentAttribute ca = new Component.Attributes.ComponentAttribute();
