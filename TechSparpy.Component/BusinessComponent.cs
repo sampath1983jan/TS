@@ -33,16 +33,12 @@ namespace TechSharpy.Component
         #endregion
 
         #region Constructors
-        public BusinessComponent(ComponentType type) : base()
+        public BusinessComponent() : base()
         {
             ComponentAttributes = new List<ComponentAttribute>();
-            this.Type = type;
+            this.Type =  ComponentType._CoreComponent;
             databusinessComponent = new Data.BusinessComponent();
-        }              
-        public BusinessComponent()
-        {
-            ComponentAttributes = new List<ComponentAttribute>();
-        }
+        }                       
         public BusinessComponent(int Id):base(Id)
         {
             this.ID = Id;
@@ -66,7 +62,7 @@ namespace TechSharpy.Component
             this.ID = bc.ID;
             InitComponentAttribute();
         }
-        #endregion 
+        #endregion  
         #region Internal methods
         private void InitComponentAttribute()
         {
@@ -119,13 +115,10 @@ namespace TechSharpy.Component
             return false;
         }
         #endregion
-
-
         internal bool ComponentHide()
         {
             throw new NotImplementedException();
         }
-        
         internal bool ComponentRemove()
         {
             if (BaseRemove())
@@ -142,7 +135,6 @@ namespace TechSharpy.Component
                 return true;
             }                      
         }
-        
         internal bool ComponentSave()
         {
             if (base.EntityKey > 0  && base.ID >0)
@@ -182,37 +174,29 @@ namespace TechSharpy.Component
                     return false;
                 }
             }            
-        }
-                
+        }            
         internal void ComponentInit()
         {
            // return ComponentHide();
             
         }
-
-
-
         #region Implimentation methods
         void IComponent.AddComponentAttribute(ComponentAttribute componentAttribute)
         {
             AddAttribute(componentAttribute);
         }
-
         bool IComponent.ComponentSave()
         {
             return ComponentSave();
         }
-
         bool IComponent.ComponentRemove()
         {
             return ComponentRemove();
         }
-
         bool IComponent.ComponentHide()
         {
             return ComponentHide();
         }
-
         void IComponent.ComponentInit()
         {
             ComponentInit();

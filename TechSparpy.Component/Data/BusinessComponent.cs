@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechSharpy.Data;
-using TechSharpy.Data.ABS;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using TechSharpy.Data;
+    using TechSharpy.Data.ABS;
 
 namespace TechSharpy.Component.Data
 {
@@ -26,7 +26,7 @@ namespace TechSharpy.Component.Data
                 }
         }
 
-
+        
         public bool Save(int componentID,string category, ComponentType componentType, string componentName, string componentDescription)
         {
            // int nextid = rd.getNextID("BusinessComponent");

@@ -30,6 +30,7 @@ namespace TechSharpy.Component.Attributes
         _Calculator=18
     }
     public enum UsageType {
+        _NONE=0,
         _InputField=1,
         _CalculationField=2,
         
@@ -59,7 +60,8 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             this.ComponentKey = this.ComponentKey == null ? "" : this.ComponentKey;
             this.RegExpression = this.RegExpression == null ? "" : RegExpression;
             this.ParentComponentKey = this.ParentComponentKey == null ? "" : ParentComponentKey;
-            
+            this.ParentAttribute = this.ParentAttribute == null ? "" : ParentAttribute;
+
         }
         protected  override bool Save()
         {

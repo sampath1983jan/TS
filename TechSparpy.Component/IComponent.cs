@@ -21,7 +21,6 @@ namespace TechSharpy.Component
           void ComponentInit();
         void AddComponentAttribute(ComponentAttribute componentAttribute);
     }
-
     public class Component: Entitifier.Core.EntitySchema
     {          
         public int ID;        
@@ -70,8 +69,7 @@ namespace TechSharpy.Component
             else if (this.Type == ComponentType._SubComponent) {
                 base.EntityType = Entitifier.Core.EntityType._RelatedMaster;
             }
-        }
-         
+        }         
         protected bool Create() {
             this.ID = dataComponent.Save(this.EntityKey, this.Type);
             if (ID > 0)
@@ -82,14 +80,12 @@ namespace TechSharpy.Component
                 return false;
             }            
         }
-
         protected bool Delete() {
           return  dataComponent.Delete(this.ID, this.EntityKey);
         }
                 
     }
 }
-
  
 public interface ICompnentFactory {
     IComponent Create(ComponentType componentType);
@@ -98,16 +94,19 @@ public interface ICompnentFactory {
         string primarykeys);    
 }
 
-
 public class ComponentHandlerFactory : ICompnentFactory
 {
    public IComponent Create(ComponentType componentType)
     {
         if (componentType == ComponentType._CoreComponent)
         {
-            return new BusinessComponent(componentType);
+            return new BusinessComponent();
         }
-        else {
+        else if (componentType == ComponentType._GlobalComponent) {
+            return new GlobalComponent();
+        }
+        else
+        {
             return null;
         }
     }
@@ -120,6 +119,10 @@ public class ComponentHandlerFactory : ICompnentFactory
         {
             return new BusinessComponent(cmp.ID);
         }
+        else if (cmp.Type == ComponentType._GlobalComponent)
+        {
+            return new GlobalComponent(cmp.ID);
+        }
         else
         {
             return null;
@@ -128,14 +131,23 @@ public class ComponentHandlerFactory : ICompnentFactory
 
     public IComponent Create(string ComponentName, string ComponentDescription, ComponentType componentType, string primarykeys)
     {
-        if (componentType == ComponentType._CoreComponent  || componentType == ComponentType._ComponentAttribute)
+        if (componentType == ComponentType._CoreComponent ||
+            componentType == ComponentType._ComponentAttribute)
         {
-            BusinessComponent bc= new BusinessComponent(componentType);
+            BusinessComponent bc = new BusinessComponent();
             bc.ComponentName = ComponentName;
             bc.ComponentDescription = ComponentDescription;
             bc.Type = componentType;
             bc.PrimaryKeys = primarykeys.Split(',').ToList();
             return bc;
+        }
+        else if (componentType == ComponentType._GlobalComponent) {
+            GlobalComponent gb = new GlobalComponent();
+            gb.ComponentName = ComponentName;
+            gb.ComponentDescription = ComponentDescription;
+            gb.Type = ComponentType._GlobalComponent;
+            gb.PrimaryKeys = primarykeys.Split(',').ToList();
+            return gb;
         }
         else
         {

@@ -9,17 +9,25 @@ namespace TechSharpy.Console.Test
     class Program
     {
         static void Main(string[] args)
-        {            
-            var er = Component.Model.ElementRelationManager.Create(new Component.Model.ElementRelationFactory(), 105, 104);
-            er.AddRelationNode(new Component.Model.ElementRelationNode("UserID", "UserID"));
+        {
 
-            List<Component.Model.ElementRelationNode> elementRelationNodes = new List<Component.Model.ElementRelationNode>();
-            elementRelationNodes.Add(new Component.Model.ElementRelationNode("UserID", "UserID"));
-            
-            var emodel = Component.Model.ComponentModelManager.Create(new Component.Model.ComponentModelFactory(), 1);
-            emodel.RelationChange(62,102, elementRelationNodes);
-         //   emodel.AddRelation(er);
-          //  emodel.RemoveElement(60);
+
+
+            var h = Component.ComponentManager.Create(new ComponentHandlerFactory(),
+            "sys_Configuration", "testing data", Component.ComponentType._GlobalComponent, "ConfigurationID");
+            h.ComponentSave();
+
+
+            //var er = Component.Model.ElementRelationManager.Create(new Component.Model.ElementRelationFactory(), 105, 104);
+            //er.AddRelationNode(new Component.Model.ElementRelationNode("UserID", "UserID"));
+
+            //List<Component.Model.ElementRelationNode> elementRelationNodes = new List<Component.Model.ElementRelationNode>();
+            //elementRelationNodes.Add(new Component.Model.ElementRelationNode("UserID", "UserID"));
+
+            //var emodel = Component.Model.ComponentModelManager.Create(new Component.Model.ComponentModelFactory(), 1);
+            //emodel.RelationChange(62,102, elementRelationNodes);
+            //   emodel.AddRelation(er);
+            //  emodel.RemoveElement(60);
 
             //if (emodel.AddRelation(er))
             //{
@@ -100,7 +108,7 @@ namespace TechSharpy.Console.Test
             //ab.LookUpName = "Updated " + ab.LookUpName;
             //lookup1.UpdateLookUpItem(ab);
             //lookup1.DeleteLookUpItem(cli.First().ItemID);
-             
+
             //lookup.DeleteLookUp();
             //  var h = Component.ComponentManager.Create(new ComponentHandlerFactory(), "sys_User3", "testing data", Component.ComponentType._CoreComponent, "UserID");
             //  Component.Attributes.ComponentAttribute ca = new Component.Attributes.ComponentAttribute();

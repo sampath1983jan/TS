@@ -47,6 +47,7 @@
     <Compile Include="Data\Component.cs" />
     <Compile Include="Data\ComponentAttribute.cs" />
     <Compile Include="Data\ComponentManager.cs" />
+    <Compile Include="Data\GlobalComponent.cs" />
     <Compile Include="GlobalComponent.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="LookUp\FieldLookupManager.cs" />
