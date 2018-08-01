@@ -173,14 +173,14 @@ namespace TechSharpy.Component.Model
             }
            
         }
-
-        public bool RelationChange(int NodeID, int nodeKey, List<ElementRelationNode> elementRelationNode)
+        public bool RelationChange(int NodeID, int newNodeKey, List<ElementRelationNode> elementRelationNode)
         {
-           var en = ElementRelations.Where(a => a.NodeID == NodeID).FirstOrDefault();           
-            return en.ChangeNode(nodeKey, Param(elementRelationNode));
-        }
-
- 
+            List<NodeJoint> entityNode1 = new List<NodeJoint>();
+            foreach (ElementRelationNode ern in elementRelationNode) {
+                entityNode1.Add(new NodeJoint(ern.leftJoin, ern.RightJoin));
+            }
+            return ChangeNode(NodeID, newNodeKey, entityNode1);            
+        } 
     }
 }   
 

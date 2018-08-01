@@ -12,8 +12,12 @@ namespace TechSharpy.Console.Test
         {            
             var er = Component.Model.ElementRelationManager.Create(new Component.Model.ElementRelationFactory(), 105, 104);
             er.AddRelationNode(new Component.Model.ElementRelationNode("UserID", "UserID"));
+
+            List<Component.Model.ElementRelationNode> elementRelationNodes = new List<Component.Model.ElementRelationNode>();
+            elementRelationNodes.Add(new Component.Model.ElementRelationNode("UserID", "UserID"));
+            
             var emodel = Component.Model.ComponentModelManager.Create(new Component.Model.ComponentModelFactory(), 1);
-            emodel.NameChange();
+            emodel.RelationChange(62,102, elementRelationNodes);
          //   emodel.AddRelation(er);
           //  emodel.RemoveElement(60);
 

@@ -108,7 +108,6 @@ namespace TechSharpy.Entitifier.Core
                 return false;
             }
         }
-
         public bool RemoveNode(int entitykey,int nodekey) {
             EntityNode en ;
            en= Entitynodes.Where(a => a.Entitykey == entitykey && a.NodeKey == nodekey && a.ModeID == this.ModelID).FirstOrDefault();
@@ -135,7 +134,6 @@ namespace TechSharpy.Entitifier.Core
                     return false;
                 }         
         }        
-        
         public void Init() {
            DataTable dt = new DataTable();
            DataTable dtRelation = new DataTable();
@@ -164,6 +162,17 @@ namespace TechSharpy.Entitifier.Core
                 }
                 
             }
+        }
+        public bool ChangeNode(int nodeID,int newNodeKey, List<NodeJoint> elementRelationNode) {
+           var node =  Entitynodes.Where(a => a.NodeID == nodeID).FirstOrDefault();
+            var childNode = Entitynodes.Where(a => a.LeftIndex >= node.LeftIndex && a.RightIndex <= node.RightIndex);                       
+            node.UpdatePositionChangeNode(newNodeKey);
+            node.NodeKey = newNodeKey;
+            node.Nodejoints = elementRelationNode;
+            node.Save();
+                return true;
+           // }
+          //  else return false;           
         }
     }
     
@@ -220,20 +229,20 @@ namespace TechSharpy.Entitifier.Core
         public void addJoint(string leftJoin, string rightJoin) {
             Nodejoints.Add(new NodeJoint(leftJoin, rightJoin));
         }
-        public bool ChangeNode(int parentNode, List<NodeJoint> nodeJoints) {
-            //re-write this code again
-            if (this.Remove())
-            {
-                this.NodeKey = parentNode;
-                this.Nodejoints = Nodejoints;
-                if (this.Save())
-                {
-                    return true;
-                }
-                else return false;
-            }
-            else return false;            
-        }
+        //public bool ChangeNode(int parentNode, List<NodeJoint> nodeJoints) {
+        //    //re-write this code again
+        //    if (this.Remove())
+        //    {
+        //        this.NodeKey = parentNode;
+        //        this.Nodejoints = Nodejoints;
+        //        if (this.Save())
+        //        {
+        //            return true;
+        //        }
+        //        else return false;
+        //    }
+        //    else return false;            
+        //}
 
         public bool Save() {
             string nj= Newtonsoft.Json.JsonConvert.SerializeObject(this.Nodejoints);            
@@ -241,22 +250,32 @@ namespace TechSharpy.Entitifier.Core
             {
                 return dataEntityModel.SaveNode(this.ModeID, this.NodeID, this.Entitykey, this.NodeKey, nj,this.Depth);
             }
-            else {
-                DataTable dtDepth = new DataTable();
-                dtDepth = dataEntityModel.GetDepth(this.NodeKey);
-                if (dtDepth.Rows.Count > 0)
-                {
-                    _depth = dtDepth.Rows[0]["depth"] == DBNull.Value ? 0 : (int)dtDepth.Rows[0]["depth"];
-                }
-                else _depth = 0;                
-
+            else {                          
                 this.NodeID= dataEntityModel.SaveNode(this.ModeID, this.Entitykey, this.NodeKey, nj,this.Depth);
                 if (this.NodeID > 0)
                 {
+                    UpdatePosition();
                     return true;
                 }
                 else return false;
             }            
+        }
+        protected internal void UpdatePosition() {
+            DataTable dtDepth = new DataTable();
+            dtDepth = dataEntityModel.GetDepth(this.NodeKey);
+            if (dtDepth.Rows.Count > 0)
+            {
+                _depth = dtDepth.Rows[0]["depth"] == DBNull.Value ? 0 : (int)dtDepth.Rows[0]["depth"];
+                _depth = _depth + 1;
+            }
+            else _depth = 0;
+            dataEntityModel.UpdatePosition(this.NodeID, this.ModeID, this.Entitykey, this.NodeKey, Depth);
+        }
+        protected internal void UpdateRemovePosition() {
+            dataEntityModel.UpdateRemovedPosition(this.NodeID, this.Entitykey, this.NodeKey, this.ModeID);
+        }
+        protected internal void UpdatePositionChangeNode(int newNodekey) {
+            dataEntityModel.UpdatePositionChangeNode(this.NodeID, this.Entitykey, newNodekey, this.ModeID);
         }
         public bool Remove()
         {

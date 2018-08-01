@@ -31,15 +31,23 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("left", "s_EntityModelNode")
                 .AddField("right", "s_EntityModelNode")
                 .AddField("NodeID", "s_EntityModelNode")
+                .AddField("depth", "s_EntityModelNode")
+                .AddField("nodekey", "s_EntityModelNode")
+                .AddField("entitykey", "s_EntityModelNode")
                 .AddWhere(0, "s_EntityModelNode", "Entitykey", FieldType._Number, entitykey.ToString(), Condition._And)
                 .AddWhere(0, "s_EntityModelNode", "modelID", FieldType._Number, modelID.ToString());
             return rd.ExecuteQuery(iQuery).GetResult;
         }
-        public DataTable GetNodeCountByEntityKey(int entitykey, int modelID)
+        public DataTable GetNodeCountByEntityKey(int entitykey, int modelID,int exKey)
         {
             iQuery = new QueryBuilder(QueryType._Select)
-                .AddField("left", "s_EntityModelNode")
+              .AddField("left", "s_EntityModelNode")
                 .AddField("right", "s_EntityModelNode")
+                .AddField("NodeID", "s_EntityModelNode")
+                .AddField("depth", "s_EntityModelNode")
+                .AddField("nodekey", "s_EntityModelNode")
+                .AddField("entitykey", "s_EntityModelNode")
+                .AddWhere(0, "s_EntityModelNode", "Entitykey", FieldType._Number,Operator._NotEqual, exKey.ToString(), Condition._And)
                 .AddWhere(0, "s_EntityModelNode", "nodekey", FieldType._Number, entitykey.ToString(), Condition._And)
                 .AddWhere(0, "s_EntityModelNode", "modelID", FieldType._Number, modelID.ToString());
             return rd.ExecuteQuery(iQuery).GetResult;
@@ -77,10 +85,12 @@ namespace TechSharpy.Entitifier.Data
             return (rd.ExecuteQuery(iQuery).Result);
             
         }
+
+     
         public int SaveNode(int modelID,int Entitykey, int Nodekey,string nodeJoints,int depth) {
-            DataTable dtParent = new DataTable();
+      
             int NextID = 0;
-            int _Count = GetNodeCountByEntityKey(Nodekey, modelID).Rows.Count;
+           
             try
             {
                   NextID = rd.getNextID("EntityModelNode");
@@ -95,7 +105,8 @@ namespace TechSharpy.Entitifier.Data
                 .AddField("depth", "s_EntityModelNode", FieldType._Number, "", depth.ToString());
                 if (rd.ExecuteQuery(iQuery).Result)
                 {
-                  
+
+                    return NextID;
                 }
                 else
                 {
@@ -106,48 +117,9 @@ namespace TechSharpy.Entitifier.Data
             {
                 throw ex;
             }
-            dtParent = GetNodeByEntityKey(Nodekey, modelID);
-            int _left;
-            int _right;
-            int _newleft;
-            int _newright;
-          
-            if (dtParent.Rows.Count > 0)
-            {
-                _left = dtParent.Rows[0]["left"] == DBNull.Value ? 0 : (int)dtParent.Rows[0]["left"];
-                _right = dtParent.Rows[0]["right"] == DBNull.Value ? 0 : (int)dtParent.Rows[0]["right"];
-            }
-            else return NextID;
-            _newleft = (_Count * 2) + (_left + 1);
-            _newright = (_Count * 2) + (_left + 2);
-            iQuery = new QueryBuilder(QueryType._Update)
-                .AddField("left", "s_EntityModelNode", FieldType._Number, "", _newleft.ToString())
-                .AddField("right", "s_EntityModelNode", FieldType._Number, "", _newright.ToString())
-                .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, NextID.ToString());
-            if (rd.ExecuteQuery(iQuery).Result) {   
-                iQuery = new QueryBuilder(QueryType._Update)
-              .AddField("left", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`left`+ 2)".ToString())
-            //  .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right` +2)".ToString())
-              .AddWhere(0, "s_EntityModelNode", "left", FieldType._Number, Operator._Greater, _newleft.ToString(), Condition._And)
-            //  .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greaterthan, _right.ToString(), Condition._And)
-              .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number,Operator._NotEqual, NextID.ToString(),Condition._None);
-                if (rd.ExecuteQuery(iQuery).Result) {
-                   // return true;
-                }
-                iQuery = new QueryBuilder(QueryType._Update)
-            // .AddField("left", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`left`+ 2)".ToString())
-             .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right` +2)".ToString())
-            // .AddWhere(0, "s_EntityModelNode", "left", FieldType._Number, Operator._Greater, _left.ToString(), Condition._And)
-             .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greaterthan, _right.ToString(), Condition._And)
-             .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, Operator._NotEqual, NextID.ToString(), Condition._None);
-                if (rd.ExecuteQuery(iQuery).Result)
-                {
-                    // return true;
-                }
 
-            }
+           
 
-            return NextID;
         }
         public DataTable GetDepth(int entityKey) {
             iQuery = new QueryBuilder(QueryType._Select)              
@@ -187,42 +159,92 @@ namespace TechSharpy.Entitifier.Data
              dtResult= rd.ExecuteQuery(iQuery).GetResult;
             return dtResult;
         }
-        public bool RemoveNode(int nodeID,int entitykey,int nodekey,int ModelID) {
-            int _Count = GetNodeCountByEntityKey(entitykey, ModelID).Rows.Count;
+        public int UpdatePosition(int nodeID, int modelID, int Entitykey, int Nodekey, int depth)        {
+            int _Count = GetNodeCountByEntityKey(Nodekey, modelID,Entitykey).Rows.Count;
+            DataTable dtParent = new DataTable();
+            dtParent = GetNodeByEntityKey(Nodekey, modelID);
+            int _left;
+            int _right;
+            int _newleft;
+            int _newright;
+
+            if (dtParent.Rows.Count > 0)
+            {
+                _left = dtParent.Rows[0]["left"] == DBNull.Value ? 0 : (int)dtParent.Rows[0]["left"];
+                _right = dtParent.Rows[0]["right"] == DBNull.Value ? 0 : (int)dtParent.Rows[0]["right"];
+            }
+            else return 0;
+
+            _newleft = (_Count * 2) + (_left + 1);
+            _newright = (_Count * 2) + (_left + 2);
+            iQuery = new QueryBuilder(QueryType._Update)
+                .AddField("left", "s_EntityModelNode", FieldType._Number, "", _newleft.ToString())
+                .AddField("right", "s_EntityModelNode", FieldType._Number, "", _newright.ToString())
+                .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, nodeID.ToString());
+            if (rd.ExecuteQuery(iQuery).Result)
+            {
+                iQuery = new QueryBuilder(QueryType._Update)
+              .AddField("left", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`left`+ 2)".ToString())
+              //  .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right` +2)".ToString())
+              .AddWhere(0, "s_EntityModelNode", "left", FieldType._Number, Operator._Greater, _newleft.ToString(), Condition._And)
+              //  .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greaterthan, _right.ToString(), Condition._And)
+              .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, Operator._NotEqual, nodeID.ToString(), Condition._None);
+                if (rd.ExecuteQuery(iQuery).Result)
+                {
+                    // return true;
+                }
+                iQuery = new QueryBuilder(QueryType._Update)
+             // .AddField("left", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`left`+ 2)".ToString())
+             .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right` +2)".ToString())
+             // .AddWhere(0, "s_EntityModelNode", "left", FieldType._Number, Operator._Greater, _left.ToString(), Condition._And)
+             .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greaterthan, _right.ToString(), Condition._And)
+             .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, Operator._NotEqual, nodeID.ToString(), Condition._None);
+                if (rd.ExecuteQuery(iQuery).Result)
+                {
+                    // return true;
+                }
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public void UpdateRemovedPosition(int nodeID, int entitykey, int nodekey, int ModelID) {
+            int _Count = GetNodeCountByEntityKey(entitykey, ModelID,-1).Rows.Count;
             _Count = _Count + 1;
-            DataTable dtChild,dtParent = new DataTable();
+            DataTable dtChild, dtParent = new DataTable();
             dtChild = GetNodeByEntityKey(entitykey, ModelID);
             dtParent = GetNodeByEntityKey(nodekey, ModelID);
-            int _left=0;
-            int _right=0;
-            int _newleft=0;
-            int _newright=0;
+            int _left = 0;
+            int _right = 0;
+            int _newleft = 0;
+            int _newright = 0;
             int parentNode = 0;
-           
-            if (dtChild.Rows.Count > 0)
-            {
+            if (dtChild.Rows.Count > 0){
                 _left = dtChild.Rows[0]["left"] == DBNull.Value ? 0 : (int)dtChild.Rows[0]["left"];
                 _right = dtChild.Rows[0]["right"] == DBNull.Value ? 0 : (int)dtChild.Rows[0]["right"];
             }
-            if (dtParent.Rows.Count >0) {
+            if (dtParent.Rows.Count > 0){
                 parentNode = (int)dtParent.Rows[0]["NodeID"];
-                _newleft = dtParent.Rows[0]["left"] == DBNull.Value ? 0 : (int)dtParent.Rows[0]["left"];                
+                _newleft = dtParent.Rows[0]["left"] == DBNull.Value ? 0 : (int)dtParent.Rows[0]["left"];
             }
             _newright = _left;// (_right) - (_Count * 2); 
-            if (parentNode > 0) {
+            if (parentNode > 0)
+            {
                 iQuery = new QueryBuilder(QueryType._Update)
-              // .AddField("left", "s_EntityModelNode", FieldType._Number, "", _newleft.ToString())
+               // .AddField("left", "s_EntityModelNode", FieldType._Number, "", _newleft.ToString())
                .AddField("right", "s_EntityModelNode", FieldType._Number, "", _newright.ToString())
                .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, parentNode.ToString());
                 if (rd.ExecuteQuery(iQuery).Result)
                 {
                     iQuery = new QueryBuilder(QueryType._Update)
-         //    .AddField("left", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`left` - "+ (_Count *2) +")".ToString())
+                //    .AddField("left", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`left` - "+ (_Count *2) +")".ToString())
                 .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right` - " + (_Count * 2) + ")".ToString())
-             .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greater, _newright.ToString(), Condition._And)             
+             .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greater, _newright.ToString(), Condition._And)
              .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, Operator._NotEqual, parentNode.ToString(), Condition._None);
                     if (rd.ExecuteQuery(iQuery).Result)
-                    { 
+                    {
                         // return true;
                     }
                     //_newleft = (_right) - (_Count * 2);
@@ -238,7 +260,65 @@ namespace TechSharpy.Entitifier.Data
 
                 }
             }
- 
+
+        }
+
+        public void UpdatePositionChangeNode(int nodeID, int entitykey, int nodekey, int ModelID) {
+            int _Count = GetNodeCountByEntityKey(entitykey, ModelID,-1).Rows.Count;
+            _Count = _Count + 1;
+            DataTable dtChild, dtParent = new DataTable();
+            dtChild = GetNodeByEntityKey(entitykey, ModelID);       
+         //   int _NewParentChildCount = GetNodeCountByEntityKey(nodekey, ModelID).Rows.Count;
+            int _left = 0;
+            int _right = 0;
+            //int _newleft = 0;
+            //int _newright = 0;
+            //int parentNode = 0;
+            if (dtChild.Rows.Count > 0)
+            {
+                _left = dtChild.Rows[0]["left"] == DBNull.Value ? 0 : (int)dtChild.Rows[0]["left"];
+                _right = dtChild.Rows[0]["right"] == DBNull.Value ? 0 : (int)dtChild.Rows[0]["right"];
+            }                        
+           //if(parentNode > 0){
+                iQuery = new QueryBuilder(QueryType._Update)
+             .AddField("left", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`left`- " + (_Count * 2) + ")".ToString())
+             //  .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right` +2)".ToString())
+             .AddWhere(0, "s_EntityModelNode", "left", FieldType._Number, Operator._Greater, _right.ToString(), Condition._And)
+           //  .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Less, _right.ToString(), Condition._And)
+             //  .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greaterthan, _right.ToString(), Condition._And)
+             .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, Operator._NotEqual, nodeID.ToString(), Condition._None);
+                 rd.ExecuteQuery(iQuery);
+
+                iQuery = new QueryBuilder(QueryType._Update)
+           .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right`- " + (_Count * 2) + ")".ToString())
+           //  .AddField("right", "s_EntityModelNode", FieldType._Number, "", "(`s_EntityModelNode`.`right` +2)".ToString())
+           .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greater, _right.ToString(), Condition._And)
+           //  .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Less, _right.ToString(), Condition._And)
+           //  .AddWhere(0, "s_EntityModelNode", "right", FieldType._Number, Operator._Greaterthan, _right.ToString(), Condition._And)
+           .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, Operator._NotEqual, nodeID.ToString(), Condition._None);
+                rd.ExecuteQuery(iQuery);
+            //}
+            dtParent = GetNodeByEntityKey(nodekey, ModelID);
+            int prentDept = 0;
+            if (dtParent.Rows.Count > 0) {
+                prentDept = dtParent.Rows[0]["depth"] == DBNull.Value ? 0 : (int)dtParent.Rows[0]["depth"];
+            }
+            prentDept = prentDept + 1;
+            UpdatePosition(nodeID, ModelID, entitykey, nodekey, prentDept);
+         //   dtChild = GetNodeByEntityKey(entitykey, ModelID);
+            dtChild = GetNodeCountByEntityKey(entitykey, ModelID,-1);
+            foreach (DataRow dr in dtChild.Rows) {
+                prentDept = prentDept + 1;
+                int _chldNodeID = dr["NodeID"] == DBNull.Value ? -1 : (int)dr["NodeID"];
+                int _chldnodekey = dr["nodekey"] == DBNull.Value ? -1 : (int)dr["nodekey"];
+                int _chldentitykey = dr["entitykey"] == DBNull.Value ? -1 : (int)dr["entitykey"];
+                UpdatePosition(_chldNodeID, ModelID, _chldentitykey, _chldnodekey, prentDept);
+            }
+             
+        }
+
+        public bool RemoveNode(int nodeID,int entitykey,int nodekey,int ModelID) {
+            
             iQuery = new QueryBuilder(QueryType._Delete).AddTable("s_EntityModelNode")
             .AddWhere(0, "s_EntityModelNode", "NodeID", FieldType._Number, Operator._Equal, nodeID.ToString());
             if ((rd.ExecuteQuery(iQuery).Result))
@@ -248,6 +328,7 @@ namespace TechSharpy.Entitifier.Data
                  .AddWhere(0, "s_EntityModelNode", "ModelID", FieldType._Number, Operator._Equal, ModelID.ToString());
                 if ((rd.ExecuteQuery(iQuery).Result))
                 {
+                    UpdateRemovedPosition(nodeID, entitykey, nodekey, ModelID);
                     return true;
                 }
                 else return false;
