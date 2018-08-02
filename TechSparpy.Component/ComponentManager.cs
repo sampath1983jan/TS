@@ -21,11 +21,24 @@ namespace TechSharpy.Component
         }
 
         public static IComponent Create(ICompnentFactory factory,string ComponentName, string ComponentDescription, ComponentType componentType,
-         string primarykeys)
+         string primarykeys,string titlePattern)
         {
-            return factory.Create(ComponentName, ComponentDescription, componentType, primarykeys);
+            return factory.Create(ComponentName, ComponentDescription, componentType, primarykeys,titlePattern);
         }
-       
-              
+
+        public static IComponent Create(ICompnentFactory factory, string ComponentName, string ComponentDescription, ComponentType componentType,
+         string primarykeys, string titlePattern,int parentComponentID, int relatedAttributeID)
+        {
+            return factory.Create(ComponentName, ComponentDescription,
+                componentType, primarykeys, titlePattern,parentComponentID,relatedAttributeID);
+        }
+        public static IComponent Create(ICompnentFactory factory, string ComponentName, string ComponentDescription, ComponentType componentType,
+         string primarykeys, string titlePattern, int parentComponentID, int relatedAttributeID,
+         int linkComponentID,int linkAttributeID)
+        {
+            return factory.Create(ComponentName, ComponentDescription,
+                componentType, primarykeys, titlePattern, parentComponentID, relatedAttributeID, linkComponentID, linkAttributeID);
+        }
+
     }
 }

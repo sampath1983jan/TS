@@ -72,7 +72,8 @@ namespace TechSharpy.ConsoleApp
             // componentManager.AddAttribute(ca);
             // componentManager.Save();
          
-          var h=  Component.ComponentManager.Create(new ComponentHandlerFactory(), "sys_User1","testing data",Component.ComponentType._CoreComponent,"UserID");
+          var h=  Component.ComponentManager.Create(new ComponentHandlerFactory(), "sys_User1","testing data",
+              Component.ComponentType._CoreComponent,"UserID","Title");
 
             Component.Attributes.ComponentAttribute ca = new Component.Attributes.ComponentAttribute();
             ca.Type = Component.Attributes.AttributeType._None;

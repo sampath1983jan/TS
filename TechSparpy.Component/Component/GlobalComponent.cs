@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Component.Attributes;
+using System.Data;
+using TechSharpy.Entitifier.Core;
 
 namespace TechSharpy.Component
 {
-    public class GlobalComponent : Component, IComponent
+    public class GlobalSetting : Component, IComponent
     {
         private int _componentID;
         private string _componentName;
         private string _category;
         private string _componentDescription;
+        private string _titlePattern;
         private List<ComponentAttribute> _componentAttributes;
         private Data.GlobalComponent  dataglobalComponent;
 
@@ -20,14 +23,53 @@ namespace TechSharpy.Component
         public string Category { get => _category; set => _category = value; }
         public string ComponentDescription { get => _componentDescription; set => _componentDescription = value; }
         public List<ComponentAttribute> ComponentAttributes { get => _componentAttributes; set => _componentAttributes=value; }
-        public int ComponentID => _componentID;
-       
-        public GlobalComponent(int componentID):base(componentID) {
+        public int ComponentID { get => _componentID; }
+        public string TitlePattern { get => _titlePattern; set => _titlePattern = value; }        
+        public GlobalSetting(int componentID):base(componentID) {
             this.Type = ComponentType._GlobalComponent;
             dataglobalComponent = new Data.GlobalComponent();
             _componentAttributes = new List<ComponentAttribute>();
+            DataTable dt = new DataTable();
+            dt = dataglobalComponent.GetComponentByID(this.ID);
+            var bc = dt.AsEnumerable().Select(g => new GlobalSetting
+            {                
+                ID = g.IsNull("ComponentID") ? -1 : g.Field<int>("ComponentID"),
+                _titlePattern= g.IsNull("titlepattern") ? "" : g.Field<string>("titlepattern"),
+                ComponentName = g.IsNull("componentName") ? "" : g.Field<string>("componentName"),
+                Description = g.IsNull("componentDescription") ? "" : g.Field<string>("componentDescription"),
+
+            }).FirstOrDefault();
+            this.ComponentName = bc.ComponentName;
+            this.ComponentDescription = bc.ComponentDescription;
+            this._titlePattern = bc.TitlePattern;
+            this.ID = bc.ID;
+            InitComponentAttribute();
+
         }
-        public GlobalComponent():base() {
+        private void InitComponentAttribute()
+        {
+            DataTable dt = new DataTable();
+            Data.ComponentAttribute datacomponentAttribute = new Data.ComponentAttribute();
+            dt = datacomponentAttribute.GetComponentAttributes(ID.ToString());
+            foreach (DataRow dr in dt.Rows)
+            {
+                int InstanceID = dr.IsNull("FieldInstanceID") ? 0 : dr.Field<int>("FieldInstanceID");
+                var ca = new ComponentAttribute();
+                ca = (ComponentAttribute)GetFieldInstanceByID(InstanceID).CopyTo<ComponentAttribute>();
+                ca.Type = dr.IsNull("Attributetype") ? AttributeType._None : dr.Field<AttributeType>("Attributetype");
+                ca.ComponentKey = dr.IsNull("componentKey") ? "" : dr.Field<string>("componentKey");
+                ca.Cryptography = dr.IsNull("cryptography") ? 0 : dr.Field<int>("cryptography");
+                ca.RegExpression = dr.IsNull("regExpression") ? "" : dr.Field<string>("regExpression");
+                ca.ParentComponentKey = dr.IsNull("parentComponent") ? "" : dr.Field<string>("parentComponent");
+                ca.ParentAttribute = dr.IsNull("parentAttribute") ? "" : dr.Field<string>("parentAttribute");
+                this.ComponentAttributes.Add(ca);
+            }
+        }
+        private FieldAttribute GetFieldInstanceByID(int instanceID)
+        {
+            return (FieldAttribute)this.EntityInstances.Where(a => a.InstanceID == instanceID).FirstOrDefault();
+        }
+        public GlobalSetting():base() {
             this.Type = ComponentType._GlobalComponent;
             dataglobalComponent = new Data.GlobalComponent();
             _componentAttributes = new List<ComponentAttribute>();
@@ -175,10 +217,10 @@ namespace TechSharpy.Component
 
             if (base.EntityKey > 0 && base.ID > 0)
             {
-
                 if (!base.Save().HasCriticalError())
                 {
-                    if (dataglobalComponent.Update(this.ID, this.EntityKey, this.Category, this.Type, this.ComponentName, this.ComponentDescription))
+                    if (dataglobalComponent.Update(this.ID, this.EntityKey, this.Category, 
+                        this.Type, this.ComponentName, this.ComponentDescription,this.TitlePattern))
                     {
                         foreach (ComponentAttribute ca in this.ComponentAttributes)
                         {
@@ -197,7 +239,8 @@ namespace TechSharpy.Component
             {
                 if (CreateBase())
                 {
-                    if (dataglobalComponent.Save(this.ID, this.Category, this.Type, this.ComponentName, this.ComponentDescription))
+                    if (dataglobalComponent.Save(this.ID, this.Category, this.Type, 
+                        this.ComponentName, this.ComponentDescription,this.TitlePattern))
                     {
                         foreach (ComponentAttribute ca in this.ComponentAttributes)
                         {
@@ -213,8 +256,8 @@ namespace TechSharpy.Component
                 {
                     return false;
                 }
-            }                       
-            //throw new NotImplementedException();
+            }                     
+             
         }
     }
 }

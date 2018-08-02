@@ -27,7 +27,8 @@ namespace TechSharpy.Component.Attributes
         _Year=15,
         _Month=16,
         _Quarter=17, 
-        _Calculator=18
+        _Calculator=18,
+        _PrimaryKeyField=19
     }
     public enum UsageType {
         _NONE=0,

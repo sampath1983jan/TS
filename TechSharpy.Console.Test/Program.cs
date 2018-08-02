@@ -11,11 +11,75 @@ namespace TechSharpy.Console.Test
         static void Main(string[] args)
         {
 
-
-
             var h = Component.ComponentManager.Create(new ComponentHandlerFactory(),
-            "sys_Configuration", "testing data", Component.ComponentType._GlobalComponent, "ConfigurationID");
+                "Employee Qualification", "testing data", Component.ComponentType._CoreComponent, "UserID","sss",9,1);
+
+            Component.Attributes.ComponentAttribute ca = new Component.Attributes.ComponentAttribute();
+             
+            ca.Name = "UserID";
+            ca.IsKey = true;
+            ca.IsUnique = true;
+            ca.EntityKey = -1;
+            ca.DisplayName = "User ID";
+            ca.DefaultValue = "";
+            ca.IsKey = true;
+            ca.enableContentLimit = true;
+            ca.Max = "255";
+            ca.Type = Component.Attributes.AttributeType._Number;
+            ca.Min = "1";
+            ca.DisplayOrder = 1;
+            h.AddComponentAttribute(ca);
+
+            ca = new Component.Attributes.ComponentAttribute();
+  
+            ca.Name = "QualificationID";
+            ca.IsKey = true;
+            ca.IsUnique = true;
+            ca.EntityKey = -1;
+            ca.DisplayName = "Qualification ID";
+            ca.DefaultValue = "";
+            ca.IsKey = true;
+            ca.enableContentLimit = true;
+            ca.Max = "255";
+            ca.Type = Component.Attributes.AttributeType._Number;
+            ca.DisplayOrder = 2;
+            ca.Min = "1";
+            h.AddComponentAttribute(ca);
+
+            ca = new Component.Attributes.ComponentAttribute();
+            
+            ca.Name = "Major";
+            ca.IsKey = true;
+            ca.IsUnique = true;
+            ca.EntityKey = -1;
+            ca.DisplayName = "Major";
+            ca.DefaultValue = "";
+            ca.IsKey = false;
+            ca.enableContentLimit = true;
+            ca.Max = "255";
+            ca.Type = Component.Attributes.AttributeType._Text;
+            ca.DisplayOrder = 3;
+            ca.Min = "1";
+            h.AddComponentAttribute(ca);
+            ca = new Component.Attributes.ComponentAttribute();
+            ca.Name = "decipline";
+            ca.IsKey = true;
+            ca.IsUnique = true;
+            ca.EntityKey = -1;
+            ca.DisplayName = "decipline";
+            ca.DefaultValue = "";
+            ca.IsKey = false;
+            ca.enableContentLimit = true;
+            ca.Max = "255";
+            ca.Type = Component.Attributes.AttributeType._Text;
+            ca.DisplayOrder = 4;
+            ca.Min = "1";
+            h.AddComponentAttribute(ca);
             h.ComponentSave();
+
+            //var h = Component.ComponentManager.Create(new ComponentHandlerFactory(),
+            //"sys_Configuration", "testing data", Component.ComponentType._GlobalComponent, "ConfigurationID");
+            //h.ComponentSave();
 
 
             //var er = Component.Model.ElementRelationManager.Create(new Component.Model.ElementRelationFactory(), 105, 104);

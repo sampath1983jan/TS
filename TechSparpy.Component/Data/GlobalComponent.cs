@@ -14,7 +14,6 @@ namespace TechSharpy.Component.Data
         private DataTable Result;
         DataBase rd;
         Query iQuery;
-
         public GlobalComponent()
         {
             try
@@ -26,14 +25,14 @@ namespace TechSharpy.Component.Data
                 throw ex;
             }
         }
-
-          public bool Save(int componentID,string category, ComponentType componentType, string componentName, string componentDescription)
+          public bool Save(int componentID,string category, ComponentType componentType,
+              string componentName, string componentDescription,string titlePattern)
         {
            // int nextid = rd.getNextID("BusinessComponent");
             iQuery = new QueryBuilder(QueryType._Insert)
                 //.AddField("entityKey", "c_GlobalComponent", FieldType._Number, "", entityKey.ToString())
                 .AddField("ComponentID", "c_GlobalComponent", FieldType._Number, "", componentID.ToString())
-         //       .AddField("componentType", "c_GlobalComponent", FieldType._Number, "", ((int)componentType).ToString())
+              .AddField("titlepattern", "c_GlobalComponent", FieldType._String, "", (titlePattern).ToString())
                 .AddField("componentName", "c_GlobalComponent", FieldType._String, "", componentName)
                 .AddField("componentDescription", "c_GlobalComponent", FieldType._String, "", componentDescription)
                 .AddField("LastUPD", "c_GlobalComponent", FieldType._DateTime, "", DateTime.Now.ToString());
@@ -43,14 +42,15 @@ namespace TechSharpy.Component.Data
             }
             else return false;
         }
-
-        public bool Update(int componentID, int entityKey, string category, ComponentType componentType, string componentName,
-            string componentDescription)
+        public bool Update(int componentID, int entityKey, string category,
+            ComponentType componentType, string componentName,
+            string componentDescription,string titlePattern)
         {
             iQuery = new QueryBuilder(QueryType._Update)
-                //  .AddField("entityKey", "c_GlobalComponent", FieldType._Number, "", entityKey.ToString())
-                //  .AddField("ComponentID", "c_GlobalComponent", FieldType._Number, "", nextid.ToString())
-             //   .AddField("componentType", "c_GlobalComponent", FieldType._Number, "", ((int)componentType).ToString())
+              //  .AddField("entityKey", "c_GlobalComponent", FieldType._Number, "", entityKey.ToString())
+              //  .AddField("ComponentID", "c_GlobalComponent", FieldType._Number, "", nextid.ToString())
+              //   .AddField("componentType", "c_GlobalComponent", FieldType._Number, "", ((int)componentType).ToString())
+              .AddField("titlepattern", "c_GlobalComponent", FieldType._String, "", (titlePattern).ToString())
                 .AddField("componentName", "c_GlobalComponent", FieldType._String, "", componentName)
                 .AddField("componentDescription", "c_GlobalComponent", FieldType._String, "", componentDescription)
                 .AddField("LastUPD", "c_GlobalComponent", FieldType._DateTime, "", DateTime.Now.ToString())
@@ -63,7 +63,6 @@ namespace TechSharpy.Component.Data
             }
             else return false;
         }
-
         public bool Delete(int componentID, int entityKey)
         {
             iQuery = new QueryBuilder(QueryType._Delete)
@@ -76,8 +75,6 @@ namespace TechSharpy.Component.Data
             }
             else return false;
         }
-
-
         public DataTable GetComponentByID(int ComponentID)
         {
 
@@ -94,7 +91,5 @@ namespace TechSharpy.Component.Data
             Result = rd.ExecuteQuery(iQuery).GetResult;
             return Result;
         }
-
-
     }
 }

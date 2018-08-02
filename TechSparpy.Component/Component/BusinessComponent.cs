@@ -9,15 +9,8 @@ using TechSharpy.Entitifier.Core;
 
 namespace TechSharpy.Component
 {
-    public enum ComponentType {
-         _CoreComponent=1,
-         _SubComponent=2,
-         _ComponentAttribute=3,
-         _ComponentTransaction=4,
-         _SecurityComponent=5,
-         _GlobalComponent=6,
-    }
-  internal class BusinessComponent:Component,IComponent
+    
+  internal class Business:Component,IComponent
     {
         #region Member variables and properties
         private string _category = "";
@@ -28,37 +21,37 @@ namespace TechSharpy.Component
         public string ComponentDescription { get => _componentDescription; set => _componentDescription = value; }
         public List<ComponentAttribute> ComponentAttributes { get => _componentAttributes; set => _componentAttributes = value; }
         public string ComponentName { get => _componentName; set => _componentName = value; }
+        public string TitlePattern;
         public int ComponentID => this.ID;
         private Data.BusinessComponent databusinessComponent;
         #endregion
 
         #region Constructors
-        public BusinessComponent() : base()
+        public Business() : base()
         {
             ComponentAttributes = new List<ComponentAttribute>();
             this.Type =  ComponentType._CoreComponent;
             databusinessComponent = new Data.BusinessComponent();
         }                       
-        public BusinessComponent(int Id):base(Id)
+        public Business(int Id):base(Id)
         {
             this.ID = Id;
             ComponentAttributes = new List<ComponentAttribute>();
             DataTable dt;
             databusinessComponent = new Data.BusinessComponent();
             dt = databusinessComponent.GetComponentByID(this.ID);
-            var bc = dt.AsEnumerable().Select(g => new BusinessComponent
+            var bc = dt.AsEnumerable().Select(g => new Business
             {
              //   EntityKey = g.IsNull("entityKey") ? -1 : g.Field<int>("entityKey"),
                 ID = g.IsNull("ComponentID") ? -1 : g.Field<int>("ComponentID"),
-            //    Type = g.IsNull("ComponentType") ? ComponentType._ComponentAttribute : g.Field<ComponentType>("componentType"),
+                TitlePattern = g.IsNull("TitlePattern") ? "" : g.Field<string>("TitlePattern"),
                 ComponentName = g.IsNull("componentName") ? "" : g.Field<string>("componentName"),
                 Description = g.IsNull("componentDescription") ? "" : g.Field<string>("componentDescription"),
 
             }).FirstOrDefault();
             this.ComponentName = bc.ComponentName;
             this.ComponentDescription = bc.ComponentDescription;
-        //    this.Type = bc.Type;
-          //  this.EntityKey = bc.EntityKey;
+            this.TitlePattern = bc.TitlePattern;        
             this.ID = bc.ID;
             InitComponentAttribute();
         }
@@ -79,7 +72,7 @@ namespace TechSharpy.Component
                 ca.Cryptography = dr.IsNull("cryptography") ? 0 : dr.Field<int>("cryptography");
                 ca.RegExpression = dr.IsNull("regExpression") ? "" : dr.Field<string>("regExpression");
                 ca.ParentComponentKey = dr.IsNull("parentComponent") ? "" : dr.Field<string>("parentComponent");
-                ca.ParentAttribute = dr.IsNull("parentAttribute") ? "" : dr.Field<string>("parentAttribute");
+                ca.ParentAttribute = dr.IsNull("parentAttribute") ? "" : dr.Field<string>("parentAttribute");                
                 this.ComponentAttributes.Add(ca);
             }
         }
@@ -142,7 +135,7 @@ namespace TechSharpy.Component
               
                 if (!base.Save().HasCriticalError())
                 {
-                    if (databusinessComponent.Update(this.ID, this.EntityKey, this.Category, this.Type, this.ComponentName, this.ComponentDescription))
+                    if (databusinessComponent.Update(this.ID, this.EntityKey, this.Category, this.Type, this.ComponentName, this.ComponentDescription,this.TitlePattern))
                     {
                         foreach (ComponentAttribute ca in this.ComponentAttributes) {
                             ca.SaveAttribute();
@@ -158,7 +151,7 @@ namespace TechSharpy.Component
             else {              
                 if (CreateBase())
                 {                                        
-                    if (databusinessComponent.Save(this.ID, this.Category, this.Type, this.ComponentName, this.ComponentDescription))
+                    if (databusinessComponent.Save(this.ID, this.Category, this.Type, this.ComponentName, this.ComponentDescription, TitlePattern))
                     {
                         foreach (ComponentAttribute ca in this.ComponentAttributes)
                         {

@@ -41,21 +41,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ComponentAttribute.cs" />
-    <Compile Include="BusinessComponent.cs" />
+    <Compile Include="Component\BusinessAttributeComponent.cs" />
+    <Compile Include="Component\BusinessComponent.cs" />
     <Compile Include="ComponentManager.cs" />
+    <Compile Include="Component\BusinessLink.cs" />
+    <Compile Include="Data\BusinessAttributeComponent.cs" />
     <Compile Include="Data\BusinessComponent.cs" />
+    <Compile Include="Data\BusinessLink.cs" />
     <Compile Include="Data\Component.cs" />
     <Compile Include="Data\ComponentAttribute.cs" />
     <Compile Include="Data\ComponentManager.cs" />
     <Compile Include="Data\GlobalComponent.cs" />
-    <Compile Include="GlobalComponent.cs" />
+    <Compile Include="Component\GlobalComponent.cs" />
+    <Compile Include="Data\SecurityComponent.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="LookUp\FieldLookupManager.cs" />
     <Compile Include="Model\ComponentModel.cs" />
     <Compile Include="Model\ElementRelation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecurityComponent.cs" />
-    <Compile Include="CustomComponent.cs" />
+    <Compile Include="Component\SecurityComponent.cs" />
+    <Compile Include="Component\CustomComponent.cs" />
     <Compile Include="TransactionComponent.cs" />
   </ItemGroup>
   <ItemGroup>

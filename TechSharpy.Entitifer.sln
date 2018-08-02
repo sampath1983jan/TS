@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Data", "TechShar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Console.Test", "TechSharpy.Console.Test\TechSharpy.Console.Test.csproj", "{4AE0EE1A-DAB9-4566-BF64-53CD70677B0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Analytic", "TechSharpy.Analytic\TechSharpy.Analytic.csproj", "{F14B4703-A69A-45AB-A470-83C1E2FE7889}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{4AE0EE1A-DAB9-4566-BF64-53CD70677B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AE0EE1A-DAB9-4566-BF64-53CD70677B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AE0EE1A-DAB9-4566-BF64-53CD70677B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14B4703-A69A-45AB-A470-83C1E2FE7889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14B4703-A69A-45AB-A470-83C1E2FE7889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14B4703-A69A-45AB-A470-83C1E2FE7889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14B4703-A69A-45AB-A470-83C1E2FE7889}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
