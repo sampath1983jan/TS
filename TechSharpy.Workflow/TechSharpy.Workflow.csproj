@@ -41,10 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Core\Action.cs" />
+    <Compile Include="Core\Form.cs" />
+    <Compile Include="Core\Step.cs" />
+    <Compile Include="Core\Stepcriterial.cs" />
+    <Compile Include="Core\Workflow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkflowRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Doc.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
