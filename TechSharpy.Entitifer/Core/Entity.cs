@@ -37,26 +37,68 @@ namespace TechSharpy.Entitifier.Core
     public class EntitySchema
     {
         #region Properties
+        /// <summary>
+        /// 
+        /// </summary>
         private const string ModuleName = "Data Schema";
+        /// <summary>
+        /// 
+        /// </summary>
         protected string Name;
+        /// <summary>
+        /// 
+        /// </summary>
         protected TechSharpy.Entitifier.Core.EntityType EntityType;
+        /// <summary>
+        /// 
+        /// </summary>
         protected Int32 EntityKey;
+        /// <summary>
+        /// 
+        /// </summary>
         protected string TableName;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<string> PrimaryKeys;
+        /// <summary>
+        /// 
+        /// </summary>
         protected string Description;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsShow;
+        /// <summary>
+        /// 
+        /// </summary>
         protected List<Trigger> Triggers;
-        protected List<EntityField> EntityInstances;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected List<EntityField> EntityInstances;        
         private Data.EntitySchema dataEntity;
         private Services.ErrorHandling.ErrorInfoCollection Errors;
         #endregion
         
         #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
         public EntitySchema()
         {
             dataEntity = new Data.EntitySchema();
             Errors = new Services.ErrorHandling.ErrorInfoCollection();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="entityType"></param>
+        /// <param name="entityKey"></param>
+        /// <param name="tableName"></param>
+        /// <param name="primaryKeys"></param>
         public EntitySchema(string name, string description, EntityType entityType, int entityKey, string tableName, List<string> primaryKeys)
         {
             Description = description;
@@ -71,7 +113,10 @@ namespace TechSharpy.Entitifier.Core
             Triggers = new List<Trigger>();
             Errors = new Services.ErrorHandling.ErrorInfoCollection();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entityKey"></param>
         public EntitySchema(int entityKey)
         {
             this.Name = "";
@@ -85,7 +130,10 @@ namespace TechSharpy.Entitifier.Core
             Errors = new Services.ErrorHandling.ErrorInfoCollection();
             Init();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entityType"></param>
         public EntitySchema(EntityType entityType)
         {
             this.Name = "";
@@ -100,7 +148,9 @@ namespace TechSharpy.Entitifier.Core
             Triggers = new List<Trigger>();
         }
         #endregion
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void SetDefault() {
             this.Name =  Name == null ?  this.TableName: this.Name;
             this.Description = Description == null ? "" : this.Description;
@@ -131,20 +181,38 @@ namespace TechSharpy.Entitifier.Core
             TQueryBuilder tq;
             if (this.EntityKey > 0)
             {
-                 
-                if (dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, string.Join(",", this.PrimaryKeys.ToArray()), this.EntityType))
+                if (!dataEntity.CheckEntityExist(this.TableName, this.EntityKey))
                 {
-                    Errors.Add(ModuleName + "updated successfully", Services.ErrorHandling.ErrorInfo.ErrorType._noerror);
+                    EntitySchema en = new EntitySchema(this.EntityKey);
+                    if (dataEntity.Update(-1, this.EntityKey, this.TableName, this.Name, this.Description, string.Join(",", this.PrimaryKeys.ToArray()), this.EntityType))
+                    {
+                        Errors.Add(ModuleName + "updated successfully", Services.ErrorHandling.ErrorInfo.ErrorType._noerror);                        
+                        tq = new TQueryBuilder(TQueryType._AddPrimarykey);
+                        if (this.EntityKey > 0)
+                        {
+                            tq.TableName(this.TableName.Replace(" ", ""));
+                            foreach (EntityField fd in this.EntityInstances)
+                            {
+                                if (fd.IsKey == true) {
+                                    tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, getDataType(fd.FieldType), true, "");
+                                }                                
+                            }
+                            dataEntity.ExecuteNonQuery(tq);
+                        }
+                    }
+                    else
+                    {
+                        Errors.Add("Unable to update " + ModuleName, Services.ErrorHandling.ErrorInfo.ErrorType._critical);
+                    }
                 }
-                else
-                {
-                    Errors.Add("Unable to update " + ModuleName, Services.ErrorHandling.ErrorInfo.ErrorType._critical);
+                else {
+                    Errors.Add("table already exist", Services.ErrorHandling.ErrorInfo.ErrorType._critical);
                 }
-                //Write code here to update dataschema when updating Entity schema
+                //Write code here to update dataschema when updating tabl name,primarykeysss
             }
             else
             {
-                if (!dataEntity.CheckEntityExist(this.TableName))
+                if (!dataEntity.CheckEntityExist(this.TableName,-1))
                 {
                     this.EntityKey = dataEntity.Save(-1, this.TableName, this.Name, this.Description, string.Join(",", this.PrimaryKeys.ToArray()), this.EntityType);
                     tq = new TQueryBuilder(TQueryType._Create);
@@ -152,13 +220,8 @@ namespace TechSharpy.Entitifier.Core
                     {
                         tq.TableName(this.TableName.Replace(" ", ""));
                         foreach (EntityField fd in this.EntityInstances)
-                        {
-                            //EntityField fdd = (Entitifier.Core.EntityField)fd.CopyTo<Entitifier.Core.EntityField>();
-                            //fdd.EntityKey = this.EntityKey;                             
-                           // if (fdd.SaveField())
-                           // {
-                                tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, getDataType(fd.FieldType), true, "");                               
-                           // }
+                        {                            
+                                tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, getDataType(fd.FieldType), true, "");                                                        
                         }
                         dataEntity.ExecuteNonQuery(tq);
                     }
@@ -170,8 +233,39 @@ namespace TechSharpy.Entitifier.Core
             }
             return Errors;
         }
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pClientID"></param>
+        /// <param name="pEntityFieldID"></param>
+        /// <param name="pEntityID"></param>
+        /// <param name="pFieldName"></param>
+        /// <param name="pFieldDescription"></param>
+        /// <param name="pFieldType"></param>
+        /// <param name="LookUpID"></param>
+        /// <param name="pIsRequired"></param>
+        /// <param name="pIsUnique"></param>
+        /// <param name="pIsKeyField"></param>
+        /// <param name="pEnableContentLimit"></param>
+        /// <param name="pContentLimit"></param>
+        /// <param name="pMin"></param>
+        /// <param name="pMax"></param>
+        /// <param name="pFileExtension"></param>
+        /// <param name="pIsCore"></param>
+        /// <param name="pIsEditable"></param>
+        /// <param name="pEnableEncription"></param>
+        /// <param name="pAcceptNull"></param>
+        /// <param name="pDisplayName"></param>
+        /// <param name="value"></param>
+        /// <param name="isReadonly"></param>
+        /// <param name="defaultValue"></param>
+        /// <param name="displayorder"></param>
+        /// <param name="pmaxLength"></param>
+        /// <param name="displayName"></param>
+        /// <param name="autoIncrement"></param>
+        /// <param name="incrementfrom"></param>
+        /// <param name="incrementby"></param>
+        /// <returns></returns>
         internal protected bool AddField(int pClientID, int pEntityFieldID, Int32 pEntityID, string pFieldName, string pFieldDescription, EntityFieldType pFieldType,
            int LookUpID, bool pIsRequired, bool pIsUnique, bool pIsKeyField,
           bool pEnableContentLimit, string pContentLimit, string pMin, string pMax, string pFileExtension,
@@ -214,7 +308,11 @@ namespace TechSharpy.Entitifier.Core
             }
             return false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="EntityFieldID"></param>
+        /// <returns></returns>
         internal protected bool RemoveField(int EntityFieldID)
         {
             return dataEntity.DeleteEntityField(-1, this.EntityKey, EntityFieldID);
@@ -227,7 +325,11 @@ namespace TechSharpy.Entitifier.Core
         {
             return true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="trigger"></param>
+        /// <returns></returns>
         internal protected bool addTrigger(Trigger trigger) {
             if (trigger.Save())
             {
@@ -237,7 +339,6 @@ namespace TechSharpy.Entitifier.Core
                 return false;
             }
         }
-
         /// <summary>
         /// Load EntitySchema
         /// </summary>
@@ -263,7 +364,9 @@ namespace TechSharpy.Entitifier.Core
             InitField();
           //  InitTrigger();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void InitTrigger() {
             DataTable dt = new DataTable();           
             Data.Trigger tr = new Data.Trigger();
@@ -278,6 +381,9 @@ namespace TechSharpy.Entitifier.Core
             Steps = g.IsNull("steps") ?  new List<string>() : g.Field<string>("steps").Split(',').ToList(),                 
             }).ToList();
         }
+        /// <summary>
+        /// 
+        /// </summary>
         private void InitField()
         {
             DataTable dt = new DataTable();
@@ -313,8 +419,12 @@ namespace TechSharpy.Entitifier.Core
                // IsShow = g.IsNull("IsShow") ? false : g.Field<bool>("IsShow"),
             }).ToList();
         }
-
-        private TechSharpy.Data.FieldType getDataType(EntityFieldType eft)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eft"></param>
+        /// <returns></returns>
+        internal protected TechSharpy.Data.FieldType getDataType(EntityFieldType eft)
         {
             if (eft == EntityFieldType._Number)
             {

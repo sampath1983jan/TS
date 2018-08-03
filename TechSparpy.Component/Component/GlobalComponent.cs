@@ -259,5 +259,9 @@ namespace TechSharpy.Component
             }                     
              
         }
+        public bool RemoveComponentAttribute(int AttributeID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

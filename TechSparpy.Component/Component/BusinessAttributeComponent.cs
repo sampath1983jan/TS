@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Component.Attributes;
+using TechSharpy.Data;
 using TechSharpy.Entitifier.Core;
 
 namespace TechSharpy.Component
@@ -17,7 +18,7 @@ namespace TechSharpy.Component
         private string _category;
         private string _componentDescription;
         private List<ComponentAttribute> _componentAttributes;
-
+        
         private Data.BusinessAttributeComponent databusinessAttribute;
         public string ComponentName { get => _componentName; set => _componentName=value; }
         public string Category { get => _category; set => _category=value; }
@@ -27,12 +28,15 @@ namespace TechSharpy.Component
         public int ComponentID => this.ID;
         public int ParentComponentID { get => _parentComponentID; }
         public int RelatedAttributeID { get => _parentAttributeID; }
-            #region Constructors
-            public BusinessAttribute(string componentName, string componentDescription,
+        public Services.ErrorHandling.ErrorInfoCollection Errors;
+
+        #region Constructors
+        public BusinessAttribute(string componentName, string componentDescription,
             ComponentType componentType, string primarykeys, string titlePattern,
             int parentComponentID,int AttributeID) : base()
             {
-                ComponentName = componentName;
+            Errors = new Services.ErrorHandling.ErrorInfoCollection();
+            ComponentName = componentName;
                 _parentComponentID = parentComponentID;
                 _parentAttributeID = AttributeID;
                 ComponentDescription = componentDescription;
@@ -42,11 +46,11 @@ namespace TechSharpy.Component
                 this.Type = ComponentType._ComponentAttribute;
                 databusinessAttribute = new Data.BusinessAttributeComponent();
             }
-            public BusinessAttribute(int Id) : base(Id)
+        public BusinessAttribute(int Id) : base(Id)
             {
-                DataTable dt = new DataTable();
+            Errors = new Services.ErrorHandling.ErrorInfoCollection();
+            DataTable dt = new DataTable();
                 this.ID = Id;
-
                 dt= databusinessAttribute.GetComponentByID(this.ID);
                 foreach(DataRow g in dt.Rows)
                 {                
@@ -60,7 +64,7 @@ namespace TechSharpy.Component
                 InitComponentAttribute();
 
             }
-            #endregion
+        #endregion
 
         private FieldAttribute GetFieldInstanceByID(int instanceID)
         {
@@ -170,6 +174,7 @@ namespace TechSharpy.Component
                 return true;
             }
         }
+
         private void AddAttribute(ComponentAttribute componentAttribute)
         {
             componentAttribute.setEntityFieldType();
@@ -198,8 +203,27 @@ namespace TechSharpy.Component
         }
 
         void IComponent.AddComponentAttribute(ComponentAttribute componentAttribute)
-        {
+        {            
             AddAttribute(componentAttribute);
+            AddEntityField(componentAttribute);
+        }
+
+        public bool RemoveComponentAttribute(int AttributeID)
+        {
+            var attr = this.ComponentAttributes.Where(a => a.AttributeID == AttributeID).FirstOrDefault();
+            if (base.RemoveField(attr.InstanceID))
+            {
+               
+                if (attr.RemoveAttribute())
+                {
+                    RemoveEntityField(attr);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else return false;
         }
     }
 }

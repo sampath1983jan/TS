@@ -206,6 +206,20 @@ namespace TechSharpy.Component
         void IComponent.AddComponentAttribute(ComponentAttribute componentAttribute)
         {
             AddAttribute(componentAttribute);
+            AddEntityField(componentAttribute);
+        }
+        public bool RemoveComponentAttribute(int AttributeID)
+        {
+            var attr = this.ComponentAttributes.Where(a => a.AttributeID == AttributeID).FirstOrDefault();
+            if (base.RemoveField(attr.InstanceID))
+            {
+                if (attr.RemoveAttribute())
+                {
+                    return base.RemoveEntityField(attr);
+                }
+                else return true;
+            }
+            else return false;
         }
     }
 }

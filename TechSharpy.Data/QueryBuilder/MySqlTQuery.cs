@@ -9,9 +9,12 @@ namespace TechSharpy.Data
     public enum TQueryType { 
          _Create,
         _AlterTable,
+        _AddColumn,
         _AlterTableColumnDataType,
         _RemoveTableColumn,
         _AlterColumnName,
+        _AddPrimarykey,
+        _RemovePrimarykey
     }
   
    public class MYSQLTQueryBuilder:ABS.TQuery
@@ -25,7 +28,10 @@ namespace TechSharpy.Data
             string createtempate = "Create Table {0} ({1})";
             string addcolumntemplate = "ALTER TABLE {0} {1}";
             string altercolumntemplate = "ALTER TABLE {0} {1}";
-
+             string addColumntemplate = "ALTER TABLE {0} ADD COLUMN {1} ";
+            string addPrimarykey = "ALTER TABLE {0} DROP PRIMARY KEY,  ADD PRIMARY KEY({1})";
+//            ALTER TABLE `tshris`.`sys_user` 
+//ADD PRIMARY KEY(`CLIENTID`, `UserID`);
             StringBuilder sb = new StringBuilder();
             StringBuilder sbField = new StringBuilder();
             if (this.Type == TQueryType._Create)
@@ -51,6 +57,37 @@ namespace TechSharpy.Data
                 sb.AppendFormat(createtempate, this.Table.TableName.Replace(" ", "_"), sbField.ToString().Substring(1) + keyfield);
 
             }
+            else if (this.Type == TQueryType._AlterColumnName) {
+                //                ALTER TABLE vendors
+                //ADD COLUMN vendor_group INT NOT NULL;
+               // string keyfield = "";
+                foreach (Field f in Fields)
+                {
+                    sbField.Append("," + Grouper + f.Name + Grouper + " " + f.GetBaseDataType() + " " + f.GetNullType());                  
+                }
+                sb.AppendFormat(addColumntemplate, this.Table.TableName.Replace(" ", "_"), sbField.ToString().Substring(1));
+            }
+            else if (this.Type == TQueryType._AddPrimarykey || this.Type == TQueryType._RemovePrimarykey)
+            {
+                string keyfield = "";
+                foreach (Field f in Fields)
+                {
+                    // sbField.Append("," + Grouper + f.Name + Grouper + " " + f.GetBaseDataType() + " " + f.GetNullType());
+                    if (f.IsKeyField == true)
+                    {
+                        keyfield = keyfield + "," + Grouper + f.Name + Grouper;
+                    }
+                }
+                if (keyfield != "")
+                {
+                    if (keyfield.StartsWith(","))
+                    {
+                        keyfield = keyfield.Substring(1);
+                    }
+                }
+                sb.AppendFormat(addPrimarykey, this.Table.TableName.Replace(" ", "_"), keyfield);
+            }   
+
             else if (this.Type == TQueryType._AlterTableColumnDataType)
             {
                 foreach (Field f in Fields)

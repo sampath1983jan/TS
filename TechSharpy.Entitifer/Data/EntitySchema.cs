@@ -142,12 +142,13 @@ namespace TechSharpy.Entitifier.Data
             }
         }
 
-        public bool CheckEntityExist(string EntityName)
+        public bool CheckEntityExist(string EntityName,int entitykey)
         {
             dtResult = new DataTable();
             Query selectQ = new QueryBuilder(QueryType._Select).AddTable("s_entity").AddField("*", "s_entity").
-               //    AddWhere(0, "s_entity", "ClientID", FieldType._Number, Operator._Equal, ClientID.ToString()).
+                AddWhere(0, "s_entity", "entityID", FieldType._Number, Operator._NotEqual, entitykey.ToString()).
                AddWhere(0, "s_entity", "TableName", FieldType._String, Operator._Equal, EntityName.ToString());
+             
             dtResult = rd.ExecuteQuery(selectQ).GetResult;
             if (dtResult.Rows.Count > 0)
             {

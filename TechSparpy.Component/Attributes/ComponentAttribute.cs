@@ -49,12 +49,69 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
         public UsageType UsageFieldType;
         private Data.ComponentAttribute datacomponentAttribute;
 
-        internal bool SaveAttribute() {
-          //  setEntityFieldType();
+        internal bool SaveAttribute() {          
             return Save();
         }
-        internal void setEntityFieldType() {
-            base.FieldType = (Entitifier.Core.EntityFieldType)(int)this.Type;
+        internal bool RemoveAttribute() {
+            return Remove();
+        }
+        internal void setEntityFieldType() {            
+            if (this.Type == AttributeType._Number || this.Type == AttributeType._Year
+                || this.Type == AttributeType._Month || this.Type == AttributeType._PrimaryKeyField)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Number;
+            }
+            else if (this.Type == AttributeType._Float || this.Type == AttributeType._Calculator)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Float;
+            }
+            else if (this.Type == AttributeType._LongText) {
+                base.FieldType = Entitifier.Core.EntityFieldType._LongText;
+            }
+            else if (this.Type == AttributeType._Text)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Text;
+            }
+            else if (this.Type == AttributeType._Date)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Date;
+            }
+            else if (this.Type == AttributeType._DateTime)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._DateTime;
+            }
+            else if (this.Type == AttributeType._Time)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Time;
+            }
+            else if (this.Type == AttributeType._Bool)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Bool;
+            }
+            else if (this.Type == AttributeType._Lookup)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Lookup;
+            }
+            else if (this.Type == AttributeType._MultiLookup)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._MultiLookup;
+            }
+            else if (this.Type == AttributeType._Picture)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Picture;
+            }
+            else if (this.Type == AttributeType._File)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._File;
+            }
+            else if (this.Type == AttributeType._Auto)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Auto;
+            }
+            else if (this.Type == AttributeType._None)
+            {
+                base.FieldType = Entitifier.Core.EntityFieldType._Text;
+            }
         }
         private void SetDefault() {
             this.UsageFieldType = UsageType._InputField;
@@ -77,7 +134,6 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
                 return false;
             }            
         }
-
         protected  override bool Remove()
         {
             if (base.Remove()) {
@@ -117,8 +173,7 @@ public class ComponentAttribute:TechSharpy.Entitifier.Core.EntityField
             this.ParentComponentKey = cat.ParentComponentKey;
             this.UsageFieldType = cat.UsageFieldType;
           base.Load();
-        }
-        
+        }    
         public ComponentAttribute(int attributeID,string componentKey)
         {
             ComponentKey = componentKey;

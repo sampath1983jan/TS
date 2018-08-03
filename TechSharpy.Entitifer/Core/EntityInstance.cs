@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using TechSharpy.Data;
 
 namespace TechSharpy.Entitifier.Core
 {
@@ -144,9 +145,13 @@ namespace TechSharpy.Entitifier.Core
         {
             if (this.InstanceID > 0)
             {
-                return (dataEntity.SaveField(this.Name, this.InstanceID, this.FieldType, this.IsKey, this.IsRequired, this.IsUnique, this.LookUpID, this.IsCore, this.EntityKey, this.Value, this.IsReadOnly
+                if (dataEntity.SaveField(this.Name, this.InstanceID, this.FieldType, this.IsKey, this.IsRequired, this.IsUnique, this.LookUpID, this.IsCore, this.EntityKey, this.Value, this.IsReadOnly
                 , this.DefaultValue, this.DisplayOrder, new List<string>(), this.Min, this.Max, this.MaxLength, this.DisplayName, this.AutoIncrement, this.Incrementfrom,
-                this.Incrementby, this.Description, this.EnableEncription, this.enableContentLimit));
+                this.Incrementby, this.Description, this.EnableEncription, this.enableContentLimit)) {
+                    return true;
+
+                     
+                }
             }
             else
             {

@@ -9,8 +9,7 @@ using TechSharpy.Entitifier.Core;
 
 namespace TechSharpy.Component
 {
-    
-  internal class Business:Component,IComponent
+    public class Transaction : Component, IComponent
     {
         #region Member variables and properties
         private string _category = "";
@@ -41,7 +40,7 @@ namespace TechSharpy.Component
         /// 
         /// </summary>
         public int ComponentID => this.ID;
-        
+
         private Data.BusinessComponent databusinessComponent;
         private Services.ErrorHandling.ErrorInfoCollection Errors;
         #endregion
@@ -50,18 +49,18 @@ namespace TechSharpy.Component
         /// <summary>
         /// 
         /// </summary>
-        public Business() : base()
+        public Transaction() : base()
         {
             ComponentAttributes = new List<ComponentAttribute>();
-            this.Type =  ComponentType._CoreComponent;
+            this.Type = ComponentType._ComponentTransaction;
             databusinessComponent = new Data.BusinessComponent();
             Errors = new Services.ErrorHandling.ErrorInfoCollection();
-        }                       
+        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Id"></param>
-        public Business(int Id):base(Id)
+        public Transaction(int Id) : base(Id)
         {
             Errors = new Services.ErrorHandling.ErrorInfoCollection();
             this.ID = Id;
@@ -71,16 +70,16 @@ namespace TechSharpy.Component
             dt = databusinessComponent.GetComponentByID(this.ID);
             var bc = dt.AsEnumerable().Select(g => new Business
             {
-             //   EntityKey = g.IsNull("entityKey") ? -1 : g.Field<int>("entityKey"),
+                //   EntityKey = g.IsNull("entityKey") ? -1 : g.Field<int>("entityKey"),
                 ID = g.IsNull("ComponentID") ? -1 : g.Field<int>("ComponentID"),
                 TitlePattern = g.IsNull("TitlePattern") ? "" : g.Field<string>("TitlePattern"),
                 ComponentName = g.IsNull("componentName") ? "" : g.Field<string>("componentName"),
-                Description = g.IsNull("componentDescription") ? "" : g.Field<string>("componentDescription"),
+                ComponentDescription = g.IsNull("componentDescription") ? "" : g.Field<string>("componentDescription"),
 
             }).FirstOrDefault();
             this.ComponentName = bc.ComponentName;
             this.ComponentDescription = bc.ComponentDescription;
-            this.TitlePattern = bc.TitlePattern;        
+            this.TitlePattern = bc.TitlePattern;
             this.ID = bc.ID;
             InitComponentAttribute();
         }
@@ -104,7 +103,7 @@ namespace TechSharpy.Component
                 ca.Cryptography = dr.IsNull("cryptography") ? 0 : dr.Field<int>("cryptography");
                 ca.RegExpression = dr.IsNull("regExpression") ? "" : dr.Field<string>("regExpression");
                 ca.ParentComponentKey = dr.IsNull("parentComponent") ? "" : dr.Field<string>("parentComponent");
-                ca.ParentAttribute = dr.IsNull("parentAttribute") ? "" : dr.Field<string>("parentAttribute");                
+                ca.ParentAttribute = dr.IsNull("parentAttribute") ? "" : dr.Field<string>("parentAttribute");
                 this.ComponentAttributes.Add(ca);
             }
         }
@@ -172,18 +171,20 @@ namespace TechSharpy.Component
         internal bool ComponentRemove()
         {
             if (BaseRemove())
-            {                
+            {
                 if (databusinessComponent.Delete(this.ID, this.EntityKey))
                 {
                     return true;
                 }
-                else {
+                else
+                {
                     return false;
-                }               
+                }
             }
-            else {
+            else
+            {
                 return true;
-            }                      
+            }
         }
         /// <summary>
         /// 
@@ -191,27 +192,30 @@ namespace TechSharpy.Component
         /// <returns></returns>
         internal bool ComponentSave()
         {
-            if (base.EntityKey > 0  && base.ID >0)
+            if (base.EntityKey > 0 && base.ID > 0)
             {
-              
+
                 if (!base.Save().HasCriticalError())
                 {
-                    if (databusinessComponent.Update(this.ID, this.EntityKey, this.Category, this.Type, this.ComponentName, this.ComponentDescription,this.TitlePattern))
+                    if (databusinessComponent.Update(this.ID, this.EntityKey, this.Category, this.Type, this.ComponentName, this.ComponentDescription, this.TitlePattern))
                     {
-                        foreach (ComponentAttribute ca in this.ComponentAttributes) {
+                        foreach (ComponentAttribute ca in this.ComponentAttributes)
+                        {
                             ca.SaveAttribute();
                         }
                         return true;
                     }
                     else return false;
                 }
-                else {
+                else
+                {
                     return false;
                 }
             }
-            else {              
+            else
+            {
                 if (CreateBase())
-                {                                        
+                {
                     if (databusinessComponent.Save(this.ID, this.Category, this.Type, this.ComponentName, this.ComponentDescription, TitlePattern))
                     {
                         foreach (ComponentAttribute ca in this.ComponentAttributes)
@@ -219,23 +223,24 @@ namespace TechSharpy.Component
                             ca.ComponentKey = ID.ToString();
                             ca.EntityKey = base.EntityKey;
                             ca.SaveAttribute();
-                        }   
+                        }
                         return true;
                     }
                     else return false;
                 }
-                else {
+                else
+                {
                     return false;
                 }
-            }            
-        }            
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
         internal void ComponentInit()
         {
-           // return ComponentHide();
-            
+            // return ComponentHide();
+
         }
         #region Implimentation methods
         /// <summary>
@@ -278,10 +283,9 @@ namespace TechSharpy.Component
         {
             ComponentInit();
         }
-
         public bool RemoveComponentAttribute(int AttributeID)
         {
-            var attr= this.ComponentAttributes.Where(a => a.AttributeID == AttributeID).FirstOrDefault();
+            var attr = this.ComponentAttributes.Where(a => a.AttributeID == AttributeID).FirstOrDefault();
             if (base.RemoveField(attr.InstanceID))
             {
                 if (attr.RemoveAttribute())
@@ -293,7 +297,6 @@ namespace TechSharpy.Component
             else return false;
         }
         #endregion
-
 
 
     }

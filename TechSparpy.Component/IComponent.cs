@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Component;
 using TechSharpy.Component.Attributes;
+using TechSharpy.Data;
 
 namespace TechSharpy.Component
 {
@@ -31,6 +32,7 @@ namespace TechSharpy.Component
         bool ComponentHide();
         void ComponentInit();
         void AddComponentAttribute(ComponentAttribute componentAttribute);
+        bool RemoveComponentAttribute(int AttributeID);
     }
     public class Component: Entitifier.Core.EntitySchema
     {          
@@ -91,7 +93,37 @@ namespace TechSharpy.Component
         }
         protected bool Delete() {
           return  dataComponent.Delete(this.ID, this.EntityKey);
-        }                
+        }
+        protected bool AddEntityField(ComponentAttribute componentAttribute) {
+
+            Data.Component c = new Data.Component();
+            TQueryBuilder tq;
+            tq = new TQueryBuilder(TQueryType._AlterColumnName);
+            tq.TableName(this.TableName.Replace(" ", ""));
+            if (componentAttribute.InstanceID > 0)
+            {
+                //  tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, fd.FieldType, true, ""); 
+                tq.AddField(componentAttribute.Name, componentAttribute.IsKey, componentAttribute.IsUnique, base.getDataType(componentAttribute.FieldType), true, "");
+                c.ExecuteNonQuery(tq);
+                return true;
+            }
+            else return true;
+        }
+        protected bool RemoveEntityField(ComponentAttribute attr) {
+            Data.Component c = new Data.Component();
+            TQueryBuilder tq;
+            tq = new TQueryBuilder(TQueryType._RemoveTableColumn);
+            tq.TableName(this.TableName.Replace(" ", ""));
+            if (attr.InstanceID > 0)
+            {
+                tq.AddField(attr.Name, attr.IsKey, attr.IsUnique, base.getDataType(attr.FieldType), true, "");
+                c.ExecuteNonQuery(tq);
+                return true;
+            }
+            else {
+                return true;
+            }
+        }
     }
 }
 
@@ -165,9 +197,9 @@ public class ComponentHandlerFactory : ICompnentFactory
         {
             Business bc = new Business();
             bc.ComponentName = ComponentName;
-
             bc.ComponentDescription = ComponentDescription;
             bc.Type = componentType;
+            bc.TitlePattern = titlePattern;
             bc.PrimaryKeys = primarykeys.Split(',').ToList();
             return bc;
         }
@@ -181,8 +213,18 @@ public class ComponentHandlerFactory : ICompnentFactory
             gb.PrimaryKeys = primarykeys.Split(',').ToList();
             return gb;
         }
-        else if (componentType == ComponentType._ComponentAttribute) {
+        else if (componentType == ComponentType._ComponentAttribute)
+        {
             throw new Exception("Cannot find parentcomponent missing");
+        }
+        else if (componentType == ComponentType._ComponentTransaction) {
+            Transaction bc = new Transaction();
+            bc.ComponentName = ComponentName;
+            bc.ComponentDescription = ComponentDescription;
+            bc.Type = componentType;
+            bc.TitlePattern = titlePattern;
+            bc.PrimaryKeys = primarykeys.Split(',').ToList();
+            return bc;
         }
         else
         {

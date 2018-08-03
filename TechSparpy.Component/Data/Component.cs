@@ -69,5 +69,25 @@ namespace TechSharpy.Component.Data
             return Result;
         }
 
+        public bool ExecuteNonQuery(TQueryBuilder tq)
+        {
+            try
+            {
+                if (rd.ExecuteTQuery(tq).Result)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to Create Entity", ex.InnerException);
+            }
+
+        }
+
     }
 }
