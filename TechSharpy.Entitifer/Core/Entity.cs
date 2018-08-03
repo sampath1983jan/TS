@@ -268,9 +268,10 @@ namespace TechSharpy.Entitifier.Core
         /// <returns></returns>
         internal protected bool AddField(int pClientID, int pEntityFieldID, Int32 pEntityID, string pFieldName, string pFieldDescription, EntityFieldType pFieldType,
            int LookUpID, bool pIsRequired, bool pIsUnique, bool pIsKeyField,
-          bool pEnableContentLimit, string pContentLimit, string pMin, string pMax, string pFileExtension,
+          bool pEnableContentLimit, string pMin, string pMax, string pFileExtension,
            bool pIsCore, bool pIsEditable, bool pEnableEncription, bool pAcceptNull, string pDisplayName, string value, bool isReadonly,
-           string defaultValue, int displayorder, int pmaxLength, string displayName, bool autoIncrement, int incrementfrom, int incrementby)
+           string defaultValue, int displayorder, int pmaxLength, string displayName, bool autoIncrement, 
+           int incrementfrom, int incrementby)
         {
             TQueryBuilder tq;
             EntityField fd = new EntityField(pFieldName, pEntityFieldID, pFieldType, pIsKeyField, pIsRequired, pIsUnique, LookUpID, pIsCore, pEntityID, value, isReadonly,
@@ -278,23 +279,29 @@ namespace TechSharpy.Entitifier.Core
                 Description, pEnableEncription, pEnableContentLimit);
 
             fd.InstanceID = pEntityFieldID;
-
-            tq = new TQueryBuilder(TQueryType._AlterTable);
-            tq.TableName(this.TableName.Replace(" ", ""));
-            if (fd.SaveField())
+            if (pEntityFieldID <= 0)
             {
-                if (fd.InstanceID > 0)
+                tq = new TQueryBuilder(TQueryType._AlterTable);
+                tq.TableName(this.TableName.Replace(" ", ""));
+                if (fd.SaveField())
                 {
-                    //  tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, fd.FieldType, true, "");
-                    tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, getDataType(fd.FieldType), true, "");
-                    dataEntity.ExecuteNonQuery(tq);
+                    if (fd.InstanceID > 0)
+                    {
+                        tq.AddField(fd.Name, fd.IsKey, fd.IsUnique, getDataType(fd.FieldType), true, "");
+                        dataEntity.ExecuteNonQuery(tq);
+                    }
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            else {
+               
                 return true;
             }
-            else
-            {
-                return false;
-            }
+          
         }
         /// <summary>
         /// remove Entity 

@@ -263,5 +263,10 @@ namespace TechSharpy.Component
         {
             throw new NotImplementedException();
         }
+
+        public bool UpdateComponentAttribute(ComponentAttribute componentAttribute)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

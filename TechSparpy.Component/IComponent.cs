@@ -33,6 +33,7 @@ namespace TechSharpy.Component
         void ComponentInit();
         void AddComponentAttribute(ComponentAttribute componentAttribute);
         bool RemoveComponentAttribute(int AttributeID);
+        bool UpdateComponentAttribute(ComponentAttribute componentAttribute);
     }
     public class Component: Entitifier.Core.EntitySchema
     {          
@@ -121,6 +122,24 @@ namespace TechSharpy.Component
                 return true;
             }
             else {
+                return true;
+            }
+        }
+
+        protected bool UpdateEntityFieldType(ComponentAttribute attr)
+        {
+            Data.Component c = new Data.Component();
+            TQueryBuilder tq;
+            tq = new TQueryBuilder(TQueryType._AlterTableColumnDataType);
+            tq.TableName(this.TableName.Replace(" ", ""));
+            if (attr.InstanceID > 0)
+            {
+                tq.AddField(attr.Name, attr.IsKey, attr.IsUnique, base.getDataType(attr.FieldType), true, "");
+                c.ExecuteNonQuery(tq);
+                return true;
+            }
+            else
+            {
                 return true;
             }
         }

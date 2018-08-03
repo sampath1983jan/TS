@@ -225,5 +225,25 @@ namespace TechSharpy.Component
             }
             else return false;
         }
+
+        public bool UpdateComponentAttribute(ComponentAttribute ca)
+        {
+            EntityField ef = this.EntityInstances.Where(a => a.InstanceID == ca.InstanceID).FirstOrDefault();
+            if (ef.FieldType != ca.FieldType)
+            {
+                // update fieldtype
+                UpdateComponentAttribute(ca);
+            }
+            if (base.AddField(-1, ca.InstanceID, ca.EntityKey, ca.Name, ca.Description, ca.FieldType, ca.LookUpID, ca.IsRequired,
+                     ca.IsUnique, ca.IsKey, ca.enableContentLimit, ca.Min, ca.Max, "", ca.IsCore, ca.IsReadOnly, ca.EnableEncription,
+                     true, ca.DisplayName, ca.Value, ca.IsReadOnly, ca.DefaultValue, ca.DisplayOrder, ca.MaxLength, ca.DisplayName, ca.AutoIncrement, ca.Incrementfrom,
+                     ca.Incrementby))
+            {
+                ca.SaveAttribute();
+                return true;
+
+            }
+            else return false;
+        }
     }
 }

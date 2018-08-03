@@ -32,8 +32,8 @@ namespace TechSharpy.Entitifier.Core
         public int MaxLength;
         public string DisplayName;
         public bool AutoIncrement;
-        public Int64 Incrementfrom;
-        public Int64 Incrementby;
+        public int Incrementfrom;
+        public int Incrementby;
         public bool IsShow;
         public string Description;
 
@@ -78,8 +78,8 @@ namespace TechSharpy.Entitifier.Core
         }
         public EntityField(string name, int instanceID, EntityFieldType fieldType, bool isKey, bool isRequired, bool isUnique, 
             int lookUpID, bool isCore, int entityKey, string value, bool isReadOnly, string defaultValue, int displayOrder,
-            List<string> lookUpArray, string min, string max, int maxLength, string displayName, bool autoIncrement, long incrementfrom,
-            long incrementby,string description,bool enableencription,bool enablelimit)
+            List<string> lookUpArray, string min, string max, int maxLength, string displayName, bool autoIncrement, int incrementfrom,
+            int incrementby,string description,bool enableencription,bool enablelimit)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             InstanceID = instanceID;

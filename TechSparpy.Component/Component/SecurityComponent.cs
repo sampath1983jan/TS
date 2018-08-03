@@ -22,7 +22,6 @@ namespace TechSharpy.Component
         private int _userComponentID;
         private int _userKey;
         private Data.SecurityComponent datasecurityComponent;
-
         /// <summary>
         /// 
         /// </summary>
@@ -422,6 +421,11 @@ namespace TechSharpy.Component
         }
 
         public bool RemoveComponentAttribute(int AttributeID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateComponentAttribute(ComponentAttribute componentAttribute)
         {
             throw new NotImplementedException();
         }
