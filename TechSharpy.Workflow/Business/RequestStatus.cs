@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSharpy.Workflow
+namespace TechSharpy.Workflow.Business
 {
-    public class Class1
+   public class RequestStatus
     {
+
     }
 }

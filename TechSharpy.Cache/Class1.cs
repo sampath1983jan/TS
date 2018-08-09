@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSharpy.Workflow
+namespace TechSharpy.Cache
 {
-    public class WorkflowRequest
+    public class Class1
     {
     }
 }

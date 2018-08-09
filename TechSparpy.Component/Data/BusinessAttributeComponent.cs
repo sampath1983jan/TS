@@ -33,15 +33,15 @@ namespace TechSharpy.Component.Data
         {
             // int nextid = rd.getNextID("BusinessComponent");
             iQuery = new QueryBuilder(QueryType._Insert)
-                //.AddField("entityKey", "c_businessattribute", FieldType._Number, "", entityKey.ToString())
+                //.AddField("entityKey", "wf_step_action", FieldType._Number, "", entityKey.ToString())
 
-                .AddField("ComponentID", "c_businessattribute", FieldType._Number, "", componentID.ToString())
-                .AddField("titlepattern", "c_businessattribute", FieldType._String, "", (titlepattern).ToString())
-                .AddField("componentName", "c_businessattribute", FieldType._String, "", componentName)
-                .AddField("componentDescription", "c_businessattribute", FieldType._String, "", componentDescription)
-                .AddField("ParentComponentID", "c_businessattribute", FieldType._Number, "", parentComponentID.ToString())
-                .AddField("RelatedAttributeID", "c_businessattribute", FieldType._Number, "", RelatedAttributeID.ToString())
-                .AddField("LastUPD", "c_businessattribute", FieldType._DateTime, "", DateTime.Now.ToString());
+                .AddField("ComponentID", "wf_step_action", FieldType._Number, "", componentID.ToString())
+                .AddField("titlepattern", "wf_step_action", FieldType._String, "", (titlepattern).ToString())
+                .AddField("componentName", "wf_step_action", FieldType._String, "", componentName)
+                .AddField("componentDescription", "wf_step_action", FieldType._String, "", componentDescription)
+                .AddField("ParentComponentID", "wf_step_action", FieldType._Number, "", parentComponentID.ToString())
+                .AddField("RelatedAttributeID", "wf_step_action", FieldType._Number, "", RelatedAttributeID.ToString())
+                .AddField("LastUPD", "wf_step_action", FieldType._DateTime, "", DateTime.Now.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
@@ -53,16 +53,16 @@ namespace TechSharpy.Component.Data
             string componentDescription, string titlepattern,int parentComponentID,int RelatedAttributeID)
         {
             iQuery = new QueryBuilder(QueryType._Update)
-                //  .AddField("entityKey", "c_businessattribute", FieldType._Number, "", entityKey.ToString())
-                //  .AddField("ComponentID", "c_businessattribute", FieldType._Number, "", nextid.ToString())
-                .AddField("titlepattern", "c_businessattribute", FieldType._String, "", (titlepattern).ToString())
-                .AddField("componentName", "c_businessattribute", FieldType._String, "", componentName)
-                .AddField("componentDescription", "c_businessattribute", FieldType._String, "", componentDescription)
-                  .AddField("ParentComponentID", "c_businessattribute", FieldType._Number, "", parentComponentID.ToString())
-                .AddField("RelatedAttributeID", "c_businessattribute", FieldType._Number, "", RelatedAttributeID.ToString())
-                .AddField("LastUPD", "c_businessattribute", FieldType._DateTime, "", DateTime.Now.ToString())
-                .AddWhere(0, "c_businessattribute", "ComponentID", FieldType._Number, Operator._Equal, componentID.ToString(), Condition._None);
-            //   .AddWhere(0, "c_businessattribute", "entityKey", FieldType._Number, entityKey.ToString());
+                //  .AddField("entityKey", "wf_step_action", FieldType._Number, "", entityKey.ToString())
+                //  .AddField("ComponentID", "wf_step_action", FieldType._Number, "", nextid.ToString())
+                .AddField("titlepattern", "wf_step_action", FieldType._String, "", (titlepattern).ToString())
+                .AddField("componentName", "wf_step_action", FieldType._String, "", componentName)
+                .AddField("componentDescription", "wf_step_action", FieldType._String, "", componentDescription)
+                  .AddField("ParentComponentID", "wf_step_action", FieldType._Number, "", parentComponentID.ToString())
+                .AddField("RelatedAttributeID", "wf_step_action", FieldType._Number, "", RelatedAttributeID.ToString())
+                .AddField("LastUPD", "wf_step_action", FieldType._DateTime, "", DateTime.Now.ToString())
+                .AddWhere(0, "wf_step_action", "ComponentID", FieldType._Number, Operator._Equal, componentID.ToString(), Condition._None);
+            //   .AddWhere(0, "wf_step_action", "entityKey", FieldType._Number, entityKey.ToString());
 
             if (rd.ExecuteQuery(iQuery).Result)
             {
@@ -73,9 +73,9 @@ namespace TechSharpy.Component.Data
         public bool Delete(int componentID, int entityKey)
         {
             iQuery = new QueryBuilder(QueryType._Delete)
-                .AddField("*", "c_businessattribute")
-                .AddWhere(0, "c_businessattribute", "ComponentID", FieldType._Number, componentID.ToString(), Condition._None);
-            //  .AddWhere(0, "c_businessattribute", "entityKey", FieldType._Number, entityKey.ToString());
+                .AddField("*", "wf_step_action")
+                .AddWhere(0, "wf_step_action", "ComponentID", FieldType._Number, componentID.ToString(), Condition._None);
+            //  .AddWhere(0, "wf_step_action", "entityKey", FieldType._Number, entityKey.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
             {
                 return true;
@@ -85,17 +85,17 @@ namespace TechSharpy.Component.Data
         public DataTable GetComponentByID(int ComponentID)
         {
             iQuery = new QueryBuilder(QueryType._Select)
-                // .AddField("entityKey", "c_businessattribute", FieldType._Number)
-                .AddField("ComponentID", "c_businessattribute", FieldType._Number, "")
-                  .AddField("ParentComponentID", "c_businessattribute", FieldType._Number)
-                .AddField("RelatedAttributeID", "c_businessattribute", FieldType._Number)
-                // .AddField("componentType", "c_businessattribute", FieldType._Number, "")
-                .AddField("componentName", "c_businessattribute", FieldType._String, "")
-                .AddField("componentDescription", "c_businessattribute", FieldType._String, "")
-                .AddField("TitlePattern", "c_businessattribute", FieldType._String, "")
-                .AddField("LastUPD", "c_businessattribute", FieldType._DateTime, "")
-            //   .                AddWhere(0, "c_businessattribute", "ComponentID", FieldType._Number, entityKey.ToString(),Condition._And)
-            .AddWhere(0, "c_businessattribute", "ComponentID", FieldType._Number, ComponentID.ToString(), Condition._None);
+                // .AddField("entityKey", "wf_step_action", FieldType._Number)
+                .AddField("ComponentID", "wf_step_action", FieldType._Number, "")
+                  .AddField("ParentComponentID", "wf_step_action", FieldType._Number)
+                .AddField("RelatedAttributeID", "wf_step_action", FieldType._Number)
+                // .AddField("componentType", "wf_step_action", FieldType._Number, "")
+                .AddField("componentName", "wf_step_action", FieldType._String, "")
+                .AddField("componentDescription", "wf_step_action", FieldType._String, "")
+                .AddField("TitlePattern", "wf_step_action", FieldType._String, "")
+                .AddField("LastUPD", "wf_step_action", FieldType._DateTime, "")
+            //   .                AddWhere(0, "wf_step_action", "ComponentID", FieldType._Number, entityKey.ToString(),Condition._And)
+            .AddWhere(0, "wf_step_action", "ComponentID", FieldType._Number, ComponentID.ToString(), Condition._None);
             Result = rd.ExecuteQuery(iQuery).GetResult;
             return Result;
         }

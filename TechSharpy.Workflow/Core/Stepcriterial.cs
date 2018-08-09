@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace TechSharpy.Workflow.Core
 {
-    class Stepcriterial
+   public class Stepcriterial
     {
+        public int CRID;
+        public int StepID;
+        public int ActionID;
     }
 }
