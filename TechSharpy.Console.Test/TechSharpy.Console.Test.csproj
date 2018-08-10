@@ -57,6 +57,10 @@
       <Project>{789c0da4-36ed-4c9d-ba1e-2bb662e05869}</Project>
       <Name>TechSharpy.Entitifier</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TechSharpy.Workflow\TechSharpy.Workflow.csproj">
+      <Project>{a3845915-9f08-47d5-850d-cd972951a5df}</Project>
+      <Name>TechSharpy.Workflow</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TechSparpy.Component\TechSharpy.Component.csproj">
       <Project>{193b109c-39e7-4c33-a812-0f2071a8384c}</Project>
       <Name>TechSharpy.Component</Name>

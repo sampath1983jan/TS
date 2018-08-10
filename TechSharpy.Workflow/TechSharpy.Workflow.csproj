@@ -40,14 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\RequestStatus.cs" />
+    <Compile Include="Business\RequestAction.cs" />
     <Compile Include="Business\WorkflowRequest.cs" />
     <Compile Include="Core\Action.cs" />
     <Compile Include="Core\Form.cs" />
     <Compile Include="Core\Step.cs" />
     <Compile Include="Core\Stepcriterial.cs" />
     <Compile Include="Core\Workflow.cs" />
+    <Compile Include="Core\WorkflowOwner.cs" />
     <Compile Include="Data\Action.cs" />
+    <Compile Include="Data\RequestAction.cs" />
     <Compile Include="Data\Step.cs" />
     <Compile Include="Data\Workflow.cs" />
     <Compile Include="Data\WorkflowRequest.cs" />

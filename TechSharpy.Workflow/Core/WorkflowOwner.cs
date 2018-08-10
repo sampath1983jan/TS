@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TechSharpy.Workflow.Business
+namespace TechSharpy.Workflow.Core
 {
-   public class RequestStatus
+    public class WorkflowOwner
     {
 
     }

@@ -15,7 +15,7 @@ namespace TechSharpy.Workflow.Core
         _assign=6, // assign some other user before process or close the request
         _retract=4, // before approve or reject approve or processer move to previous step
         _close=5, // close the workflow and update required information
-            _custom=7,
+        _custom=7,
     }
     /// <summary>
     /// Eighter action move to next step or check step criterial more based on the criterial success
@@ -102,6 +102,40 @@ namespace TechSharpy.Workflow.Core
         protected internal bool Duplicate() {
             this.ActionID = -1;
             return this.Save();            
-        }        
+        }
+        public string GetStatusAsText() {
+            if (this.Type == ActionType._draft)
+            {
+                return "Saved";
+            }
+            else if (this.Type == ActionType._submit)
+            {
+                return "Submitted";
+            }
+            else if (this.Type == ActionType._approve)
+            {
+                return "Approved";
+            }
+            else if (this.Type == ActionType._reject)
+            {
+                return "Rejected";
+            }
+            else if (this.Type == ActionType._assign)
+            {
+                return "Assigned to review";
+            }
+            else if (this.Type == ActionType._close)
+            {
+                return "Closed";
+            }
+            else if (this.Type == ActionType._retract)
+            {
+                return "retracted";
+            }
+            else return "";
+        }
+        public int GetNextStep() {
+            return NextStep;
+        }
     }
 }
