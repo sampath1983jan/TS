@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>851d9f1f-2e50-4b4d-9647-b523a8290d1b</ProjectGuid>
+    <ProjectGuid>{851D9F1F-2E50-4B4D-9647-B523A8290D1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TechSharpy.FormBuilder</RootNamespace>
@@ -30,24 +30,47 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Core\ElementAttribute.cs" />
+    <Compile Include="Core\Form.cs" />
+    <Compile Include="Core\FormElement.cs" />
+    <Compile Include="Data\Form.cs" />
+    <Compile Include="Data\FormElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TechSharpy.Data\TechSharpy.Data.csproj">
+      <Project>{e4ac00f9-50db-4975-a567-3412e5f89926}</Project>
+      <Name>TechSharpy.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TechSharpy.Entitifer\TechSharpy.Entitifier.csproj">
+      <Project>{789C0DA4-36ED-4C9D-BA1E-2BB662E05869}</Project>
+      <Name>TechSharpy.Entitifier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TechSharpy.Services\TechSharpy.Services.csproj">
+      <Project>{686710CE-5A21-409D-8879-7FFE6F98F8FA}</Project>
+      <Name>TechSharpy.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TechSparpy.Component\TechSharpy.Component.csproj">
+      <Project>{193b109c-39e7-4c33-a812-0f2071a8384c}</Project>
+      <Name>TechSharpy.Component</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

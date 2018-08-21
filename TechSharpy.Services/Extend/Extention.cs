@@ -12,12 +12,12 @@ using System.Threading.Tasks;
     public static class ObjectExtension
     {
 
-    public static Object CopyTo<T>(this object objSource)
+    public static T CopyTo<T>(this object objSource)
 
     {
 
         var serializedParent = Newtonsoft.Json.JsonConvert.SerializeObject(objSource);
-        object ms = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(serializedParent);
+        var ms = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(serializedParent);
         return ms;
     }
     }

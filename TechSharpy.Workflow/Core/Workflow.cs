@@ -17,6 +17,13 @@ namespace TechSharpy.Workflow.Core
         public int Createdby;
         public List<Step> Steps;
         private Data.Workflow dataworkflow;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="category"></param>
+        /// <param name="description"></param>
+        /// <param name="createdby"></param>
         public Workflow(string name, string category, string description, int createdby)
         {
             Name = name;
@@ -26,17 +33,26 @@ namespace TechSharpy.Workflow.Core
             Steps = new List<Step>();
             dataworkflow = new Data.Workflow();
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public Workflow() {
             Data.Workflow dataworkflow = new Data.Workflow();
             Steps = new List<Step>();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="iD"></param>
         public Workflow(int iD)
         {
             ID = iD;
             Steps = new List<Step>();
             dataworkflow = new Data.Workflow();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Init() {
             DataTable dt = new DataTable();
             dt = dataworkflow.GetWorkflow(this.ID);
@@ -51,7 +67,10 @@ namespace TechSharpy.Workflow.Core
             LoadSteps();
             LoadStepActions();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         internal bool Save()
         {
             if (this.ID > 0)
@@ -68,7 +87,10 @@ namespace TechSharpy.Workflow.Core
                 else return false;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected internal bool Remove()
         {
             if (dataworkflow.Remove(this.ID)) {
@@ -78,6 +100,9 @@ namespace TechSharpy.Workflow.Core
                 return true;
             }else return false;
         }
+        /// <summary>
+        /// 
+        /// </summary>
         private void LoadSteps() {
             DataTable dt = new DataTable();
            dt= dataworkflow.GetStepsByWorkflow(this.ID);
@@ -93,6 +118,9 @@ namespace TechSharpy.Workflow.Core
             StepOrder = dr.IsNull("StepOrder") == true ? -1 : (int)dr["StepOrder"],
         }).ToList();         
         }
+        /// <summary>
+        /// 
+        /// </summary>
         private void LoadStepActions() {
             DataTable dt = new DataTable();
             dt = dataworkflow.GetActionsbyWorkflow(this.ID);

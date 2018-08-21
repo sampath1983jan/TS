@@ -34,7 +34,12 @@ namespace TechSharpy.Workflow.Core
         public List<Stepcriterial> Stepcriterials { get =>_stepcriterials; } // optional param
 
         private Data.Action dataAction;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="actionID"></param>
+        /// <param name="stepID"></param>
+        /// <param name="workFlowID"></param>
         public Action(int actionID, int stepID, int workFlowID)
         {
             StepID = stepID;
@@ -43,7 +48,9 @@ namespace TechSharpy.Workflow.Core
             dataAction = new Data.Action();
             _stepcriterials = new List<Stepcriterial>();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public Action()
         {
             StepID = -1;
@@ -52,7 +59,14 @@ namespace TechSharpy.Workflow.Core
             dataAction = new Data.Action();
             _stepcriterials = new List<Stepcriterial>();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stepID"></param>
+        /// <param name="workFlowID"></param>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <param name="nextStep"></param>
         public Action(int stepID, int workFlowID, string name, ActionType type, int nextStep) :
             this(-1, stepID, workFlowID)
         {
@@ -60,10 +74,16 @@ namespace TechSharpy.Workflow.Core
             Type = type;
             NextStep = nextStep;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stepcriterial"></param>
         public void AddCriteria(Stepcriterial stepcriterial) {
             this._stepcriterials.Add(stepcriterial);
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public void Init() {
             DataTable dt = new DataTable();
             dt = dataAction.GetAction(this.ActionID, this.StepID, this.WorkFlowID);
@@ -77,6 +97,10 @@ namespace TechSharpy.Workflow.Core
                 cr = dr.IsNull("criterials") == true ? "" : dr["criterials"].ToString();
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool Save() {
             if (this.ActionID > 0)
             {
@@ -86,9 +110,17 @@ namespace TechSharpy.Workflow.Core
                 return dataAction.Save(this.StepID, this.WorkFlowID, this.Name, this.Type, this.SuccessMessage, this.failureMessage, this.NextStep, this.getCriteria().ToString());
             }          
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool Delete() {
          return   dataAction.Remove(this.ActionID);            
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private string getCriteria() {
             string sb ="" ;
             foreach (Stepcriterial sc in Stepcriterials) {
@@ -99,10 +131,18 @@ namespace TechSharpy.Workflow.Core
             }
             return sb;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected internal bool Duplicate() {
             this.ActionID = -1;
             return this.Save();            
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string GetStatusAsText() {
             if (this.Type == ActionType._draft)
             {
@@ -134,6 +174,10 @@ namespace TechSharpy.Workflow.Core
             }
             else return "";
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public int GetNextStep() {
             return NextStep;
         }

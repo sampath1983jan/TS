@@ -20,7 +20,7 @@ namespace TechSharpy.Entitifier.Core
         public Int32 LookUpID;
         public bool IsCore;
         public bool EnableEncription;
-        public Int32 EntityKey;
+        public  Int32 EntityKey;
         public string Value;
         public bool IsReadOnly;
         public string DefaultValue;
