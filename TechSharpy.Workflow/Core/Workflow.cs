@@ -4,11 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechSharpy.FormBuilder;
 
 namespace TechSharpy.Workflow.Core
 {
-  public class Workflow
-    {
+   public abstract class IWorkflow {
         public int ID;
         public string Name;
         public string Category;
@@ -16,6 +16,13 @@ namespace TechSharpy.Workflow.Core
         public DateTime CreatedOn;
         public int Createdby;
         public List<Step> Steps;
+        public IForm Form;
+        public abstract bool Save();
+        public abstract bool Remove();
+
+    }
+    public class Workflow:IWorkflow
+    {        
         private Data.Workflow dataworkflow;
         /// <summary>
         /// 
@@ -24,13 +31,14 @@ namespace TechSharpy.Workflow.Core
         /// <param name="category"></param>
         /// <param name="description"></param>
         /// <param name="createdby"></param>
-        public Workflow(string name, string category, string description, int createdby)
+        public Workflow(string name, string category, string description, int createdby,int formid)
         {
             Name = name;
             Category = category;
             Description = description;
             Createdby = createdby;
             Steps = new List<Step>();
+            Form= FormManager.Create(new FormManagerFactory(), formid);
             dataworkflow = new Data.Workflow();
         }
         /// <summary>
@@ -71,15 +79,15 @@ namespace TechSharpy.Workflow.Core
         /// 
         /// </summary>
         /// <returns></returns>
-        internal bool Save()
+        public override  bool Save()
         {
             if (this.ID > 0)
             {
-                return dataworkflow.Save(this.ID, this.Name, this.Description, this.Category, this.Createdby);
+                return dataworkflow.Save(this.ID, this.Name, this.Description, this.Category, this.Createdby,this.Form.FormID);
             }
             else
             {
-                this.ID = dataworkflow.Save(this.Name, this.Description, this.Category, this.Createdby);
+                this.ID = dataworkflow.Save(this.Name, this.Description, this.Category, this.Createdby, this.Form.FormID);
                 if (ID > 0)
                 {
                     return true;
@@ -91,7 +99,7 @@ namespace TechSharpy.Workflow.Core
         /// 
         /// </summary>
         /// <returns></returns>
-        protected internal bool Remove()
+        public  override  bool Remove()
         {
             if (dataworkflow.Remove(this.ID)) {
                 foreach (Step s in this.Steps) {

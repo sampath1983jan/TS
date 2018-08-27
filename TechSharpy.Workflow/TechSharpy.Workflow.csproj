@@ -54,6 +54,8 @@
     <Compile Include="Data\Workflow.cs" />
     <Compile Include="Data\WorkflowRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkflowManager.cs" />
+    <Compile Include="WorkflowRequestManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Doc.txt" />
@@ -62,6 +64,10 @@
     <ProjectReference Include="..\TechSharpy.Data\TechSharpy.Data.csproj">
       <Project>{e4ac00f9-50db-4975-a567-3412e5f89926}</Project>
       <Name>TechSharpy.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TechSharpy.FormBuilder\TechSharpy.FormBuilder.csproj">
+      <Project>{851d9f1f-2e50-4b4d-9647-b523a8290d1b}</Project>
+      <Name>TechSharpy.FormBuilder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

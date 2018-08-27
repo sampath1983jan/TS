@@ -4,6 +4,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TechSharpy.FormBuilder;
+using TechSharpy.Workflow.Core;
 
 namespace TechSharpy.Workflow.Business
 {
@@ -13,24 +15,58 @@ namespace TechSharpy.Workflow.Business
         _close=2,
         _abort=3
     }
-   public class WorkflowRequest:Workflow.Core.Workflow
+    public interface IWorkflowRequest
     {
-        public int RequestID;
-        public string RequestNo;
-       // public string Name;
-        public int RequestedBy;
-        public int RequestedFor;
-        public int LastActionBy;
-        private int LastAction;
-     //   public int WorkflowID;
-        public int CurrentStep;
-        public RequestStatus Status;
-        public string ActionSatus;
-        public DateTime RequestedOn;
-        public string RecentComment;
-        private Core.Action UserAction;
-        public List<RequestComment> RequestTracks;
+        int RequestID { get; set; }
+        string RequestNo { get; set; }
+        // public string Name;
+        int RequestedBy { get; set; }
+        int RequestedFor { get; set; }
+        int LastActionBy { get; set; }
+        int LastAction { get; set; }
+        //   public int WorkflowID;
+        int CurrentStep{ get; set; }
+    RequestStatus Status { get; set; }
+        string ActionSatus { get; set; }
+        DateTime RequestedOn { get; set; }
+        string RecentComment { get; set; }
+        Core.Action UserAction { get; set; }
+        List<RequestComment> RequestTracks { get; set; }
+        IWorkflowRequest NewRequest(int workflowID);
+        bool RaiseRequest(int requestedBy, int requestFor, RequestComment requestAction);
+        bool RemoveRequest();
+        bool MoveToNextStep(RequestComment requestAction);
+        bool Retract(RequestComment requestAction); 
+    }
+    public class WorkflowRequest:Workflow.Core.Workflow,IWorkflowRequest
+    {
+           
         private Data.WorkflowRequest dataworkflowRequest;
+        //private string requestno;
+        //private int requestedby;
+        //private int requestedfor;
+        //private int lastactionby;
+        //private int currentstep;
+        //private RequestStatus requestStatus;
+        //private string actionstatus;
+        //private DateTime requestedon;
+        //private string recentcomment;
+        //private Core.Action userAction;
+        //private List<RequestComment> requestcomment;
+
+        public int RequestID { get; set; }
+        public string RequestNo { get; set; }
+        public int RequestedBy { get; set; }
+        public int RequestedFor { get; set; }
+        public int LastActionBy { get; set; }
+        public int LastAction { get; set; }
+        public int CurrentStep { get; set; }
+        public RequestStatus Status { get; set; }
+        public string ActionSatus { get; set; }
+        public DateTime RequestedOn { get; set; }
+        public string RecentComment { get; set; }
+        public Core.Action UserAction { get; set; }
+        public List<RequestComment> RequestTracks { get; set; }
 
         /// <summary>
         /// 
@@ -63,10 +99,11 @@ namespace TechSharpy.Workflow.Business
         /// 
         /// </summary>
         /// <param name="workflowID"></param>
-        public void NewRequest(int workflowID)  {
+        public  IWorkflowRequest NewRequest(int workflowID)  {
             this.ID = workflowID;
             this.Status = RequestStatus._open;
-            base.Init();             
+            base.Init();
+            return this;
         }
         /// <summary>
         /// 
@@ -208,5 +245,7 @@ namespace TechSharpy.Workflow.Business
             }
             else return false;
         }
+
+        
     }
 }

@@ -42,7 +42,8 @@ namespace TechSharpy.FormBuilder.Data
             }
             else return -1;
         }
-        public bool Update(int formID,int formelementid, int elementtype, string title, string code, int mode, string elementattribute) {
+        public bool Save(int formID,int formelementid, int elementtype, string title, string code, int mode, 
+            string elementattribute) {
             iQuery = new QueryBuilder(QueryType._Update)             
                .AddField("elementtype", "s_formelement", FieldType._Number, "", elementtype.ToString())
                .AddField("title", "s_formelement", FieldType._String, "", title.ToString())
@@ -72,6 +73,21 @@ namespace TechSharpy.FormBuilder.Data
             else return false;
         }
 
+        public DataTable GetElement(int formElementID) {
+         //   public DataTable GetForm(int formID)
+         //   {
+                iQuery = new QueryBuilder(QueryType._Select )              
+                    .AddField("formid", "s_fieldelement")
+                    .AddField("elementtype", "s_fieldelement")
+                    .AddField("title", "s_fieldelement")
+                    .AddField("code", "s_fieldelement")
+                    .AddField("Mode", "s_fieldelement")
+                    .AddField("elementattribute", "s_fieldelement")
+             //       .AddJoin("s_form", "formid", JoinType._InnerJoin, "s_fieldelement", "formid")
+                    .AddWhere(0, "s_fieldelement", "elementid", FieldType._Number, formElementID.ToString());
+                return rd.ExecuteQuery(iQuery).GetResult;
+            //}
+        }
          
 
     }

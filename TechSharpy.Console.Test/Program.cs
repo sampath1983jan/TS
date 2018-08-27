@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechSharpy.Entitifier.Entity.Core;
+using TechSharpy.FormBuilder;
 using TechSharpy.Workflow.Business;
 namespace TechSharpy.Console.Test
 {
@@ -11,6 +12,8 @@ namespace TechSharpy.Console.Test
     {
         static void Main(string[] args)
         {
+          var workflow=  Workflow.Core.WorkflowManager.Create(new Workflow.Core.WorkflowManagerFactory(), 1);
+            workflow.Save();
 
           //  RequestComment requestAction = new RequestComment(-1,-1,-1,"");  
             

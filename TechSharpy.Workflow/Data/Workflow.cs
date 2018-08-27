@@ -21,7 +21,7 @@ namespace TechSharpy.Workflow.Data
                 throw ex;
             }
         }
-        public int Save(string name, string description, string category, int createdby) {
+        public int Save(string name, string description, string category, int createdby,int formid) {
             int nextid = rd.getNextID("wf");
             iQuery = new QueryBuilder(QueryType._Insert)
                 .AddField("Workflowid", "wf", FieldType._Number, "", nextid.ToString())
@@ -29,6 +29,7 @@ namespace TechSharpy.Workflow.Data
                 .AddField("description", "wf", FieldType._String, "", description.ToString())
                 .AddField("category", "wf", FieldType._String, "", category.ToString())
                 .AddField("createdby", "wf", FieldType._Number, "", createdby.ToString())
+                  .AddField("formid", "wf", FieldType._Number, "", formid.ToString())
                 .AddField("createdon", "wf", FieldType._DateTime, "", DateTime.Now.ToString())
             .AddField("lastUPD", "wf", FieldType._DateTime, "", DateTime.Now.ToString());
             if (rd.ExecuteQuery(iQuery).Result)
@@ -37,7 +38,7 @@ namespace TechSharpy.Workflow.Data
             }
             else return -1;
         }
-        public bool Save(int wfid, string name, string description, string category, int createdby)
+        public bool Save(int wfid, string name, string description, string category, int createdby,int formid)
         {
            // int nextid = rd.getNextID("wf");
             iQuery = new QueryBuilder(QueryType._Insert)                
@@ -45,6 +46,7 @@ namespace TechSharpy.Workflow.Data
             .AddField("description", "wf", FieldType._String, "", description.ToString())
             .AddField("category", "wf", FieldType._String, "", category.ToString())
             .AddField("createdby", "wf", FieldType._Number, "", createdby.ToString())
+             .AddField("formid", "wf", FieldType._Number, "", formid.ToString())
             .AddField("createdon", "wf", FieldType._DateTime, "", DateTime.Now.ToString())
             .AddField("lastUPD", "wf", FieldType._DateTime, "", DateTime.Now.ToString())
             .AddWhere(0, "wf", "Workflowid", FieldType._Number, wfid.ToString());
@@ -70,6 +72,7 @@ namespace TechSharpy.Workflow.Data
         {
             iQuery = new QueryBuilder(QueryType._Select) 
                 .AddField("WorkflowID", "wf")
+                .AddField("formID", "wf")
                 .AddField("name", "wf")
                 .AddField("description", "wf")
                 .AddField("category", "wf")

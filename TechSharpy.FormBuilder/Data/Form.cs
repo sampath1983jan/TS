@@ -65,7 +65,7 @@ namespace TechSharpy.FormBuilder.Data
         }
         public DataTable GetForm(int formID)
         {
-            iQuery = new QueryBuilder(QueryType._Delete)
+            iQuery = new QueryBuilder(QueryType._Select )
            .AddField("Name", "s_form", FieldType._String, "")
                 .AddField("code", "s_form", FieldType._String, "")
                 .AddField("Description", "s_form", FieldType._String)

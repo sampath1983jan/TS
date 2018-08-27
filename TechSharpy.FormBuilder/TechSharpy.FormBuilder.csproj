@@ -48,6 +48,7 @@
     <Compile Include="Core\FormElement.cs" />
     <Compile Include="Data\Form.cs" />
     <Compile Include="Data\FormElement.cs" />
+    <Compile Include="FormManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
