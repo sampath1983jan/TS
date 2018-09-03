@@ -229,21 +229,6 @@ namespace TechSharpy.Entitifier.Core
         public void addJoint(string leftJoin, string rightJoin) {
             Nodejoints.Add(new NodeJoint(leftJoin, rightJoin));
         }
-        //public bool ChangeNode(int parentNode, List<NodeJoint> nodeJoints) {
-        //    //re-write this code again
-        //    if (this.Remove())
-        //    {
-        //        this.NodeKey = parentNode;
-        //        this.Nodejoints = Nodejoints;
-        //        if (this.Save())
-        //        {
-        //            return true;
-        //        }
-        //        else return false;
-        //    }
-        //    else return false;            
-        //}
-
         public bool Save() {
             string nj= Newtonsoft.Json.JsonConvert.SerializeObject(this.Nodejoints);            
             if (this.NodeID > 0)

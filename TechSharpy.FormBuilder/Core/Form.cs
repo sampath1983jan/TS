@@ -27,11 +27,9 @@ namespace TechSharpy.FormBuilder
         // need integrate component model in form builder.
         public IComponentModel ComponentModel;
     }
-
-
+    
     public class Form:IForm        
-    {
-        
+    {        
         //private List<FormElement> _formElements;
         //public int FormID;
         //public string FormNumber;

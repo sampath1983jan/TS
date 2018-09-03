@@ -60,37 +60,61 @@ namespace TechSharpy.Component.Model
         public string ComponentModelName { get => _componentModelName; }
         public int ComponentModelID { get => _componentModelID; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ComponentModel() : base()
         {
             _elementRelations = new List<ElementRelation>();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
         public ComponentModel(int modelID) : base(modelID)
         {
             _elementRelations = new List<ElementRelation>();
             _componentModelID = modelID;
             base.Init();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelName"></param>
+        /// <param name="elementRelations"></param>
         public ComponentModel(string modelName, List<ElementRelation> elementRelations)
             : base(modelName, Param(elementRelations))
         {
             _componentModelName = modelName;
             _elementRelations = elementRelations;
-
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elementRelations"></param>
+        /// <returns></returns>
         private static List<EntityNode> Param(List<ElementRelation> elementRelations)
         {
             List<IEntityNode> _er = elementRelations.Select(x => (IEntityNode)x).ToList();
             List<EntityNode> entityNode1 = _er.Select(x => (EntityNode)x).ToList();
             return entityNode1;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elementRelationNode"></param>
+        /// <returns></returns>
         private static List<NodeJoint> Param(List<ElementRelationNode> elementRelationNode)
         {
             List<INodeJoint> _er = elementRelationNode.Select(x => (INodeJoint)x).ToList();
             List<NodeJoint> entityNode1 = _er.Select(x => (NodeJoint)x).ToList();
             return entityNode1;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elementRelation"></param>
+        /// <returns></returns>
         public bool AddRelation(IElementRelation elementRelation)
         {
             elementRelation.ModeID = _componentModelID;
@@ -112,28 +136,52 @@ namespace TechSharpy.Component.Model
             }
             return false;
         }
-         
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <returns></returns>
         public bool NameChange()
         {
             return base.ChangeName();
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public void Load()
         {
            
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodekey"></param>
+        /// <param name="entitykey"></param>
+        /// <returns></returns>
         public bool RemoveElement(int nodekey, int entitykey)
         {
             return base.RemoveNode(entitykey, nodekey);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodeID"></param>
+        /// <returns></returns>
         public bool RemoveElement(int nodeID)
         {
             return base.RemoveNode(nodeID);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool Remove()
         {
             return base.RemoveModel();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool SaveModel()
         {
             if (this.Validation())
@@ -170,9 +218,15 @@ namespace TechSharpy.Component.Model
             }
             else {
                 return false;
-            }
-           
+            }           
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NodeID"></param>
+        /// <param name="newNodeKey"></param>
+        /// <param name="elementRelationNode"></param>
+        /// <returns></returns>
         public bool RelationChange(int NodeID, int newNodeKey, List<ElementRelationNode> elementRelationNode)
         {
             List<NodeJoint> entityNode1 = new List<NodeJoint>();
