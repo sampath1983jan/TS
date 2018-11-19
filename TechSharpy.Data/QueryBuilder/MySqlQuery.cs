@@ -18,6 +18,7 @@ namespace TechSharpy.Data
         private const string Delete = "Delete from {0}";
         private const string Update = "update {0} set {1} {2}";
         private const string Insert = "Insert Into {0} ({1}) values({2}) ";
+        private const string BulkInsert = "Insert Into {0} ({1}) values {2} ";
         public char FieldSelector = '`';
        /// <summary>
        /// 
@@ -27,177 +28,222 @@ namespace TechSharpy.Data
         }                                
         internal override string toString()
         {
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            if (this.Type == QueryType._Select)
-            {
-                System.Text.StringBuilder sbField = new System.Text.StringBuilder();
-                System.Text.StringBuilder sbJoin = new System.Text.StringBuilder();
-                System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
-                for (int ifld = 0; ifld < this.QueryFields.Count; ifld++)
+            try {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                if (this.Type == QueryType._Select)
                 {
-                    Field fld = this.QueryFields[ifld];
-                    sbField.Append("," + FieldSelector + fld.TableName + FieldSelector + "." + fld.Name);
+                    System.Text.StringBuilder sbField = new System.Text.StringBuilder();
+                    System.Text.StringBuilder sbJoin = new System.Text.StringBuilder();
+                    System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
+                    for (int ifld = 0; ifld < this.QueryFields.Count; ifld++)
+                    {
+                        Field fld = this.QueryFields[ifld];
+                        sbField.Append("," + FieldSelector + fld.TableName + FieldSelector + "." + fld.Name);
+                    }
+                    string fd = "";
+                    fd = sbField.ToString();
+                    if (fd.StartsWith(","))
+                    {
+                        fd = fd.Substring(1);
+                    }
+                    for (int ijoin = 0; ijoin < this.Joins.Count; ijoin++)
+                    {
+                        Join jn = this.Joins[ijoin];
+                        string joinType = "";
+                        if (jn.Type == JoinType._InnerJoin)
+                        {
+                            joinType = " Inner Join ";
+
+                        }
+                        else if (jn.Type == JoinType._LeftJoin)
+                        {
+                            joinType = " Left Join ";
+                        }
+                        else if (jn.Type == JoinType._RightJoin)
+                        {
+                            joinType = " Right Join ";
+                        }
+
+                        if (ijoin == 0)
+                        {
+                            sbJoin.Append(FieldSelector + jn.TableName + FieldSelector + " " + getTableAlias(jn.TableName) + joinType
+                                + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + " on " + getTableAlias(jn.TableName) + "." + jn.FieldName + " = "
+                                + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + "." + jn.JoinField);
+                        }
+                        else
+                        {
+                            sbJoin.Append(joinType
+                                   + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + " on " + getTableAlias(jn.TableName) + "." + jn.FieldName + " = "
+                                   + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + "." + jn.JoinField);
+                        }
+
+                    }
+                    if (this.Joins.Count == 0)
+                    {
+                        if (this.Tables.Count > 1)
+                        {
+                            throw new Exception("More than one table to select");
+                        }
+                        else
+                        {
+                            sbJoin.Append(" " + this.Tables[0].TableName + " ");
+                        }
+                    }
+                    sbWhereGroup.Append(getWhere());
+
+                    sb.AppendFormat(Select, fd, sbJoin, sbWhereGroup);
                 }
-                string fd = "";
-                fd = sbField.ToString();
-                if (fd.StartsWith(","))
+                else if (this.Type == QueryType._Insert)
                 {
-                    fd = fd.Substring(1);
+                    System.Text.StringBuilder sbField = new System.Text.StringBuilder();
+                    System.Text.StringBuilder sbFieldvalue = new System.Text.StringBuilder();
+                    for (int ifld = 0; ifld < this.QueryFields.Count; ifld++)
+                    {
+                        Field fld = this.QueryFields[ifld];
+                        sbField.Append("," + FieldSelector + fld.TableName + FieldSelector + "." + fld.Name);
+                        sbFieldvalue.Append("," + MakeValidateData(fld.Type, fld.Value, fld.Name));
+                    }
+                    sb.AppendFormat(Insert, FieldSelector + this.Tables[0].TableName + FieldSelector, sbField.ToString().Substring(1), sbFieldvalue.ToString().Substring(1));
                 }
-                for (int ijoin = 0; ijoin < this.Joins.Count; ijoin++)
+                else if (this.Type == QueryType._BulkInsert)
                 {
-                    Join jn = this.Joins[ijoin];
-                    string joinType = "";
-                    if (jn.Type == JoinType._InnerJoin)
+                    System.Text.StringBuilder sbField = new System.Text.StringBuilder();
+                    System.Text.StringBuilder sbFieldvalue = new System.Text.StringBuilder();
+                    var lastValCount = 0;
+                    var indx = 0;
+                    foreach (Field fld in this.QueryFields)
                     {
-                        joinType = " Inner Join ";
-
+                        if (indx == 0)
+                        {
+                            if (fld.Values.Count > 0)
+                            {
+                                lastValCount = fld.Values.Count;
+                            }
+                        }
+                        else {
+                            if (fld.Values.Count != fld.Values.Count)
+                            {
+                                throw new Exception("Bulk import failure due to row index miss match");
+                            }
+                            else {
+                                lastValCount = fld.Values.Count;
+                            }
+                        }  
+                        sbField.Append("," + FieldSelector + fld.TableName + FieldSelector + "." + fld.Name);
                     }
-                    else if (jn.Type == JoinType._LeftJoin)
-                    {
-                        joinType = " Left Join ";
+                    StringBuilder sbFieldvalues = new StringBuilder();
+                    for (int j = 0; j < lastValCount; j++) {                        
+                        foreach (Field fld in this.QueryFields)
+                        {
+                            sbFieldvalues.Append("," + MakeValidateData(fld.Type, fld.Values[j].ToString(), fld.Name));
+                        }
+                        if (sbFieldvalues.ToString() != "") {
+                            sbFieldvalue.AppendFormat(",({0})", sbFieldvalues.ToString().Substring(1));
+                            sbFieldvalues.Clear();
+                        }                        
                     }
-                    else if (jn.Type == JoinType._RightJoin)
-                    {
-                        joinType = " Right Join ";
-                    }
-
-                    if (ijoin == 0)
-                    {
-                        sbJoin.Append(FieldSelector + jn.TableName + FieldSelector + " " + getTableAlias(jn.TableName) + joinType
-                            + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + " on " + getTableAlias(jn.TableName) + "." + jn.FieldName + " = "
-                            + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + "." + jn.JoinField);
-                    }
-                    else
-                    {
-                        sbJoin.Append(joinType
-                               + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + " on " + getTableAlias(jn.TableName) + "." + jn.FieldName + " = "
-                               + FieldSelector + getTableAlias(jn.JoinTable) + FieldSelector + "." + jn.JoinField);
-                    }
-
+                    sb.AppendFormat(BulkInsert, FieldSelector + this.Tables[0].TableName + FieldSelector, sbField.ToString().Substring(1), sbFieldvalue.ToString().Substring(1));
                 }
-                if (this.Joins.Count == 0)
+                else if (this.Type == QueryType._Delete)
                 {
+                    System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
                     if (this.Tables.Count > 1)
                     {
-                        throw new Exception("More than one table to select");
+                        throw new Exception(QueryResource._delete_table_more_exist);
+                    }
+                    sbWhereGroup.Append(getWhere());
+                    if (sbWhereGroup.ToString() == "")
+                    {
+                        sb.AppendFormat(Delete, this.Tables[0].TableName);
                     }
                     else
                     {
-                        sbJoin.Append(" " + this.Tables[0].TableName + " ");
+                        sb.AppendFormat(Delete, this.Tables[0].TableName + sbWhereGroup.ToString());
                     }
-                }
-                sbWhereGroup.Append(getWhere());
-                
-                sb.AppendFormat(Select, fd, sbJoin, sbWhereGroup);
-            }
-            else if (this.Type == QueryType._Insert)
-            {
-                System.Text.StringBuilder sbField = new System.Text.StringBuilder();
-                System.Text.StringBuilder sbFieldvalue = new System.Text.StringBuilder();
-                for (int ifld = 0; ifld < this.QueryFields.Count; ifld++)
-                {
-                    Field fld = this.QueryFields[ifld];
-                    sbField.Append("," + FieldSelector + fld.TableName + FieldSelector + "." + fld.Name);
-                    sbFieldvalue.Append("," + MakeValidateData(fld.Type, fld.Value, fld.Name));
-                }
-                sb.AppendFormat(Insert, FieldSelector + this.Tables[0].TableName + FieldSelector, sbField.ToString().Substring(1), sbFieldvalue.ToString().Substring(1));
-            }
 
-            else if (this.Type == QueryType._Delete)
-            {
-                System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
-                if (this.Tables.Count > 1)
-                {
-                    throw new Exception(QueryResource._delete_table_more_exist);
+
                 }
-                sbWhereGroup.Append(getWhere());
-                if (sbWhereGroup.ToString() == "")
+
+                else if (this.Type == QueryType._Update)
                 {
-                    sb.AppendFormat(Delete, this.Tables[0].TableName);
-                }
-                else {
-                    sb.AppendFormat(Delete, this.Tables[0].TableName + sbWhereGroup.ToString() );
-                }              
+                    System.Text.StringBuilder sbField = new System.Text.StringBuilder();
+                    System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
 
-                
-            }
-
-            else if (this.Type == QueryType._Update)
-            {
-                System.Text.StringBuilder sbField = new System.Text.StringBuilder();
-                System.Text.StringBuilder sbWhereGroup = new System.Text.StringBuilder();
-
-                for (int ifld = 0; ifld < this.QueryFields.Count; ifld++)
-                {
-                    if (ifld != 0)
+                    for (int ifld = 0; ifld < this.QueryFields.Count; ifld++)
                     {
-                        sbField.Append(",");
+                        if (ifld != 0)
+                        {
+                            sbField.Append(",");
+                        }
+                        Field fd;
+                        fd = this.QueryFields[ifld];
+                        sbField.Append(FieldSelector + getTableAlias(fd.TableName) + FieldSelector + "." + FieldSelector + fd.Name + FieldSelector + " = ");
+                        sbField.Append(MakeValidateData(fd.Type, fd.Value, fd.Name));
                     }
-                    Field fd;
-                    fd = this.QueryFields[ifld];
-                    sbField.Append(FieldSelector + getTableAlias(fd.TableName) + FieldSelector + "." + FieldSelector + fd.Name + FieldSelector + " = ");
-                    sbField.Append(MakeValidateData(fd.Type, fd.Value, fd.Name));
+                    sbWhereGroup.Append(getWhere());
+                    //for (int iwhereg = 0; iwhereg < this.WhereGroups.Count; iwhereg++)
+                    //{
+                    //    if (iwhereg == 0)
+                    //    {
+                    //        sbWhereGroup.Append(" Where (");
+                    //    }
+                    //    else
+                    //    {
+                    //        if (this.WhereGroups[iwhereg -1].condition == Condition._And)
+                    //        {
+                    //            sbWhereGroup.Append(" AND (");
+                    //        }
+                    //        else if (this.WhereGroups[iwhereg -1].condition == Condition._Or)
+                    //        {
+                    //            sbWhereGroup.Append(" OR (");
+                    //        }
+                    //        else
+                    //        {
+                    //            sbWhereGroup.Append(" ");
+                    //        }
+                    //    }
+                    //    System.Text.StringBuilder sbWherecase = new System.Text.StringBuilder();
+                    //    for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
+                    //    {
+                    //        WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
+                    //        WhereCase psws = null;
+                    //        if (iwhere != 0) {
+                    //            psws = this.WhereGroups[iwhereg].whereCases[iwhere-1];
+                    //        }
+
+
+                    //        if (iwhere != 0)
+                    //        {
+                    //            if (psws.condition == Condition._And)
+                    //            {
+                    //                sbWherecase.Append(" AND ");
+                    //            }
+                    //            else if (psws.condition == Condition._Or)
+                    //            {
+                    //                sbWherecase.Append(" OR ");
+                    //            }
+                    //            else
+                    //            {
+                    //                sbWherecase.Append(" ");
+                    //            }
+                    //        }
+                    //        sbWherecase.Append(FieldSelector + getTableAlias(ws.TableName) + FieldSelector + "." + FieldSelector + ws.FieldName + FieldSelector + getOperator(ws.Operation,
+                    //        MakeValidateData(ws.Type, ws.ConditionValue, ws.FieldName)));
+
+                    //    }
+                    //    sbWhereGroup.Append(sbWherecase + " ) ");
+                    //    //  sbWhereGroup.Append(")");
+                    //}
+
+                    sb.AppendFormat(Update, this.Tables[0].TableName + " as " + getTableAlias(this.Tables[0].TableName), sbField.ToString(), sbWhereGroup.ToString());
                 }
-                sbWhereGroup.Append(getWhere());
-                //for (int iwhereg = 0; iwhereg < this.WhereGroups.Count; iwhereg++)
-                //{
-                //    if (iwhereg == 0)
-                //    {
-                //        sbWhereGroup.Append(" Where (");
-                //    }
-                //    else
-                //    {
-                //        if (this.WhereGroups[iwhereg -1].condition == Condition._And)
-                //        {
-                //            sbWhereGroup.Append(" AND (");
-                //        }
-                //        else if (this.WhereGroups[iwhereg -1].condition == Condition._Or)
-                //        {
-                //            sbWhereGroup.Append(" OR (");
-                //        }
-                //        else
-                //        {
-                //            sbWhereGroup.Append(" ");
-                //        }
-                //    }
-                //    System.Text.StringBuilder sbWherecase = new System.Text.StringBuilder();
-                //    for (int iwhere = 0; iwhere < this.WhereGroups[iwhereg].whereCases.Count; iwhere++)
-                //    {
-                //        WhereCase ws = this.WhereGroups[iwhereg].whereCases[iwhere];
-                //        WhereCase psws = null;
-                //        if (iwhere != 0) {
-                //            psws = this.WhereGroups[iwhereg].whereCases[iwhere-1];
-                //        }
+                return sb.ToString();
 
-
-                //        if (iwhere != 0)
-                //        {
-                //            if (psws.condition == Condition._And)
-                //            {
-                //                sbWherecase.Append(" AND ");
-                //            }
-                //            else if (psws.condition == Condition._Or)
-                //            {
-                //                sbWherecase.Append(" OR ");
-                //            }
-                //            else
-                //            {
-                //                sbWherecase.Append(" ");
-                //            }
-                //        }
-                //        sbWherecase.Append(FieldSelector + getTableAlias(ws.TableName) + FieldSelector + "." + FieldSelector + ws.FieldName + FieldSelector + getOperator(ws.Operation,
-                //        MakeValidateData(ws.Type, ws.ConditionValue, ws.FieldName)));
-
-                //    }
-                //    sbWhereGroup.Append(sbWherecase + " ) ");
-                //    //  sbWhereGroup.Append(")");
-                //}
-
-                sb.AppendFormat(Update, this.Tables[0].TableName + " as " + getTableAlias(this.Tables[0].TableName), sbField.ToString(), sbWhereGroup.ToString());
+            } catch (Exception e) {
+                throw new Exception(e.Message,e.InnerException);
             }
-            return sb.ToString();
+
+          
         }
 
         private string getWhere() {

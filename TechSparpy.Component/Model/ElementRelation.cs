@@ -8,82 +8,102 @@ using TechSharpy.Entitifier.Core;
 namespace TechSharpy.Component.Model
 {
 
-    public interface IElementRelation {
+    public interface IComponentRelation {
 
         int Entitykey { get; set; }
         int LeftIndex { get; set; }
         int RightIndex { get; set; }
         int NodeKey { get; set; }
-        int ModeID { get; set; }
+        int ModelID { get; set; }
         int NodeID { get; set; }
 
         void AddRelation();
-        void AddRelationNode(ElementRelationNode elementRelationNode);        
+        void AddRelationNode(ComponentRelationNode elementRelationNode);        
     }
 
-    public interface IElementRelationFactory {
-        IElementRelation Create(int NodeID);
-        IElementRelation Create(int Componentkey, int relatedComponentkey);
+    public interface IComponentRelationFactory {
+        IComponentRelation Create(int NodeID,int modelID);
+        IComponentRelation Create(int modelID, int Componentkey, int relatedComponentkey);
     }
 
     public class ElementRelationManager {
-        public static IElementRelation Create(IElementRelationFactory elementRelationFactory,int nodeID) {
-            return elementRelationFactory.Create(nodeID);
+        public static IComponentRelation Create(IComponentRelationFactory componentRelationFactory,int nodeID, int modelID) {
+            return componentRelationFactory.Create(nodeID, modelID);
         }
-        public static IElementRelation Create(IElementRelationFactory elementRelationFactory,int Componentkey, int relatedComponentkey) {
-            return elementRelationFactory.Create(Componentkey,  relatedComponentkey);
+        public static IComponentRelation Create(IComponentRelationFactory componentRelationFactory, int modelID, int Componentkey, 
+            int relatedComponentkey) {
+            return componentRelationFactory.Create(modelID,Componentkey,  relatedComponentkey);
         }
     }
 
-    public class ElementRelationFactory : IElementRelationFactory
+    public class ElementRelationFactory : IComponentRelationFactory
     {
-        public IElementRelation Create(int NodeID)
+        public IComponentRelation Create(int NodeID,int modelID)
         {
-            return new ElementRelation(NodeID);    
+            return new ComponentRelation(NodeID, modelID);    
         }
 
-        public IElementRelation Create(int Componentkey, int relatedComponentkey)
+        public IComponentRelation Create(int modelID,int Componentkey, int relatedComponentkey)
         {
-            return new ElementRelation(Componentkey,relatedComponentkey);
+            return new ComponentRelation(Componentkey,relatedComponentkey);
         }
     }
 
-    public class ElementRelation : Entitifier.Core.EntityNode,IElementRelation
-    {        
-        public List<ElementRelationNode> RelationNodes;
-        public ElementRelation(int nodeID):base(nodeID,-1)
+    public class ComponentRelation : IComponentRelation
+    {
+        private int _entityKey;
+        private int leftIndex;
+        private int rightIndex;
+        private int nodeKey;
+        private int modeID;
+        private int nodeID;
+
+        private EntityNode entityNode;
+        public List<ComponentRelationNode> RelationNodes;
+
+        public int Entitykey { get => _entityKey; set => _entityKey=value; }
+        public int LeftIndex { get => leftIndex; set => leftIndex=value; }
+        public int RightIndex { get => rightIndex; set => rightIndex=value; }
+        public int NodeKey { get => nodeKey; set => nodeKey = value; }
+        public int ModelID { get => modeID; set => modeID=value; }
+        public int NodeID { get => nodeID; set => nodeID=value; }
+
+        public ComponentRelation(int nodeID,int modelID)
         {
-            NodeID = nodeID;
+            NodeKey = nodeID;
+            ModelID = modelID;
+            entityNode = new EntityNode(nodeID, modelID);
         }
-        public ElementRelation(int Componentkey, int relatedComponentkey) :
-            base( -1,-1,Componentkey, relatedComponentkey)
+        public ComponentRelation(int modeID, int Componentkey, int relatedComponentkey)             
         {
-            RelationNodes = new List<ElementRelationNode>();
+            RelationNodes = new List<ComponentRelationNode>();
         }
-        public ElementRelation(int nodeID,int componentkey, int relatedComponentkey) :
-           base( componentkey, relatedComponentkey)
+        public ComponentRelation(int nodeID, int modeID, int componentkey, int relatedComponentkey)            
         {
-            RelationNodes = new List<ElementRelationNode>();
-            NodeID = nodeID;
+            RelationNodes = new List<ComponentRelationNode>();
+            NodeKey = nodeID;
         }
         public void AddRelation()
         {
            
         }
-        public void AddRelationNode(ElementRelationNode elementRelationNode)
+        public bool Save() {
+        return    entityNode.Save();
+        }
+        public void AddRelationNode(ComponentRelationNode elementRelationNode)
         {
-            this.addJoint(elementRelationNode.leftJoin, elementRelationNode.RightJoin);          
+            entityNode.addJoint(elementRelationNode.leftJoin, elementRelationNode.RightJoin);          
         }
     }
 
-    public class ElementRelationNode : INodeJoint
+    public class ComponentRelationNode : INodeJoint
     {
         private string _leftJoin;
         private string _rightJoin;
         public string leftJoin { get => _leftJoin; set => _leftJoin = value; }
         public string RightJoin { get => _rightJoin; set => _rightJoin = value; }
 
-        public ElementRelationNode(string leftAttributeKey, string rightAttributeKey) {
+        public ComponentRelationNode(string leftAttributeKey, string rightAttributeKey) {
             this._leftJoin = leftAttributeKey;
             this._rightJoin = rightAttributeKey;
         }

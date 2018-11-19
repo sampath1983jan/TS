@@ -25,7 +25,7 @@ namespace TechSharpy.Data
         public DataSourceType Type;
         public DataTable GetResult;
         public bool Result;
-        private DataAccess da;
+        public DataAccess da;
         public DataBase() {
             this.Type =  DataSourceType.MYSQL;           
             GetResult = new DataTable();

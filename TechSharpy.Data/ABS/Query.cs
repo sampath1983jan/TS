@@ -23,21 +23,52 @@ namespace TechSharpy.Data.ABS
 
         public Query AddTable(string pTableName, string pAliasName = "")
         {
-            if (!isTableExist(pTableName) && !isTableExist(pAliasName))
-                this.Tables.Add(new Table(pTableName, pAliasName));
-            return this;
+            try {
+                if (!isTableExist(pTableName) && !isTableExist(pAliasName))
+                    this.Tables.Add(new Table(pTableName, pAliasName));
+                return this;
+            } catch (Exception ex) {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            
         }
 
         public Query AddField(string pFieldName, string TableName, FieldType pType, string AliasName = "", string Value = "", Operator pOperator = Operator._Equal, Aggregate Agg = Aggregate._None)
         {
-            QueryFields.Add(new Field(pFieldName, TableName, AliasName, Value, pOperator, pType, Agg));
-            if (!isTableExist(TableName))
-                this.Tables.Add(new Table(TableName));
-            return this;
+            try                
+            {
+                if (Type == QueryType._BulkInsert)
+                {
+                    if (this.QueryFields.Where(x => x.Name == pFieldName).ToList().Count > 0)
+                    {
+                        var fld = this.QueryFields.Where(x => x.Name == pFieldName).FirstOrDefault();
+                        fld.Values.Add(Value);
+                        return this;
+                    }
+                    else {
+                        QueryFields.Add(new Field(pFieldName, TableName, AliasName, Value, pOperator, pType, Agg));
+                        if (!isTableExist(TableName))
+                            this.Tables.Add(new Table(TableName));
+                        return this;
+                    }
+                }
+                else {
+                    QueryFields.Add(new Field(pFieldName, TableName, AliasName, Value, pOperator, pType, Agg));
+                    if (!isTableExist(TableName))
+                        this.Tables.Add(new Table(TableName));
+                    return this;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+          
         }
         public Query AddField(string pFieldNames, string TableName = "", string AliasName = "")
         {
-
+            try { 
             string[] fields;
             string[] separators = { "," };
             fields = pFieldNames.Split(separators, StringSplitOptions.RemoveEmptyEntries);
@@ -53,6 +84,11 @@ namespace TechSharpy.Data.ABS
 
             return this;
         }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+    }
+}
 
         public Query AddJoin(string pTableName, string pFieldName, JoinType pjoin, string pJoinTable, string pJoinField, Condition pCondition = Condition._None)
         {
@@ -143,12 +179,14 @@ namespace TechSharpy.Data.ABS
 
         public Query(QueryType type)
         {
+           
             Type = type;
             QueryFields = new List<Field>();
             Tables = new List<Table>();
             WhereGroups = new List<WhereGroup>();
             Ordersby = new List<SortOrder>();
             Joins = new List<Join>();
+          
 
         }
 

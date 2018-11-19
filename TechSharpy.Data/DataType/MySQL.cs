@@ -10,12 +10,13 @@ namespace TechSharpy.Data.DataType
 {
     public class MySQL : DataAccess
     {
-        Connection.MySQL Connection = new Connection.MySQL();
+       public Connection.MySQL Connection { get; set; }
         DataTable dt ;
         MySqlCommand cmd;
         private MySql.Data.MySqlClient.MySqlDataAdapter da;
         public MySQL() {
-              cmd = new MySqlCommand();
+             Connection  = new Connection.MySQL();
+            cmd = new MySqlCommand();
         }
         public override bool ExecuteTQuery(TQuery tQuery)
         {
@@ -39,10 +40,10 @@ namespace TechSharpy.Data.DataType
         }
         public override int ExecuteQuery(Query DataQuery)
         {
-            int Result;
-            string stQuery = DataQuery.toString();
+            int Result;           
             try
             {
+                string stQuery = DataQuery.toString();
                 cmd = new MySqlCommand(stQuery, Connection.GetConnection());
                 Connection.GetConnection().Open();
                 Result = cmd.ExecuteNonQuery();

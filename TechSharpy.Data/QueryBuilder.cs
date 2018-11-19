@@ -10,7 +10,8 @@ namespace TechSharpy.Data
         _Select,
         _Insert,
         _Update,
-        _Delete
+        _Delete,
+        _BulkInsert,
     }
     public enum FieldType
     {

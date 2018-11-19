@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Analytic", "Tech
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Cache", "TechSharpy.Cache\TechSharpy.Cache.csproj", "{A1345A92-4A8B-492A-9867-3557ADF3DAA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechSharpy.Web", "TechSharpy.Web\TechSharpy.Web.csproj", "{47A61570-AB20-4DF0-ABE7-E00CFDD24E75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{A1345A92-4A8B-492A-9867-3557ADF3DAA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1345A92-4A8B-492A-9867-3557ADF3DAA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1345A92-4A8B-492A-9867-3557ADF3DAA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47A61570-AB20-4DF0-ABE7-E00CFDD24E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A61570-AB20-4DF0-ABE7-E00CFDD24E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A61570-AB20-4DF0-ABE7-E00CFDD24E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A61570-AB20-4DF0-ABE7-E00CFDD24E75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

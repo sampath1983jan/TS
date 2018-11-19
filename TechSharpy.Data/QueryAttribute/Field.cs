@@ -19,6 +19,7 @@ namespace TechSharpy.Data.QueryAttribute
         public bool IsKeyField;
         public bool IsRequired;
         public string ReName = "";
+        public List<string> Values;
         public Field(string pfieldName, string pTableName, string pAliasName,
             string pValue, Operator pOperator, FieldType pType, Aggregate pAgg = Aggregate._None)
         {

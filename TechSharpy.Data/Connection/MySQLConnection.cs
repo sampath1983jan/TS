@@ -15,9 +15,9 @@ namespace TechSharpy.Data.Connection
                 {
                    // var encoding = Encoding.GetEncoding("latin1");
 
-                    System.Text.EncodingProvider provider;
-                    provider = System.Text.CodePagesEncodingProvider.Instance;
-                    Encoding.RegisterProvider(provider);
+                    //System.Text.EncodingProvider provider;
+                    //provider = System.Text.CodePagesEncodingProvider.Instance;
+                    //Encoding.RegisterProvider(provider);
 
                     Connection = new MySql.Data.MySqlClient.MySqlConnection(getConnectionstring());
                 }
